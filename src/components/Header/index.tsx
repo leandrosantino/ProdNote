@@ -1,9 +1,12 @@
 import { IconButton, MenuItem, Toolbar, Typography } from "@mui/material";
 import { Appbar, UserMenu } from "./style";
-import { AccountCircle, ExitToApp, Person } from "@mui/icons-material";
+import { AccountCircle, ExitToApp, Person, Brightness7, Brightness4 } from "@mui/icons-material";
 import { useState } from "react";
+import { useThemeMode } from "../../hooks/useThemeMode";
+import { useAuth } from "../../hooks/useAuth";
 
 export function Header() {
+
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
 
   const handleMenu = (event: React.MouseEvent<HTMLElement>) => {
@@ -14,25 +17,27 @@ export function Header() {
     setAnchorEl(null);
   }
 
+  const { mode, setMode } = useThemeMode()
+  const { signOut, isAuth } = useAuth()
+
   return (
-    <Appbar position="relative" >
+    <Appbar position="relative" {...{ isAuth }}>
       <Toolbar>
 
-        <Typography variant="h5" component="span">
+        <Typography variant="h6" component="h1">
           Aldler Pelzer Group
         </Typography>
 
-        <>
+        {isAuth && <>
           <IconButton
-            aria-label="account of current user"
             aria-controls="menu-appbar"
-            aria-haspopup="true"
             onClick={handleMenu}
             color="inherit"
             size="medium"
           >
-            <AccountCircle fontSize="large" />
+            <AccountCircle fontSize="medium" {...mode == 'dark' ? { color: "primary" } : {}} />
           </IconButton>
+
           <UserMenu
             id="menu-appbar"
             anchorEl={anchorEl}
@@ -40,7 +45,6 @@ export function Header() {
               vertical: 'top',
               horizontal: 'right',
             }}
-            keepMounted
             transformOrigin={{
               vertical: 'top',
               horizontal: 'right',
@@ -52,14 +56,27 @@ export function Header() {
               <Typography>Info. do Usuário</Typography>
               <Person />
             </MenuItem>
-            <MenuItem onClick={handleClose}>
+
+            <MenuItem onClick={() => {
+              setMode(mode === 'dark' ? 'light' : 'dark')
+              handleClose()
+            }}>
+              <Typography>Modo {mode == 'dark' ? 'Claro' : 'Escuro'}</Typography>
+              {mode == 'dark' ? <Brightness7 /> : <Brightness4 />}
+            </MenuItem>
+
+            <MenuItem onClick={() => {
+              signOut()
+              handleClose()
+            }}>
               <Typography>Sair</Typography>
               <ExitToApp />
             </MenuItem>
+
           </UserMenu>
-        </>
+        </>}
 
       </Toolbar>
-    </Appbar>
+    </Appbar >
   )
 }

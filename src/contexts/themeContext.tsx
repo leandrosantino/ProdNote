@@ -1,5 +1,5 @@
 import { ReactNode, createContext, useState } from 'react'
-
+import { ThemeProvider, createTheme } from '@mui/material'
 
 type Mode = 'dark' | 'light'
 
@@ -13,13 +13,19 @@ const { Provider } = ThemeModeContext
 
 export function ThemeModeProvider({ children }: { children: ReactNode }) {
 
-  const [mode, setMode] = useState<Mode>('dark')
+  const [mode, setMode] = useState<Mode>('light')
 
   return (
     <Provider
       value={{ mode, setMode }}
     >
-      {children}
+      <ThemeProvider
+        theme={createTheme({
+          palette: { mode }
+        })}
+      >
+        {children}
+      </ThemeProvider>
     </Provider >
   )
 }

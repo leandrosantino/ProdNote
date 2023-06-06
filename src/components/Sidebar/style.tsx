@@ -8,18 +8,16 @@ export const PageButton = styled(ToggleButton)`
       p.theme.palette.grey[100] :
       p.theme.palette.grey[900]
   };
-  font-size: 1.2rem;
+  font-size: 12px;
   justify-content: start;
   border-radius: 0;
+  border-top: none !important;
   border: none;
-  border-top-width: 0;
   border-left-color: ${(p) =>
-    p.theme.palette.mode == 'dark' ?
-      p.theme.palette.grey[100] :
-      p.theme.palette.primary.main
+    p.theme.palette.primary.main
   };
   border-left-style: solid;
-  border-left-width: ${(p) => p.selected ? '.4rem' : '0'};
+  border-left-width: ${(p) => p.selected ? '4px' : '0'};
 `
 
 
@@ -31,8 +29,8 @@ export const Aside = styled.aside`
   };
   div{
     width: 100%;
-    padding: .8rem;
-    gap: .4rem;
+    padding: 8px;
+    gap: 4px;
   }
 
 `
