@@ -1,12 +1,19 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Aside, PageButton } from "./style";
 import { ToggleButtonGroup } from '@mui/material'
 import { useTheme } from '@mui/material'
+import { useLocation, useNavigate } from 'react-router-dom'
 
 export function Sidebar() {
 
-  const [alignment, setAlignment] = useState('web');
+  const { pathname } = useLocation()
+  const [alignment, setAlignment] = useState(pathname);
   const { palette: { mode } } = useTheme()
+  const navigate = useNavigate()
+
+  useEffect(() => {
+    setAlignment(pathname)
+  }, [pathname])
 
   return (
     <Aside>
@@ -22,9 +29,9 @@ export function Sidebar() {
         }}
         orientation="vertical"
       >
-        <PageButton value="web">Gerar Etiquetas</PageButton>
-        <PageButton value="android">Leitor de Etiquetas</PageButton>
-        <PageButton value="ios">Planejamento</PageButton>
+        <PageButton onClick={() => navigate('/')} value="/">Gerar Etiquetas</PageButton>
+        <PageButton onClick={() => navigate('/registerTag')} value="/registerTag">Leitor de Etiquetas</PageButton>
+        <PageButton onClick={() => navigate('/planning')} value="/planning">Planejamento</PageButton>
       </ToggleButtonGroup>
 
     </Aside >

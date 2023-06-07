@@ -1,50 +1,69 @@
 import { Button, Typography } from "@mui/material";
 import { Container, InputText, AuthCard } from "./style";
 import { useAuth } from "../../hooks/useAuth";
+import { useNavigate } from 'react-router-dom'
 
 export function SignIn() {
 
   const { signIn } = useAuth()
+  const navigate = useNavigate()
 
   return (
-    <Container>
-      <AuthCard elevation={3}>
+    <Container elevation={0}>
 
-        <Typography variant="h5" component="h2">
-          Login
+      <div>
+        <Typography variant="h5" component="h1">
+          PCP - System
         </Typography>
+        <Typography variant="subtitle1" component="h2">
+          Sistema de Planejamento e Controle de Produção
+        </Typography>
+      </div>
 
-        <InputText
-          id="standard-password-input"
-          label="Usuário"
-          type="text"
-          autoComplete="current-user"
-          variant="standard"
-          InputLabelProps={{
-            shrink: true,
+      <AuthCard elevation={3}>
+        <form
+          onSubmit={(e) => {
+            e.preventDefault()
+            signIn().then(() => {
+              navigate('/')
+            })
           }}
-        />
-
-        <InputText
-          id="standard-password-input"
-          label="Senha"
-          type="password"
-          autoComplete="current-password"
-          variant="standard"
-          InputLabelProps={{
-            shrink: true,
-          }}
-        />
-
-        <Button
-          variant="contained"
-          color="primary"
-          size="medium"
-          onClick={() => { signIn() }}
         >
-          Entrar
-        </Button>
+          <Typography variant="h5" component="h3">
+            Login
+          </Typography>
+
+          <InputText
+            label="Usuário"
+            type="text"
+            autoComplete="current-user"
+            variant="standard"
+            InputLabelProps={{
+              shrink: true,
+            }}
+          />
+
+          <InputText
+            label="Senha"
+            type="password"
+            autoComplete="current-password"
+            variant="standard"
+            InputLabelProps={{
+              shrink: true,
+            }}
+          />
+
+          <Button
+            variant="contained"
+            color="primary"
+            size="medium"
+            type="submit"
+          >
+            Entrar
+          </Button>
+        </form>
+
       </AuthCard>
-    </Container>
+    </Container >
   )
 }

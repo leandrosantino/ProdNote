@@ -1,13 +1,12 @@
 import { AppBar, Menu } from '@mui/material'
 import styled from 'styled-components'
 
-export const Appbar = styled(AppBar) <{ isAuth: boolean }>`
-  /* background-color: ${p => p.theme.palette.grey[900]}; */
+export const Appbar = styled(AppBar) <{ isauth: number }>`
   flex-direction: row;
   div{
     width: 100%;
     min-height: fit-content;
-    justify-content: ${p => p.isAuth ? 'space-between' : 'center'};
+    justify-content: ${p => p.isauth ? 'space-between' : 'center'};
   }
 
 `

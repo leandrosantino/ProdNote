@@ -5,7 +5,7 @@ interface AuthContextProps {
   user: {
     name: string
   };
-  signIn: () => void;
+  signIn: () => Promise<void>;
   signOut: () => void;
 }
 
@@ -14,9 +14,9 @@ const { Provider } = AuthContext
 
 export function AuthProvider({ children }: { children: ReactNode }) {
 
-  const [isAuth, setAuth] = useState(true)
+  const [isAuth, setAuth] = useState(false)
 
-  function signIn() {
+  async function signIn() {
     setAuth(true)
   }
 

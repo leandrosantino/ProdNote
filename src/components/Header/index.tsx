@@ -21,7 +21,7 @@ export function Header() {
   const { signOut, isAuth } = useAuth()
 
   return (
-    <Appbar position="relative" {...{ isAuth }}>
+    <Appbar position="relative" isauth={isAuth ? 1 : 0}>
       <Toolbar>
 
         <Typography variant="h6" component="h1">
