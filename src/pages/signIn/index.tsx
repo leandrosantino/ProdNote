@@ -37,20 +37,14 @@ export function SignIn() {
             label="Usuário"
             type="text"
             autoComplete="current-user"
-            variant="standard"
-            InputLabelProps={{
-              shrink: true,
-            }}
+            variant="filled"
           />
 
           <InputText
             label="Senha"
             type="password"
             autoComplete="current-password"
-            variant="standard"
-            InputLabelProps={{
-              shrink: true,
-            }}
+            variant="filled"
           />
 
           <Button
