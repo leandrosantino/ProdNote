@@ -1,5 +1,8 @@
-
+import { trpc } from "../../../utils/api"
 
 export function TagGenerator() {
-  return (<div>tagGenerator</div>)
+
+  const { data } = trpc.test.useQuery()
+
+  return (<div>{data}</div>)
 }

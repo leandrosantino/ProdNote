@@ -4,6 +4,7 @@ import path from 'path'
 import { fastifyTRPCPlugin } from '@trpc/server/adapters/fastify'
 import { getFastifyPlugin } from 'trpc-playground/handlers/fastify'
 import { appRouter } from "./routers";
+import fastifyCors from "@fastify/cors";
 
 (async () => {
 
@@ -21,6 +22,10 @@ import { appRouter } from "./routers";
   server.register(fastifyStatic, {
     root: path.join(__dirname, './static')
   });
+
+  server.register(fastifyCors, {
+    origin: '*'
+  })
 
   server.register(fastifyTRPCPlugin, {
     prefix: trpcApiEndpoint,

@@ -28,7 +28,8 @@
     }
   },
   "include": [
-    "src"
+    "src",
+    "./server/routers/index.ts"
   ],
   "references": [
     {

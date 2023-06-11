@@ -4,14 +4,18 @@ import { ThemeModeProvider } from './contexts/themeContext'
 import { AuthProvider } from './contexts/authContext'
 import { GlobalStyle } from './styles/global'
 import { AppRoutes } from './app.routes'
+import { QueryProvider } from './providers/queryProvider'
+
 
 ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
   <React.StrictMode>
-    <AuthProvider>
+    <QueryProvider>
       <ThemeModeProvider>
-        <GlobalStyle />
-        <AppRoutes />
+        <AuthProvider>
+          <GlobalStyle />
+          <AppRoutes />
+        </AuthProvider>
       </ThemeModeProvider>
-    </AuthProvider>
+    </QueryProvider>
   </React.StrictMode>
 )

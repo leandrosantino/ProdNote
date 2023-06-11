@@ -10,3 +10,5 @@ export const appRouter = trpc.router({
       return 'test'
     })
 })
+
+export type AppRouter = typeof appRouter
