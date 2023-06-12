@@ -4,7 +4,7 @@ import { ThemeModeProvider } from './contexts/themeContext'
 import { AuthProvider } from './contexts/authContext'
 import { GlobalStyle } from './styles/global'
 import { AppRoutes } from './app.routes'
-import { QueryProvider } from './providers/queryProvider'
+import { QueryProvider } from './providers/queryClientProvider'
 
 
 ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(

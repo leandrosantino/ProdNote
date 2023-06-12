@@ -1,4 +1,5 @@
 import { ReactNode, createContext, useState } from 'react'
+import { setToken, fetch } from '../utils/api';
 
 interface AuthContextProps {
   isAuth: boolean;
@@ -17,11 +18,24 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   const [isAuth, setAuth] = useState(false)
 
   async function signIn() {
-    setAuth(true)
+
+    try {
+      const access_token = await fetch.auth.login.mutate({
+        userName: 'leandroSantino',
+        password: 'gpt'
+      })
+
+      setToken(access_token)
+      setAuth(true)
+    } catch (err) {
+      console.log(err)
+    }
+
   }
 
   function signOut() {
     setAuth(false)
+    setToken('')
   }
 
   return (

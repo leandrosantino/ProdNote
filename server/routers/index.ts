@@ -1,14 +1,15 @@
 import { initTRPC } from '@trpc/server'
-import { z } from 'zod'
+import { Context } from '../context'
 
-const trpc = initTRPC.create()
+import { authRoutes } from './auth.routes'
+import { userRoutes } from './user.routes'
+
+const trpc = initTRPC.context<Context>().create()
+
 
 export const appRouter = trpc.router({
-  test: trpc.procedure
-    .output(z.string())
-    .query(async () => {
-      return 'test'
-    })
+  auth: authRoutes,
+  user: userRoutes
 })
 
 export type AppRouter = typeof appRouter

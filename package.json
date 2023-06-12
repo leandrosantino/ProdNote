@@ -23,6 +23,7 @@
     "@trpc/react-query": "^10.29.1",
     "@trpc/server": "^10.29.1",
     "fastify": "^4.17.0",
+    "jsonwebtoken": "^9.0.0",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-router-dom": "^6.11.2",
@@ -31,6 +32,7 @@
     "zod": "^3.21.4"
   },
   "devDependencies": {
+    "@types/jsonwebtoken": "^9.0.2",
     "@types/react": "^18.0.37",
     "@types/react-dom": "^18.0.11",
     "@types/styled-components": "^5.1.26",

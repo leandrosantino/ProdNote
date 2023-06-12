@@ -5,6 +5,7 @@ import { fastifyTRPCPlugin } from '@trpc/server/adapters/fastify'
 import { getFastifyPlugin } from 'trpc-playground/handlers/fastify'
 import { appRouter } from "./routers";
 import fastifyCors from "@fastify/cors";
+import { createContext } from "./context";
 
 (async () => {
 
@@ -30,7 +31,8 @@ import fastifyCors from "@fastify/cors";
   server.register(fastifyTRPCPlugin, {
     prefix: trpcApiEndpoint,
     trpcOptions: {
-      router: appRouter
+      router: appRouter,
+      createContext
     }
   })
 

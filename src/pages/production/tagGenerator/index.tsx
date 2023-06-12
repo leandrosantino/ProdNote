@@ -2,7 +2,7 @@ import { trpc } from "../../../utils/api"
 
 export function TagGenerator() {
 
-  const { data } = trpc.test.useQuery()
+  const { data } = trpc.user.authTeste.useQuery()
 
   return (<div>{data}</div>)
 }
