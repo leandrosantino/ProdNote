@@ -3,7 +3,7 @@ import { Context } from "../context";
 import { isAuthenticate } from "../middlewares/authenticate";
 import { z } from "zod";
 import { createUserRequestDTOSchema } from '../useCases/CreateUser/CreateUserDTO'
-import { userSchema } from '../models/User'
+import { userSchema } from '../entities/User'
 import { createUser } from '../useCases/CreateUser'
 
 const t = initTRPC.context<Context>().create()

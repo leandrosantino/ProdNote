@@ -1,3 +1,4 @@
+import { logger } from './logger'
 const errorCodes = {
   BAD_REQUEST: 400,
   INTERNAL_SERVER_ERROR: 500,
@@ -25,7 +26,9 @@ export class HttpError extends Error {
 
   constructor(info: HttpErrorInfo) {
     super(info.message ?? info.code)
-    this.httpStatus = errorCodes[info.code]
     this.code = info.code
+    this.httpStatus = errorCodes[info.code]
+
+    logger.error(`${this.code}_${this.httpStatus} ${this.message}`)
   }
 }

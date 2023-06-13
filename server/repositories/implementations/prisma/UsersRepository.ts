@@ -1,4 +1,4 @@
-import { User } from "../../../models/User"
+import { User } from "../../../entities/User"
 import { IUsersRepository, UserRepositoryFindFilterProps } from "../../interfaces/IUsersRepository"
 
 export class UsersRepository implements IUsersRepository {

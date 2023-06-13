@@ -29,7 +29,7 @@
   },
   "include": [
     "src",
-    "./server/routers/index.ts"
+    "server/routers/index.ts"
   ],
   "references": [
     {

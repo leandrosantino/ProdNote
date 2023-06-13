@@ -1,4 +1,4 @@
-import { User } from "../../models/User";
+import { User } from "../../entities/User";
 import { IDefaultRepository } from "./IDefaultRepository";
 
 export interface UserRepositoryFindFilterProps {
