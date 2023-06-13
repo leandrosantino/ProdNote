@@ -1,8 +1,8 @@
 
 export interface IDefaultRepository<T> {
-  List(): Promise<T[]>
-  Add(data: T): Promise<void>
-  GetById(id: string | number): Promise<T>
-  Delete(id: string | number): Promise<void>
-  Edit(id: string | number, data: T): Promise<T>
+  findAll(): Promise<T[]>
+  create(data: T): Promise<T>
+  findById(id: string | number): Promise<T>
+  delete(id: string | number): Promise<void>
+  update(id: string | number, data: T): Promise<T>
 }

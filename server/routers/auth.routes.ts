@@ -25,8 +25,7 @@ export const authRoutes = t.router({
 
           const access_token = jwtSigin({
             name: user.name,
-            avatar: user.avatar_url,
-            sub: user.id,
+            id: user.id,
           }, {
             expiresIn: 60 * 60
           })

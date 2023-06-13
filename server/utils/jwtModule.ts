@@ -6,6 +6,6 @@ export function jwtSigin(data: object, options: SignOptions) {
   return jwt.sign(data, secret, options)
 }
 
-export function jwtVerify(token: string, options?: VerifyOptions) {
-  return jwt.verify(token, secret, options)
+export function jwtVerify<T>(token: string, options?: VerifyOptions): T {
+  return jwt.verify(token, secret, options) as T
 }
