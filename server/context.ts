@@ -1,6 +1,6 @@
 import { inferAsyncReturnType } from '@trpc/server';
 import { CreateFastifyContextOptions } from '@trpc/server/adapters/fastify';
-import { jwtVerify } from './services/jwtModule'
+import { jwtVerify } from './utils/jwtModule'
 
 export function createContext({ req }: CreateFastifyContextOptions) {
   if (req.headers.authorization) {

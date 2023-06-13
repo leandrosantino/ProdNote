@@ -1,6 +1,6 @@
 import { initTRPC } from "@trpc/server";
 import { Context } from "../context";
-import { jwtSigin } from "../services/jwtModule";
+import { jwtSigin } from "../utils/jwtModule";
 import { z } from "zod";
 
 const t = initTRPC.context<Context>().create()
