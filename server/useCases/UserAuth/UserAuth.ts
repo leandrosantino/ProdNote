@@ -1,5 +1,5 @@
 import { IUsersRepository } from '../../repositories/IUsersRepository'
-import { IUserAuthRequestDTO } from './UserAuthDTO';
+import { IUserAuthRequestDTO, IUserAuthResponseDTO } from './UserAuthDTO';
 import { IJwtProvider } from '../../providers/IJwtProvider';
 import { IPassProvider } from '../../providers/IPassProvider';
 
@@ -20,7 +20,7 @@ export class UserAuth {
     }
 
     if (this.pass.verify(data.password, user.password)) {
-      const access_token = this.jwt.sign({
+      const access_token: IUserAuthResponseDTO = this.jwt.sign({
         name: user.name,
         id: user.id as string
       }, {

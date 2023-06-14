@@ -5,5 +5,7 @@ export const userAuthRequestDTOSchema = z.object({
   password: z.string(),
 })
 
+export const userAuthResponseDTOSchema = z.string().optional()
 
 export type IUserAuthRequestDTO = z.infer<typeof userAuthRequestDTOSchema>
+export type IUserAuthResponseDTO = z.infer<typeof userAuthResponseDTOSchema>

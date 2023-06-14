@@ -7,4 +7,10 @@ export const createUserRequestDTOSchema = z.object({
   permissions: z.array(z.number())
 })
 
+export const createUserResponseDTOschema = z.object({
+  message: z.string()
+})
+
+export type ICreateUserResponseDTO = z.infer<typeof createUserResponseDTOschema>
+
 export type ICreateUserRequestDTO = z.infer<typeof createUserRequestDTOSchema>

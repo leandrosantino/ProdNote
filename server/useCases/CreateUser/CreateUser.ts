@@ -1,6 +1,6 @@
 
 import { IUsersRepository } from '../../repositories/IUsersRepository'
-import { ICreateUserRequestDTO } from './CreateUserDTO';
+import { ICreateUserRequestDTO, ICreateUserResponseDTO } from './CreateUserDTO';
 import { ISystemPermissionsRepository } from '../../repositories/ISystemPermissionsRepository'
 
 export class CreateUser {
@@ -9,7 +9,9 @@ export class CreateUser {
     private systemPermissionsRepository: ISystemPermissionsRepository
   ) { }
 
-  async execute({ name, permissions, email, password }: ICreateUserRequestDTO) {
+  async execute(data: ICreateUserRequestDTO) {
+
+    const { name, permissions, email, password } = data
 
     const user = await this.usersRepository.findByName(name)
 
@@ -28,7 +30,7 @@ export class CreateUser {
       name, email, password, permissions: userPermissions
     })
 
-    return { message: 'User registered successfully' }
+    return { message: 'User registered successfully' } as ICreateUserResponseDTO
 
   }
 
