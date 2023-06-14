@@ -1,6 +1,6 @@
 import { z } from 'zod'
 
-const systemPermissionKeysShema = z
+export const systemPermissionKeysShema = z
   .literal('GENERATE_TAGS')
   .or(z.literal('READ_TAGS'))
   .or(z.literal('PLANNING'))

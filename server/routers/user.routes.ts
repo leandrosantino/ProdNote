@@ -4,6 +4,10 @@ import { isAuthenticate } from "../middlewares/authenticate";
 import { z } from "zod";
 import { createUserRequestDTOSchema, createUserResponseDTOschema } from '../useCases/CreateUser/CreateUserDTO'
 import { createUser } from '../useCases/CreateUser'
+import { getUserInfoResponseDTOschema } from '../useCases/GetUserInfo/GetUserInfoDTO'
+import { getUserInfo } from '../useCases/GetUserInfo'
+import { HttpError } from "../utils/HttpError";
+
 
 const t = initTRPC.context<Context>().create()
 
@@ -23,4 +27,18 @@ export const userRoutes = t.router({
     .mutation(async ({ input }) => {
       return createUser.execute(input)
     })
+  ,
+
+  getInfo: protect
+    .output(getUserInfoResponseDTOschema)
+    .query(async ({ ctx }) => {
+      const { user } = ctx
+      try {
+        return await getUserInfo.execute(user.name)
+      } catch (err) {
+        throw new HttpError({ code: 'BAD_REQUEST', message: (err as Error).message })
+      }
+    })
+
+
 })
