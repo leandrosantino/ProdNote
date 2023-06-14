@@ -51,7 +51,7 @@ export class UsersRepository implements IUsersRepository {
       }
     })
 
-    return user
+    return user as User | null
   }
 
 }
