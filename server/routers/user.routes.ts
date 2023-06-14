@@ -34,7 +34,7 @@ export const userRoutes = t.router({
     .query(async ({ ctx }) => {
       const { user } = ctx
       try {
-        return await getUserInfo.execute(user.name)
+        return await getUserInfo.execute(user.id)
       } catch (err) {
         throw new HttpError({ code: 'BAD_REQUEST', message: (err as Error).message })
       }

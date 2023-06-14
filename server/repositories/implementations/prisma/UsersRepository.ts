@@ -42,4 +42,16 @@ export class UsersRepository implements IUsersRepository {
     return user
   }
 
+  async findById(userId: string) {
+    let user: User | null = null
+
+    users.forEach(entry => {
+      if (entry.id == userId) {
+        user = entry
+      }
+    })
+
+    return user
+  }
+
 }
