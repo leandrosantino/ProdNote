@@ -3,7 +3,6 @@ import { Context } from "../context";
 import { isAuthenticate } from "../middlewares/authenticate";
 import { z } from "zod";
 import { createUserRequestDTOSchema } from '../useCases/CreateUser/CreateUserDTO'
-import { userSchema } from '../entities/User'
 import { createUser } from '../useCases/CreateUser'
 
 const t = initTRPC.context<Context>().create()
@@ -18,9 +17,11 @@ export const userRoutes = t.router({
     })
   ,
 
-  createUser: t.procedure
+  create: t.procedure
     .input(createUserRequestDTOSchema)
-    .output(userSchema)
+    .output(z.object({
+      message: z.string()
+    }))
     .mutation(async ({ input }) => {
       return createUser.execute(input)
     })

@@ -17,3 +17,6 @@ export class PassProvider implements IPassProvider {
 
 
 }
+
+
+// console.log(new PassProvider().generate('leandro'))

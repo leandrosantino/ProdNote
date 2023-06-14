@@ -1,12 +1,12 @@
 import { z } from 'zod'
-import { userPermissionsSchema } from './UserPermission'
+import { systemPermissionsSchema } from './SystemPermission'
 
 export const userSchema = z.object({
+  id: z.string().optional(),
   name: z.string(),
   password: z.string(),
-  id: z.string(),
   email: z.string(),
-  permissions: z.array(userPermissionsSchema)
+  permissions: z.array(systemPermissionsSchema)
 })
 
 export type User = z.infer<typeof userSchema>

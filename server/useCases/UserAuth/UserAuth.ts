@@ -13,7 +13,7 @@ export class UserAuth {
 
   async execute(data: IUserAuthRequestDTO) {
 
-    const user = await this.usersRepository.findByUserName(data.userName)
+    const user = await this.usersRepository.findByName(data.userName)
 
     if (!user) {
       throw new Error('Unregistered User')
@@ -22,7 +22,7 @@ export class UserAuth {
     if (this.pass.verify(data.password, user.password)) {
       const access_token = this.jwt.sign({
         name: user.name,
-        id: user.id
+        id: user.id as string
       }, {
         expiresIn: '1 days'
       })

@@ -7,7 +7,7 @@ const t = initTRPC.context<Context>().create()
 
 const jwt = new JwtProvider()
 
-export const isAuthenticate = t.middleware(({ ctx, next }) => {
+export const isAuthenticate = t.middleware(({ ctx, next, }) => {
   const { headers } = ctx;
 
   if (headers.authorization) {
