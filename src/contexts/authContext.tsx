@@ -29,7 +29,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
         setAuth(true)
       }
     } catch (err) {
-      console.log(err)
+      console.log((err as Error).message)
     }
 
   }

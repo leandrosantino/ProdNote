@@ -1,12 +1,14 @@
-function info(msg: string) {
-  console.log(msg)
+
+class Logger {
+
+  info(msg: string) {
+    console.log(msg)
+  }
+
+  error(msg: string) {
+    console.log(msg)
+  }
 }
 
-function error(msg: string) {
-  console.log(msg)
-}
 
-export const logger = {
-  info,
-  error
-}
+export const logger = new Logger()

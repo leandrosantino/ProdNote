@@ -3,6 +3,7 @@ import { Context } from "../context";
 import { z } from "zod";
 import { userAuth } from '../useCases/UserAuth'
 import { userAuthRequestDTOSchema } from "../useCases/UserAuth/UserAuthDTO";
+import { HttpError } from "../utils/HttpError";
 
 const t = initTRPC.context<Context>().create()
 
@@ -11,6 +12,10 @@ export const authRoutes = t.router({
     .input(userAuthRequestDTOSchema)
     .output(z.string().optional())
     .mutation(async ({ input }) => {
-      return userAuth.execute(input)
+      try {
+        return await userAuth.execute(input)
+      } catch (err) {
+        throw new HttpError({ code: 'UNAUTHORIZED', message: (err as Error).message })
+      }
     })
 })

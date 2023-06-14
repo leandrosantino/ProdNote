@@ -1,6 +1,5 @@
 import { IUsersRepository } from '../../repositories/IUsersRepository'
 import { IUserAuthRequestDTO } from './UserAuthDTO';
-import { HttpError } from '../../utils/HttpError'
 import { IJwtProvider } from '../../providers/IJwtProvider';
 import { IPassProvider } from '../../providers/IPassProvider';
 
@@ -12,28 +11,26 @@ export class UserAuth {
     public pass: IPassProvider
   ) { }
 
-
   async execute(data: IUserAuthRequestDTO) {
-
 
     const user = await this.usersRepository.findByUserName(data.userName)
 
     if (!user) {
-      throw new HttpError({ code: 'UNAUTHORIZED', message: 'Unregistered User' })
+      throw new Error('Unregistered User')
     }
 
-    if (this.pass.verifyPass(data.password, user.password)) {
-      const access_token = this.jwt.sigin({
+    if (this.pass.verify(data.password, user.password)) {
+      const access_token = this.jwt.sign({
         name: user.name,
         id: user.id
       }, {
-        expiresIn: 60 * 60
+        expiresIn: '1 days'
       })
 
       return access_token
     }
 
-    throw new HttpError({ code: 'UNAUTHORIZED', message: 'Invalid Password!' })
+    throw new Error('Invalid Password!')
 
 
   }

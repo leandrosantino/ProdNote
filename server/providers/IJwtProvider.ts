@@ -6,6 +6,6 @@ export interface IJwtUserData {
 
 export interface IJwtProvider {
   secret: string
-  sigin(data: IJwtUserData, options: object): string
+  sign(data: IJwtUserData, options: object): string
   verify(token: string, options?: object): IJwtUserData
 }

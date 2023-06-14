@@ -8,7 +8,7 @@ export class JwtProvider implements IJwtProvider {
     this.secret = 'LEANDROSANTINOF'
   }
 
-  sigin(data: IJwtUserData, options: SignOptions) {
+  sign(data: IJwtUserData, options: SignOptions) {
     return jwt.sign(data, this.secret, options)
   }
   verify(token: string, options?: VerifyOptions) {
