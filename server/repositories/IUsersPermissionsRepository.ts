@@ -1,5 +1,8 @@
 import { UserPermission } from "../entities/UserPermission";
-import { IDefaultRepository } from "./IDefaultRepository";
 
-export type IUsersPermissionsRepository = IDefaultRepository<UserPermission>
+
+export type IUsersPermissionsRepository = {
+  findAll(): Promise<UserPermission[]>
+  findById(id: string): Promise<UserPermission>
+}
 

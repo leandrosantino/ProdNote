@@ -1,8 +1,8 @@
 import { User } from "../entities/User";
-import { IDefaultRepository } from "./IDefaultRepository";
 
 
-export interface IUsersRepository extends IDefaultRepository<User> {
+export interface IUsersRepository {
   findByUserName(userName: string): Promise<User | null>
+  create(data: User): Promise<User>
 }
 
