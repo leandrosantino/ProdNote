@@ -1,5 +1,5 @@
 import { UserPermission } from "../../../entities/UserPermission"
-import { IUsersPermissionsRepository } from "../../interfaces/IUsersPermissionsRepository"
+import { IUsersPermissionsRepository } from "../../IUsersPermissionsRepository"
 
 export class UsersRepository implements IUsersPermissionsRepository {
 

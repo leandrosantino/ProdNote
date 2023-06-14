@@ -1,5 +1,5 @@
 
-import { IUsersRepository } from '../../repositories/interfaces/IUsersRepository'
+import { IUsersRepository } from '../../repositories/IUsersRepository'
 import { ICreateUserRequestDTO } from './CreateUserDTO';
 import { HttpError } from '../../utils/HttpError'
 export class CreateUser {

@@ -21,12 +21,13 @@ export function AuthProvider({ children }: { children: ReactNode }) {
 
     try {
       const access_token = await fetch.auth.login.mutate({
-        userName: 'leandroSantino',
-        password: 'gpt'
+        userName: 'PROD@adler',
+        password: 'alpha45c'
       })
-
-      setToken(access_token)
-      setAuth(true)
+      if (access_token) {
+        setToken(access_token)
+        setAuth(true)
+      }
     } catch (err) {
       console.log(err)
     }

@@ -1,21 +1,18 @@
-import { TRPCError, initTRPC } from '@trpc/server'
+import { initTRPC } from '@trpc/server'
 import { Context } from '../context';
-import { jwtVerify } from '../utils/jwtModule'
-
+import { JwtProvider } from '../providers/implementations/JwtProvider'
+import { HttpError } from '../utils/HttpError';
 const t = initTRPC.context<Context>().create()
 
-interface TokenUserData {
-  name: string
-  id: string
-}
+const jwt = new JwtProvider()
 
 export const isAuthenticate = t.middleware(({ ctx, next }) => {
   const { headers } = ctx;
 
   if (headers.authorization) {
-    const user = jwtVerify<TokenUserData>(headers.authorization)
+    const user = jwt.verify(headers.authorization)
     if (!user.id) {
-      throw new TRPCError({ code: 'UNAUTHORIZED', message: 'Invalid access_token!' });
+      throw new HttpError({ code: 'UNAUTHORIZED', message: 'Invalid access_token!' });
     }
     return next({
       ctx: {
@@ -23,7 +20,7 @@ export const isAuthenticate = t.middleware(({ ctx, next }) => {
       },
     })
   }
-  throw new TRPCError({ code: 'UNAUTHORIZED', message: 'Authorization header not_found' });
+  throw new HttpError({ code: 'UNAUTHORIZED', message: 'Authorization header not_found' });
 
 
 })

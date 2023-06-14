@@ -1,9 +1,9 @@
 import fastify from "fastify";
 import fastifyStatic from '@fastify/static'
 import path from 'path'
-import { fastifyTRPCPlugin } from '@trpc/server/adapters/fastify'
+import { FastifyTRPCPluginOptions, fastifyTRPCPlugin } from '@trpc/server/adapters/fastify'
 import { getFastifyPlugin } from 'trpc-playground/handlers/fastify'
-import { appRouter } from "./routers";
+import { appRouter, AppRouter } from "./routers";
 import fastifyCors from "@fastify/cors";
 import { createContext } from "./context";
 import { logger } from "./utils/logger";
@@ -25,9 +25,9 @@ import { logger } from "./utils/logger";
     prefix: trpcApiEndpoint,
     trpcOptions: {
       router: appRouter,
-      createContext
-    }
-  })
+      createContext,
+    },
+  } as FastifyTRPCPluginOptions<AppRouter>)
 
   server.register(trpcPlaygroundPlugin, { prefix: '/playground' })
 
