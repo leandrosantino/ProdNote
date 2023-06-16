@@ -1,13 +1,13 @@
 
 ![Logo](https://via.placeholder.com/700x100?text=ProdNote)
 
+[![Licence](https://img.shields.io/github/license/Ileriayo/markdown-badges?style=flat)](https://choosealicense.com/licenses/mit/)
+![TypeScript](https://img.shields.io/badge/Made%20with-TYPESCRIPT-%23007ACC.svg?style=flat&logo=typescript)
+![NodeJS](https://img.shields.io/badge/Made%20with-NODE.JS-6DA55F?style=flat&logo=node.js&logoColor=6DA55F)
+![React](https://img.shields.io/badge/Made%20with-REACT-149eca.svg?style=flat&logo=react&logoColor=149eca)
+![Fastify](https://img.shields.io/badge/Made%20with-FASTIFY-%23000000.svg?style=flat&logo=fastify&logoColor=black)
 
-![TypeScript](https://img.shields.io/badge/typescript-%23007ACC.svg?style=for-the-badge&logo=typescript&logoColor=white)
-![NodeJS](https://img.shields.io/badge/node.js-6DA55F?style=for-the-badge&logo=node.js&logoColor=white)
-![React](https://img.shields.io/badge/react-%2320232a.svg?style=for-the-badge&logo=react&logoColor=%2361DAFB)
-![Fastify](https://img.shields.io/badge/fastify-%23000000.svg?style=for-the-badge&logo=fastify&logoColor=white)
 
-[![Licence](https://img.shields.io/github/license/Ileriayo/markdown-badges?style=for-the-badge)](https://choosealicense.com/licenses/mit/)
 
 # ProdNote
 
