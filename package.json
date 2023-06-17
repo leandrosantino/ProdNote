@@ -9,7 +9,8 @@
     "preview": "vite preview",
     "server": "tsx watch ./server/index.ts config=./tsconfig.node.json",
     "server.build": "set NODE_ENV=production && webpack",
-    "server.build-dev": "set NODE_ENV=development && webpack"
+    "server.build-dev": "set NODE_ENV=development && webpack",
+    "commit": "git add . && cz && git push"
   },
   "dependencies": {
     "@fastify/cors": "^8.3.0",
