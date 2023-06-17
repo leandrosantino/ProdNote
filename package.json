@@ -11,11 +11,6 @@
     "server.build": "set NODE_ENV=production && webpack",
     "server.build-dev": "set NODE_ENV=development && webpack"
   },
-  "husky": {
-    "hooks": {
-      "commit-msg": "commitlint -E HUSKY_GIT_PARAMS"
-    }
-  },
   "dependencies": {
     "@fastify/cors": "^8.3.0",
     "@fastify/static": "^6.10.2",
