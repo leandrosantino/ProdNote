@@ -2,10 +2,11 @@
 ![Logo](https://via.placeholder.com/700x100?text=ProdNote)
 
 [![Licence](https://img.shields.io/github/license/Ileriayo/markdown-badges?style=flat)](https://choosealicense.com/licenses/mit/)
-![TypeScript](https://img.shields.io/badge/Made%20with-TYPESCRIPT-%23007ACC.svg?style=flat&logo=typescript)
-![NodeJS](https://img.shields.io/badge/Made%20with-NODE.JS-6DA55F?style=flat&logo=node.js&logoColor=6DA55F)
+[![Commitizen friendly](https://img.shields.io/badge/commitizen-friendly-brightgreen.svg)](http://commitizen.github.io/cz-cli/)
+![TypeScript](https://img.shields.io/badge/Made%20with-typescript-%23007ACC.svg?style=flat&logo=typescript)
+<!-- ![NodeJS](https://img.shields.io/badge/Made%20with-NODE.JS-6DA55F?style=flat&logo=node.js&logoColor=6DA55F)
 ![React](https://img.shields.io/badge/Made%20with-REACT-149eca.svg?style=flat&logo=react&logoColor=149eca)
-![Fastify](https://img.shields.io/badge/Made%20with-FASTIFY-%23000000.svg?style=flat&logo=fastify&logoColor=black)
+![Fastify](https://img.shields.io/badge/Made%20with-FASTIFY-%23000000.svg?style=flat&logo=fastify&logoColor=black) -->
 
 
 
