@@ -6,9 +6,18 @@ module.exports = {
     },
     extends: [
         'standard-with-typescript',
-        'plugin:react/recommended'
+        'plugin:react/recommended',
+        'plugin:react/jsx-runtime'
     ],
-    parser: '@typescript-eslint/parser',
+    settings: {
+        react: {
+          createClass: 'createReactClass',
+          pragma: 'React',
+          fragment: 'Fragment',
+          version: 'detect',
+          flowVersion: '0.53'
+        }
+    },
     parserOptions: {
         ecmaVersion: 'latest',
         sourceType: 'module',
@@ -23,6 +32,7 @@ module.exports = {
     ],
     rules: {
         '@typescript-eslint/explicit-function-return-type': 'off',
-        'react/react-in-jsx-scope': 'off'
+        '@typescript-eslint/consistent-type-assertions':'off',
+        '@typescript-eslint/strict-boolean-expressions': 'off'
     }
 }

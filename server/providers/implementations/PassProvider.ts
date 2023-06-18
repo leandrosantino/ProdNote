@@ -11,7 +11,7 @@ export class PassProvider implements IPassProvider {
 
   verify (loginPass: string, registeredHash: string): boolean {
     const loginHash = crypto.createHmac(this.algorithm, loginPass)
-    return loginHash.digest('hex') == registeredHash
+    return loginHash.digest('hex') === registeredHash
   }
 }
 

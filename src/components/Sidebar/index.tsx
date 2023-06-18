@@ -18,7 +18,7 @@ export function Sidebar () {
     <Aside>
 
       <ToggleButtonGroup
-        color={mode == 'dark' ? 'primary' : 'standard'}
+        color={mode === 'dark' ? 'primary' : 'standard'}
         value={alignment}
         exclusive
         onChange={(_, newAlignment) => {

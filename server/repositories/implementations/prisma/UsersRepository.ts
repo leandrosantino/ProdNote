@@ -32,7 +32,7 @@ export class UsersRepository implements IUsersRepository {
     let user: User | null = null
 
     users.forEach(entry => {
-      if (entry.name == userName) {
+      if (entry.name === userName) {
         user = entry
       }
     })
@@ -44,7 +44,7 @@ export class UsersRepository implements IUsersRepository {
     let user: User | null = null
 
     users.forEach(entry => {
-      if (entry.id == userId) {
+      if (entry.id === userId) {
         user = entry
       }
     })

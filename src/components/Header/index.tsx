@@ -34,7 +34,7 @@ export function Header () {
             color="inherit"
             size="medium"
           >
-            <AccountCircle fontSize="medium" {...mode == 'dark' ? { color: 'primary' } : {}} />
+            <AccountCircle fontSize="medium" {...mode === 'dark' ? { color: 'primary' } : {}} />
           </IconButton>
 
           <UserMenu
@@ -60,8 +60,8 @@ export function Header () {
               setMode(mode === 'dark' ? 'light' : 'dark')
               handleClose()
             }}>
-              <Typography>Modo {mode == 'dark' ? 'Claro' : 'Escuro'}</Typography>
-              {mode == 'dark' ? <Brightness7 /> : <Brightness4 />}
+              <Typography>Modo {mode === 'dark' ? 'Claro' : 'Escuro'}</Typography>
+              {mode === 'dark' ? <Brightness7 /> : <Brightness4 />}
             </MenuItem>
 
             <MenuItem onClick={() => {

@@ -24,12 +24,12 @@ export function AuthProvider ({ children }: { children: ReactNode }) {
 
   async function signIn () {
     try {
-      const access_token = await fetch.auth.login.mutate({
+      const accessToken = await fetch.auth.login.mutate({
         userName: 'PROD@adler',
         password: 'alpha45c'
       })
-      if (access_token) {
-        setToken(access_token)
+      if (accessToken) {
+        setToken(accessToken)
 
         const userInfo = await fetch.user.getInfo.query()
 

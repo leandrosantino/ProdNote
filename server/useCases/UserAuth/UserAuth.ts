@@ -18,14 +18,14 @@ export class UserAuth {
     }
 
     if (this.pass.verify(data.password, user.password)) {
-      const access_token: IUserAuthResponseDTO = this.jwt.sign({
+      const accessToken: IUserAuthResponseDTO = this.jwt.sign({
         name: user.name,
         id: user.id as string
       }, {
         expiresIn: '1 days'
       })
 
-      return access_token
+      return accessToken
     }
 
     throw new Error('Invalid Password!')

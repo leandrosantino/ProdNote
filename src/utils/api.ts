@@ -14,8 +14,8 @@ const links = [
   })
 ]
 
-export function setToken (auth_token: string) {
-  token = auth_token
+export function setToken (authToken: string) {
+  token = authToken
 }
 
 export const trpc = createTRPCReact<AppRouter>()

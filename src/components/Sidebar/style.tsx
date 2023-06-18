@@ -3,7 +3,7 @@ import { ToggleButton } from '@mui/material'
 
 export const PageButton = styled(ToggleButton)`
   color: ${(p) =>
-    p.theme.palette.mode == 'dark'
+    p.theme.palette.mode === 'dark'
       ? p.theme.palette.grey[100]
       : p.theme.palette.grey[900]
   };
@@ -21,7 +21,7 @@ export const PageButton = styled(ToggleButton)`
 
 export const Aside = styled.aside`
   background-color: ${(p) =>
-    p.theme.palette.mode == 'dark'
+    p.theme.palette.mode === 'dark'
       ? p.theme.palette.grey[900]
       : p.theme.palette.grey[300]
   };

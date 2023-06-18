@@ -10,7 +10,7 @@ const jwt = new JwtProvider()
 export const authenticattionMiddleware = t.middleware(async ({ ctx, next }) => {
   const { headers } = ctx
 
-  if (headers.authorization) {
+  if (headers.authorization !== undefined) {
     let user: IJwtUserData
     try {
       user = jwt.verify(headers.authorization)

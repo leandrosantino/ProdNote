@@ -20,7 +20,7 @@ import { logger } from './utils/logger';
     playgroundEndpoint
   })
 
-  server.register(fastifyTRPCPlugin, {
+  await server.register(fastifyTRPCPlugin, {
     prefix: trpcApiEndpoint,
     trpcOptions: {
       router: appRouter,
@@ -28,18 +28,18 @@ import { logger } from './utils/logger';
     }
   } as FastifyTRPCPluginOptions<AppRouter>)
 
-  server.register(trpcPlaygroundPlugin, { prefix: '/playground' })
+  await server.register(trpcPlaygroundPlugin, { prefix: '/playground' })
 
-  server.register(fastifyStatic, {
+  await server.register(fastifyStatic, {
     root: path.join(__dirname, './static')
   })
 
-  server.register(fastifyCors, {
+  await server.register(fastifyCors, {
     origin: '*'
   })
 
-  server.get('/', (request, reply) => {
-    reply.sendFile('index.html')
+  server.get('/', async (request, reply) => {
+    await reply.sendFile('index.html')
   })
 
   server.listen({ port: 3336 }, (err) => {
@@ -51,3 +51,5 @@ import { logger } from './utils/logger';
     logger.info('Server online!')
   })
 })()
+  .then(() => {})
+  .catch(() => {})

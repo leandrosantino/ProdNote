@@ -5,7 +5,7 @@ import { CreateUser } from './CreateUser'
 test('Use Case : Create User', async () => {
   const userRepoMock = {
     async findByName (userName) {
-      return userName == 'leandro' ? {} : null
+      return userName === 'leandro' ? {} : null
     },
     async create (data) {
       return data ? {} : ''
