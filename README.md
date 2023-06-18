@@ -1,13 +1,9 @@
 
 ![Logo](https://via.placeholder.com/700x100?text=ProdNote)
 
-[![Licence](https://img.shields.io/github/license/Ileriayo/markdown-badges?style=flat)](https://choosealicense.com/licenses/mit/)
+[![Licence](https://img.shields.io/badge/license-AGPLv3-green.svg?style=flat)](https://choosealicense.com/licenses/agpl-3.0/)
 [![Commitizen friendly](https://img.shields.io/badge/commitizen-friendly-brightgreen.svg)](http://commitizen.github.io/cz-cli/)
 ![TypeScript](https://img.shields.io/badge/Made%20with-typescript-%23007ACC.svg?style=flat&logo=typescript)
-<!-- ![NodeJS](https://img.shields.io/badge/Made%20with-NODE.JS-6DA55F?style=flat&logo=node.js&logoColor=6DA55F)
-![React](https://img.shields.io/badge/Made%20with-REACT-149eca.svg?style=flat&logo=react&logoColor=149eca)
-![Fastify](https://img.shields.io/badge/Made%20with-FASTIFY-%23000000.svg?style=flat&logo=fastify&logoColor=black) -->
-
 
 
 # ProdNote
@@ -76,4 +72,4 @@ Que melhorias você fez no seu código? Ex: refatorações, melhorias de perform
 
 ## Licença
 
-Este software é licenciado sob a [MIT](https://github.com/nhn/tui.editor/blob/master/LICENSE) © [NHN Cloud](https://github.com/nhn).
+Este software é licenciado sob a [AGPLv3](https://github.com/leandrosantino/prodnote/blob/master/LICENSE)
