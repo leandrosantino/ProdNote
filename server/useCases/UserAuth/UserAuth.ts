@@ -1,21 +1,19 @@
-import { IUsersRepository } from '../../repositories/IUsersRepository'
-import { IUserAuthRequestDTO, IUserAuthResponseDTO } from './UserAuthDTO';
-import { IJwtProvider } from '../../providers/IJwtProvider';
-import { IPassProvider } from '../../providers/IPassProvider';
+import { type IUsersRepository } from '../../repositories/IUsersRepository'
+import { type IUserAuthRequestDTO, type IUserAuthResponseDTO } from './UserAuthDTO'
+import { type IJwtProvider } from '../../providers/IJwtProvider'
+import { type IPassProvider } from '../../providers/IPassProvider'
 
 export class UserAuth {
-
-  constructor(
+  constructor (
     public usersRepository: IUsersRepository,
     public jwt: IJwtProvider,
     public pass: IPassProvider
   ) { }
 
-  async execute(data: IUserAuthRequestDTO) {
-
+  async execute (data: IUserAuthRequestDTO) {
     const user = await this.usersRepository.findByName(data.userName)
 
-    if (!user) {
+    if (user == null) {
       throw new Error('Unregistered User')
     }
 
@@ -31,8 +29,5 @@ export class UserAuth {
     }
 
     throw new Error('Invalid Password!')
-
-
   }
-
 }

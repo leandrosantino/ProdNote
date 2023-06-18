@@ -1,21 +1,19 @@
-
-import { IUsersRepository } from '../../repositories/IUsersRepository'
-import { ICreateUserRequestDTO, ICreateUserResponseDTO } from './CreateUserDTO';
-import { ISystemPermissionsRepository } from '../../repositories/ISystemPermissionsRepository'
+import { type IUsersRepository } from '../../repositories/IUsersRepository'
+import { type ICreateUserRequestDTO, type ICreateUserResponseDTO } from './CreateUserDTO'
+import { type ISystemPermissionsRepository } from '../../repositories/ISystemPermissionsRepository'
 
 export class CreateUser {
-  constructor(
-    private usersRepository: IUsersRepository,
-    private systemPermissionsRepository: ISystemPermissionsRepository
+  constructor (
+    private readonly usersRepository: IUsersRepository,
+    private readonly systemPermissionsRepository: ISystemPermissionsRepository
   ) { }
 
-  async execute(data: ICreateUserRequestDTO) {
-
+  async execute (data: ICreateUserRequestDTO): Promise<ICreateUserResponseDTO> {
     const { name, permissions, email, password } = data
 
     const user = await this.usersRepository.findByName(name)
 
-    if (user) {
+    if (user != null) {
       throw new Error('User already registered')
     }
 
@@ -30,16 +28,10 @@ export class CreateUser {
       name, email, password, permissions: userPermissions
     })
 
-    return { message: 'User registered successfully' } as ICreateUserResponseDTO
-
+    return { message: 'User registered successfully' }
   }
 
-  async listAllSystemPermission() {
+  async listAllSystemPermission () {
     return await this.systemPermissionsRepository.findAll()
   }
-
-
-
-
-
 }

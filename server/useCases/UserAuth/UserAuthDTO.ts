@@ -1,8 +1,8 @@
-import { z } from "zod";
+import { z } from 'zod'
 
 export const userAuthRequestDTOSchema = z.object({
   userName: z.string(),
-  password: z.string(),
+  password: z.string()
 })
 
 export const userAuthResponseDTOSchema = z.string().optional()

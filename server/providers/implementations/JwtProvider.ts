@@ -1,17 +1,18 @@
-import jwt, { SignOptions, VerifyOptions } from "jsonwebtoken";
-import { IJwtProvider, IJwtUserData } from "../IJwtProvider";
+import jwt, { type SignOptions, type VerifyOptions } from 'jsonwebtoken'
+import { type IJwtProvider, type IJwtUserData } from '../IJwtProvider'
 
 export class JwtProvider implements IJwtProvider {
-  secret: string;
+  secret: string
 
-  constructor() {
+  constructor () {
     this.secret = 'LEANDROSANTINOF'
   }
 
-  sign(data: IJwtUserData, options: SignOptions) {
+  sign (data: IJwtUserData, options: SignOptions) {
     return jwt.sign(data, this.secret, options)
   }
-  verify(token: string, options?: VerifyOptions) {
+
+  verify (token: string, options?: VerifyOptions) {
     return jwt.verify(token, this.secret, options) as IJwtUserData
   }
 }

@@ -1,15 +1,15 @@
-import { IUsersRepository } from '../../repositories/IUsersRepository'
-import { GetUserInfoResponseDTO, GetUserInfoRequestDTO } from './GetUserInfoDTO'
+import { type IUsersRepository } from '../../repositories/IUsersRepository'
+import { type GetUserInfoResponseDTO, type GetUserInfoRequestDTO } from './GetUserInfoDTO'
 
 export class GetUserInfo {
-  constructor(
+  constructor (
     public userRepository: IUsersRepository
   ) { }
 
-  async execute(id: GetUserInfoRequestDTO) {
+  async execute (id: GetUserInfoRequestDTO) {
     const user = await this.userRepository.findById(id)
 
-    if (!user) {
+    if (user == null) {
       throw new Error('User not found')
     }
 
@@ -18,7 +18,5 @@ export class GetUserInfo {
       email: user.email,
       permissions: user.permissions.map(permission => permission.description)
     } as GetUserInfoResponseDTO
-
   }
-
 }

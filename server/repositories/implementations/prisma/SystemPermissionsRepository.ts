@@ -1,6 +1,5 @@
-import { SystemPermission } from "../../../entities/SystemPermission"
-import { ISystemPermissionsRepository } from "../../ISystemPermissionsRepository"
-
+import { type SystemPermission } from '../../../entities/SystemPermission'
+import { type ISystemPermissionsRepository } from '../../ISystemPermissionsRepository'
 
 const permission: SystemPermission[] = [
   {
@@ -18,17 +17,15 @@ const permission: SystemPermission[] = [
   {
     id: 4,
     description: 'CREATE_USERS'
-  },
+  }
 ]
 
 export class SystemPermissionRepository implements ISystemPermissionsRepository {
-
-  async findAll() {
+  async findAll () {
     return permission
   }
 
-  async findManyById(ids: number[]) {
-
+  async findManyById (ids: number[]) {
     const resp = [] as SystemPermission[]
 
     ids.forEach(id => {
@@ -39,5 +36,4 @@ export class SystemPermissionRepository implements ISystemPermissionsRepository 
 
     return resp
   }
-
 }

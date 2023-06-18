@@ -1,14 +1,13 @@
-import { BrowserRouter, Route, Routes } from "react-router-dom";
-import { SignIn } from "./pages/signIn";
-import { RequireAuth } from "./components/RequireAuth";
-import { Planning } from "./pages/production/planning";
-import { RegisterTag } from "./pages/production/registerTag";
-import { TagGenerator } from "./pages/production/tagGenerator";
-import { Layout } from "./components/Layout";
-import { useAuth } from "./hooks/useAuth";
+import { BrowserRouter, Route, Routes } from 'react-router-dom'
+import { SignIn } from './pages/signIn'
+import { RequireAuth } from './components/RequireAuth'
+import { Planning } from './pages/production/planning'
+import { RegisterTag } from './pages/production/registerTag'
+import { TagGenerator } from './pages/production/tagGenerator'
+import { Layout } from './components/Layout'
+import { useAuth } from './hooks/useAuth'
 
-export function AppRoutes() {
-
+export function AppRoutes () {
   const { isAuth } = useAuth()
 
   return (

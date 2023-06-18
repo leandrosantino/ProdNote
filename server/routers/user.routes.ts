@@ -1,12 +1,12 @@
-import { initTRPC } from "@trpc/server";
-import { Context } from "../context";
-import { authenticattionMiddleware } from "../middlewares/authenticattionMiddleware";
-import { z } from "zod";
+import { initTRPC } from '@trpc/server'
+import { type Context } from '../context'
+import { authenticattionMiddleware } from '../middlewares/authenticattionMiddleware'
+import { z } from 'zod'
 import { createUserRequestDTOSchema, createUserResponseDTOschema } from '../useCases/CreateUser/CreateUserDTO'
 import { createUser } from '../useCases/CreateUser'
 import { getUserInfoResponseDTOschema } from '../useCases/GetUserInfo/GetUserInfoDTO'
 import { getUserInfo } from '../useCases/GetUserInfo'
-import { HttpError } from "../utils/HttpError";
+import { HttpError } from '../utils/HttpError'
 import { requiredPermissionMiddleware } from '../middlewares/requiredPermissionMiddleware'
 
 const t = initTRPC.context<Context>().create()
@@ -18,16 +18,14 @@ export const userRoutes = t.router({
     .output(z.string())
     .query(async () => {
       return 'Authenticate!'
-    })
-  ,
+    }),
 
   create: t.procedure
     .input(createUserRequestDTOSchema)
     .output(createUserResponseDTOschema)
     .mutation(async ({ input }) => {
-      return createUser.execute(input)
-    })
-  ,
+      return await createUser.execute(input)
+    }),
 
   getInfo: protect
     .output(getUserInfoResponseDTOschema)
@@ -39,6 +37,5 @@ export const userRoutes = t.router({
         throw new HttpError({ code: 'BAD_REQUEST', message: (err as Error).message })
       }
     })
-
 
 })

@@ -1,9 +1,9 @@
-import { ReactNode, createContext, useState } from 'react'
+import { type ReactNode, createContext, useState } from 'react'
 import { ThemeProvider, createTheme } from '@mui/material'
 
 type Mode = 'dark' | 'light'
 
-type ThemeModeContextProps = {
+interface ThemeModeContextProps {
   mode: Mode
   setMode: (mode: Mode) => void
 }
@@ -11,8 +11,7 @@ type ThemeModeContextProps = {
 export const ThemeModeContext = createContext({} as ThemeModeContextProps)
 const { Provider } = ThemeModeContext
 
-export function ThemeModeProvider({ children }: { children: ReactNode }) {
-
+export function ThemeModeProvider ({ children }: { children: ReactNode }) {
   const [mode, setMode] = useState<Mode>('light')
 
   return (
@@ -29,5 +28,3 @@ export function ThemeModeProvider({ children }: { children: ReactNode }) {
     </Provider >
   )
 }
-
-

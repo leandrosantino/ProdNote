@@ -1,5 +1,4 @@
 
-
-export function RegisterTag() {
+export function RegisterTag () {
   return (<div>RegisterTag</div>)
 }

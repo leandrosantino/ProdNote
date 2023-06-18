@@ -1,20 +1,19 @@
-import { IconButton, MenuItem, Toolbar, Typography } from "@mui/material";
-import { Appbar, UserMenu } from "./style";
-import { AccountCircle, ExitToApp, Person, Brightness7, Brightness4 } from "@mui/icons-material";
-import { useState } from "react";
-import { useThemeMode } from "../../hooks/useThemeMode";
-import { useAuth } from "../../hooks/useAuth";
+import { IconButton, MenuItem, Toolbar, Typography } from '@mui/material'
+import { Appbar, UserMenu } from './style'
+import { AccountCircle, ExitToApp, Person, Brightness7, Brightness4 } from '@mui/icons-material'
+import { useState } from 'react'
+import { useThemeMode } from '../../hooks/useThemeMode'
+import { useAuth } from '../../hooks/useAuth'
 
-export function Header() {
-
-  const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
+export function Header () {
+  const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null)
 
   const handleMenu = (event: React.MouseEvent<HTMLElement>) => {
     setAnchorEl(event.currentTarget)
   }
 
   const handleClose = () => {
-    setAnchorEl(null);
+    setAnchorEl(null)
   }
 
   const { mode, setMode } = useThemeMode()
@@ -35,7 +34,7 @@ export function Header() {
             color="inherit"
             size="medium"
           >
-            <AccountCircle fontSize="medium" {...mode == 'dark' ? { color: "primary" } : {}} />
+            <AccountCircle fontSize="medium" {...mode == 'dark' ? { color: 'primary' } : {}} />
           </IconButton>
 
           <UserMenu
@@ -43,11 +42,11 @@ export function Header() {
             anchorEl={anchorEl}
             anchorOrigin={{
               vertical: 'top',
-              horizontal: 'right',
+              horizontal: 'right'
             }}
             transformOrigin={{
               vertical: 'top',
-              horizontal: 'right',
+              horizontal: 'right'
             }}
             open={Boolean(anchorEl)}
             onClose={handleClose}

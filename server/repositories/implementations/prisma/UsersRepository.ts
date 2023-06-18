@@ -1,6 +1,5 @@
-import { User } from "../../../entities/User"
-import { IUsersRepository } from "../../IUsersRepository"
-
+import { type User } from '../../../entities/User'
+import { type IUsersRepository } from '../../IUsersRepository'
 
 const users: User[] = [
   {
@@ -24,13 +23,12 @@ const users: User[] = [
 ]
 
 export class UsersRepository implements IUsersRepository {
-
-  async create(data: User) {
+  async create (data: User) {
     console.log(data)
     return {} as User
   }
 
-  async findByName(userName: string) {
+  async findByName (userName: string) {
     let user: User | null = null
 
     users.forEach(entry => {
@@ -42,7 +40,7 @@ export class UsersRepository implements IUsersRepository {
     return user
   }
 
-  async findById(userId: string) {
+  async findById (userId: string) {
     let user: User | null = null
 
     users.forEach(entry => {
@@ -53,5 +51,4 @@ export class UsersRepository implements IUsersRepository {
 
     return user as User | null
   }
-
 }

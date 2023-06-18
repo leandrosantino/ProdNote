@@ -1,8 +1,8 @@
-import { initTRPC } from "@trpc/server";
-import { Context } from "../context";
+import { initTRPC } from '@trpc/server'
+import { type Context } from '../context'
 import { userAuth } from '../useCases/UserAuth'
-import { userAuthRequestDTOSchema, userAuthResponseDTOSchema } from "../useCases/UserAuth/UserAuthDTO";
-import { HttpError } from "../utils/HttpError";
+import { userAuthRequestDTOSchema, userAuthResponseDTOSchema } from '../useCases/UserAuth/UserAuthDTO'
+import { HttpError } from '../utils/HttpError'
 
 const t = initTRPC.context<Context>().create()
 

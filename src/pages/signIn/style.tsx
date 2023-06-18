@@ -1,5 +1,5 @@
 import styled from 'styled-components'
-import { Paper, TextField } from "@mui/material";
+import { Paper, TextField } from '@mui/material'
 
 export const Container = styled(Paper)`
   width: 100%;
@@ -24,8 +24,9 @@ export const AuthCard = styled(Paper)`
   border-radius: 12px;
 
 
-  background-color: ${p => p.theme.palette.mode == 'light' ?
-    p.theme.palette.grey[300] : ''};
+  background-color: ${p => p.theme.palette.mode == 'light'
+    ? p.theme.palette.grey[300]
+: ''};
 
   form{
     display: flex;

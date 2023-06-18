@@ -1,11 +1,10 @@
-import { Header } from "../Header"
-import { Sidebar } from "../Sidebar"
-import { useAuth } from "../../hooks/useAuth"
-import { Outlet } from "react-router-dom"
-import { Main } from "./style"
+import { Header } from '../Header'
+import { Sidebar } from '../Sidebar'
+import { useAuth } from '../../hooks/useAuth'
+import { Outlet } from 'react-router-dom'
+import { Main } from './style'
 
-export function Layout() {
-
+export function Layout () {
   const { isAuth } = useAuth()
 
   return (

@@ -12,19 +12,19 @@ const errorCodes = {
   PAYLOAD_TOO_LARGE: 413,
   UNPROCESSABLE_CONTENT: 422,
   TOO_MANY_REQUESTS: 429,
-  CLIENT_CLOSED_REQUEST: 499,
+  CLIENT_CLOSED_REQUEST: 499
 }
 
 interface HttpErrorInfo {
-  code: keyof typeof errorCodes,
+  code: keyof typeof errorCodes
   message?: string
 }
 
 export class HttpError extends Error {
-  public readonly httpStatus: number;
-  public readonly code: string;
+  public readonly httpStatus: number
+  public readonly code: string
 
-  constructor(info: HttpErrorInfo) {
+  constructor (info: HttpErrorInfo) {
     super(info.message ?? info.code)
     this.code = info.code
     this.httpStatus = errorCodes[info.code]

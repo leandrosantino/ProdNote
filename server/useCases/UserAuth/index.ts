@@ -12,5 +12,3 @@ export const userAuth = new UserAuth(
   jwt,
   pass
 )
-
-

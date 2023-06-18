@@ -1,5 +1,4 @@
 
-
-export function Planning() {
+export function Planning () {
   return (<div>Planning</div>)
 }

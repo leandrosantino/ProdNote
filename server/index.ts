@@ -1,16 +1,15 @@
-import fastify from "fastify";
+import fastify from 'fastify'
 import fastifyStatic from '@fastify/static'
 import path from 'path'
-import { FastifyTRPCPluginOptions, fastifyTRPCPlugin } from '@trpc/server/adapters/fastify'
+import { type FastifyTRPCPluginOptions, fastifyTRPCPlugin } from '@trpc/server/adapters/fastify'
 import { getFastifyPlugin } from 'trpc-playground/handlers/fastify'
-import { appRouter, AppRouter } from "./routers";
-import fastifyCors from "@fastify/cors";
-import { createContext } from "./context";
-import { logger } from "./utils/logger";
+import { appRouter, type AppRouter } from './routers'
+import fastifyCors from '@fastify/cors'
+import { createContext } from './context'
+import { logger } from './utils/logger';
 
 (async () => {
-
-  const server = fastify();
+  const server = fastify()
 
   const trpcApiEndpoint = '/api'
   const playgroundEndpoint = '/playground'
@@ -18,22 +17,22 @@ import { logger } from "./utils/logger";
   const trpcPlaygroundPlugin = await getFastifyPlugin({
     router: appRouter,
     trpcApiEndpoint,
-    playgroundEndpoint,
+    playgroundEndpoint
   })
 
   server.register(fastifyTRPCPlugin, {
     prefix: trpcApiEndpoint,
     trpcOptions: {
       router: appRouter,
-      createContext,
-    },
+      createContext
+    }
   } as FastifyTRPCPluginOptions<AppRouter>)
 
   server.register(trpcPlaygroundPlugin, { prefix: '/playground' })
 
   server.register(fastifyStatic, {
     root: path.join(__dirname, './static')
-  });
+  })
 
   server.register(fastifyCors, {
     origin: '*'
@@ -41,16 +40,14 @@ import { logger } from "./utils/logger";
 
   server.get('/', (request, reply) => {
     reply.sendFile('index.html')
-  });
+  })
 
   server.listen({ port: 3336 }, (err) => {
-
-    if (err) {
+    if (err != null) {
       logger.error(String(err))
       return
     }
 
     logger.info('Server online!')
   })
-
 })()

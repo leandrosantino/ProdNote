@@ -1,19 +1,17 @@
 import { initTRPC } from '@trpc/server'
-import { Context } from '../context'
-import { SystemPermissionKeys } from '../entities/SystemPermission'
+import { type Context } from '../context'
+import { type SystemPermissionKeys } from '../entities/SystemPermission'
 import { UsersRepository } from '../repositories/implementations/prisma/UsersRepository'
 import { HttpError } from '../utils/HttpError'
 const t = initTRPC.context<Context>().create()
 
-export function requiredPermissionMiddleware(requiredPermission: SystemPermissionKeys) {
-
+export function requiredPermissionMiddleware (requiredPermission: SystemPermissionKeys) {
   const userRepository = new UsersRepository()
 
   return t.middleware(async ({ ctx, next }) => {
-
     const user = await userRepository.findById(ctx.user?.id)
 
-    if (!user) {
+    if (user == null) {
       throw new HttpError({ code: 'UNAUTHORIZED', message: 'User not found' })
     }
 
@@ -28,8 +26,6 @@ export function requiredPermissionMiddleware(requiredPermission: SystemPermissio
       })
     }
 
-    return next()
-
+    return await next()
   })
-
 }

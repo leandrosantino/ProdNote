@@ -1,6 +1,5 @@
-import { z } from "zod";
+import { z } from 'zod'
 import { systemPermissionKeysShema } from '../../entities/SystemPermission'
-
 
 export const getUserInfoResponseDTOschema = z.object({
   name: z.string(),

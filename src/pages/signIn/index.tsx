@@ -1,10 +1,9 @@
-import { Button, Typography } from "@mui/material";
-import { Container, InputText, AuthCard } from "./style";
-import { useAuth } from "../../hooks/useAuth";
+import { Button, Typography } from '@mui/material'
+import { Container, InputText, AuthCard } from './style'
+import { useAuth } from '../../hooks/useAuth'
 import { useNavigate } from 'react-router-dom'
 
-export function SignIn() {
-
+export function SignIn () {
   const { signIn } = useAuth()
   const navigate = useNavigate()
 
@@ -24,9 +23,11 @@ export function SignIn() {
         <form
           onSubmit={(e) => {
             e.preventDefault()
-            signIn().then(() => {
-              navigate('/')
-            })
+            signIn()
+              .then(() => {
+                navigate('/')
+              })
+              .catch(err => { console.log(err) })
           }}
         >
           <Typography variant="h5" component="h3">

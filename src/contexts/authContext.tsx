@@ -1,6 +1,6 @@
-import { ReactNode, createContext, useState } from 'react'
-import { setToken, fetch } from '../utils/api';
-import type { SystemPermissionKeys } from '../../server/entities/SystemPermission';
+import { type ReactNode, createContext, useState } from 'react'
+import { setToken, fetch } from '../utils/api'
+import type { SystemPermissionKeys } from '../../server/entities/SystemPermission'
 
 interface User {
   name: string
@@ -15,17 +15,14 @@ interface AuthContextProps {
   signOut: () => void
 }
 
-
 export const AuthContext = createContext({} as AuthContextProps)
 const { Provider } = AuthContext
 
-export function AuthProvider({ children }: { children: ReactNode }) {
-
+export function AuthProvider ({ children }: { children: ReactNode }) {
   const [isAuth, setAuth] = useState(false)
   const [user, setUser] = useState<User | null>(null)
 
-  async function signIn() {
-
+  async function signIn () {
     try {
       const access_token = await fetch.auth.login.mutate({
         userName: 'PROD@adler',
@@ -42,10 +39,9 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     } catch (err) {
       console.log((err as Error).stack)
     }
-
   }
 
-  function signOut() {
+  function signOut () {
     setAuth(false)
     setUser(null)
     setToken('')
@@ -61,5 +57,4 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       {children}
     </Provider>
   )
-
 }
