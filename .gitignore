@@ -14,8 +14,6 @@ dist-ssr
 
 temp
 
-/public
-
 # Editor directories and files
 .vscode/*
 !.vscode/extensions.json
@@ -26,3 +24,4 @@ temp
 *.njsproj
 *.sln
 *.sw?
+
