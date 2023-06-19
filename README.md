@@ -18,11 +18,13 @@ Coloque qualquer informação adicional aqui
 
 ## Funcionalidades
 
-- Temas dark e light
-- Dashboards
-- Perfis de usuarios
+- Gerador de Etiquetas de produto produzido
+- Adição e edição de produtos
 - Painel administrativo
-- Gerador de Etiquetas
+- Perfis de usuarios
+- Dashboards
+- Temas dark e light
+
 
 
 ## Demonstração
