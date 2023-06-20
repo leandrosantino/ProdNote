@@ -34,7 +34,9 @@ Insira um gif ou um link de alguma demonstração
 
 ## Screenshots
 
-![App Screenshot](https://via.placeholder.com/468x300?text=App+Screenshot+Here)
+<img src="https://raw.githubusercontent.com/leandrosantino/prodnote/master/public/print_login.PNG"  width="600" height="427">
+
+<!-- ![App Screenshot](https://raw.githubusercontent.com/leandrosantino/prodnote/master/public/print_login.PNG) -->
 
 
 ## Stack utilizada
