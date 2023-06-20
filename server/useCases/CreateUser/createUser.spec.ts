@@ -27,11 +27,7 @@ describe('tests users creation', () => {
           if (id === entry.id) return entry
         }
       })
-    },
-    async findAll () {
-      return permissions
     }
-
   } as ISystemPermissionsRepository
 
   const createUser = new CreateUser(
@@ -64,9 +60,5 @@ describe('tests users creation', () => {
       password: 'alpha45c',
       permissions: []
     })).rejects.toEqual(new Error('No permissions were granted, the system does not allow users without permissions'))
-  })
-
-  test('should return system permission list', async () => {
-    await expect(createUser.listAllSystemPermission()).resolves.toStrictEqual(permissions)
   })
 })

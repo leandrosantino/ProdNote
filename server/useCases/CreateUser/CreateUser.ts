@@ -30,8 +30,4 @@ export class CreateUser {
 
     return { message: 'User registered successfully' }
   }
-
-  async listAllSystemPermission () {
-    return await this.systemPermissionsRepository.findAll()
-  }
 }
