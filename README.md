@@ -2,14 +2,14 @@
 ![Logo](https://via.placeholder.com/700x100?text=ProdNote)
 
 [![Licence](https://img.shields.io/badge/license-AGPLv3-green.svg?style=flat)](https://choosealicense.com/licenses/agpl-3.0/)
-[![Commitizen friendly](https://img.shields.io/badge/commitizen-friendly-brightgreen.svg)](http://commitizen.github.io/cz-cli/)
+[![Commitizen friendly](https://img.shields.io/badge/commitizen-friendly-green.svg?style=flat)](http://commitizen.github.io/cz-cli/)
+![Jest friendly](https://img.shields.io/badge/tested%20with-JEST-brightgreen.svg?style=flat&logo=jest)
 ![TypeScript](https://img.shields.io/badge/Made%20with-typescript-%23007ACC.svg?style=flat&logo=typescript)
 
 
 # ProdNote
 
-Uma aplicação web para gerenciamento de produção, ela permite registrar a quantidade de itens produzidos através da leitura de QrCodes, gerar relatórios de produção, realizar análise dos indicadores de produção com dashboards, além de contar com um sistema de  usuarios que posibilita segmentar o acesso aos recursos de acordo com as permições de cada usuario.
-
+Uma aplicação web para gerenciamento de produção, ela permite registrar a quantidade de itens produzidos através da leitura de QrCodes, gerar relatórios de produção, realizar análise dos indicadores de produção com dashboards, além de contar com um sistema de usuários que possibilita segmentar o acesso aos recursos de acordo com as permissões de cada usuário.
 
 ## Apêndice
 
@@ -64,7 +64,9 @@ Instale my-project com npm
 
 ## Aprendizados
 
-O que você aprendeu construindo esse projeto? Quais desafios você enfrentou e como você superou-os?
+Com o desenvolvimento deste projeto pude aplicar diversos conceitos de programação que aumentaram significativamente o meu conhecimento, como:
+
+- **Programação orientada a objetos:** minha linguagem mãe é o javascript, que a no geral é utilizada com o paradigma funcional, por isso a minha forma de pensar sempre foi do ponto de vista funcional, com o "prodnote" optei por sair da zona de conforto e aplicar o paradigma de orientação a objetos, esta escolha me trouxe um ponto de vista completamento novo, o que expandiu os meus horizontes, trazendo flexibilidade na forma como eu construo as minhas soluções.
 
 
 ## Melhorias
