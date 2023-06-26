@@ -2,10 +2,22 @@ import { Button, Typography } from '@mui/material'
 import { Container, InputText, AuthCard } from './style'
 import { useAuth } from '../../hooks/useAuth'
 import { useNavigate } from 'react-router-dom'
+import { useState, type FormEvent } from 'react'
 
 export function SignIn () {
   const { signIn } = useAuth()
   const navigate = useNavigate()
+  const [userName, setUserName] = useState('')
+  const [password, setPassword] = useState('')
+
+  function handleSignIn (event: FormEvent) {
+    event.preventDefault()
+    signIn(userName, password)
+      .then(() => {
+        navigate('/')
+      })
+      .catch(err => { console.log(err) })
+  }
 
   return (
     <Container elevation={0}>
@@ -21,14 +33,7 @@ export function SignIn () {
 
       <AuthCard elevation={3}>
         <form
-          onSubmit={(e) => {
-            e.preventDefault()
-            signIn()
-              .then(() => {
-                navigate('/')
-              })
-              .catch(err => { console.log(err) })
-          }}
+          onSubmit={handleSignIn}
         >
           <Typography variant="h5" component="h3">
             Login
@@ -39,6 +44,8 @@ export function SignIn () {
             type="text"
             autoComplete="current-user"
             variant="filled"
+            value={userName}
+            onChange={(e) => { setUserName(e.target.value) }}
           />
 
           <InputText
@@ -46,6 +53,8 @@ export function SignIn () {
             type="password"
             autoComplete="current-password"
             variant="filled"
+            value={password}
+            onChange={(e) => { setPassword(e.target.value) }}
           />
 
           <Button
