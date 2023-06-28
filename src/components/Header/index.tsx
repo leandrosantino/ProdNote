@@ -4,9 +4,12 @@ import { AccountCircle, ExitToApp, Person, Brightness7, Brightness4 } from '@mui
 import { useState } from 'react'
 import { useThemeMode } from '../../hooks/useThemeMode'
 import { useAuth } from '../../hooks/useAuth'
+import { useNavigate } from 'react-router-dom'
 
 export function Header () {
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null)
+
+  const navigate = useNavigate()
 
   const handleMenu = (event: React.MouseEvent<HTMLElement>) => {
     setAnchorEl(event.currentTarget)
@@ -51,7 +54,10 @@ export function Header () {
             open={Boolean(anchorEl)}
             onClose={handleClose}
           >
-            <MenuItem onClick={handleClose}>
+            <MenuItem onClick={() => {
+              handleClose()
+              navigate('userInfo')
+            }}>
               <Typography>Info. do Usuário</Typography>
               <Person />
             </MenuItem>
