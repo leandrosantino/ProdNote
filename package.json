@@ -74,5 +74,9 @@
   },
   "resolutions": {
     "@typescript-eslint/typescript-estree": "^5.59.11"
-  }
+  },
+  "main": "index.js",
+  "repository": "https://github.com/leandrosantino/prodnote.git",
+  "author": "leandrosantino <leandrosantino2013@gmail.com>",
+  "license": "MIT"
 }

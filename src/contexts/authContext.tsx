@@ -23,21 +23,17 @@ export function AuthProvider ({ children }: { children: ReactNode }) {
   const [user, setUser] = useState<User | null>(null)
 
   async function signIn (userName: string, password: string) {
-    try {
-      const accessToken = await fetch.auth.login.mutate({
-        userName,
-        password
-      })
-      if (accessToken) {
-        setToken(accessToken)
+    const accessToken = await fetch.auth.login.mutate({
+      userName,
+      password
+    })
+    if (accessToken) {
+      setToken(accessToken)
 
-        const userInfo = await fetch.user.getInfo.query()
+      const userInfo = await fetch.user.getInfo.query()
 
-        setUser(userInfo)
-        setAuth(true)
-      }
-    } catch (err) {
-      console.log((err as Error).stack)
+      setUser(userInfo)
+      setAuth(true)
     }
   }
 

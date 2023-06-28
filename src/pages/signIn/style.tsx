@@ -45,4 +45,5 @@ export const AuthCard = styled(Paper)`
 
 export const InputText = styled(TextField)`
   width: 80%;
+  margin-top: 8px;
 `

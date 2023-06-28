@@ -3,19 +3,16 @@ import { SignIn } from './pages/signIn'
 import { RequireAuth } from './components/RequireAuth'
 import { Planning } from './pages/production/planning'
 import { RegisterTag } from './pages/production/registerTag'
-import { TagGenerator } from './pages/production/tagGenerator'
 import { Layout } from './components/Layout'
-import { useAuth } from './hooks/useAuth'
+import { TagGenerator } from './pages/production/tagGenerator'
 
 export function AppRoutes () {
-  const { isAuth } = useAuth()
-
   return (
     <BrowserRouter>
       <Routes>
         <Route path="/" Component={Layout}>
 
-          <Route path="sginIn" element={!isAuth ? <SignIn /> : <></>} />
+          <Route path="sginIn" element={<SignIn />} />
 
           <Route element={<RequireAuth />}>
             <Route path='/' Component={TagGenerator} />
