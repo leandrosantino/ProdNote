@@ -28,7 +28,7 @@ export function Sidebar () {
         }}
         orientation="vertical"
       >
-        <PageButton onClick={() => { navigate('/') }} value="/">Gerar Etiquetas</PageButton>
+        <PageButton onClick={() => { navigate('/generateTags') }} value="/generateTags">Gerar Etiquetas</PageButton>
         <PageButton onClick={() => { navigate('/registerTag') }} value="/registerTag">Leitor de Etiquetas</PageButton>
         <PageButton onClick={() => { navigate('/planning') }} value="/planning">Planejamento</PageButton>
       </ToggleButtonGroup>
