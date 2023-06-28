@@ -8,7 +8,8 @@ const users: User[] = [
     password: '7c60aad5a35c5c40b52223ecc4fe7db6d8506a526515378fcbd27fa0ff6253b9f32fb7b3f6cf41c1e2de6d78a9ffdc09648906ece4b97798522b8bebf4eec826',
     email: 'leandrosantino2013@gmail.com',
     permissions: [
-      { description: 'GENERATE_TAGS', id: 1 }
+      { description: 'GENERATE_TAGS', id: 1 },
+      { description: 'READ_TAGS', id: 3 }
     ]
   },
   {

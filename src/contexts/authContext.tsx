@@ -13,6 +13,7 @@ interface AuthContextProps {
   user: User | null
   signIn: (userName: string, password: string) => Promise<void>
   signOut: () => void
+  verifyUserPermisson: (permission: SystemPermissionKeys) => boolean | undefined
 }
 
 export const AuthContext = createContext({} as AuthContextProps)
@@ -43,12 +44,17 @@ export function AuthProvider ({ children }: { children: ReactNode }) {
     setToken('')
   }
 
+  function verifyUserPermisson (permission: SystemPermissionKeys) {
+    return user?.permissions.includes(permission)
+  }
+
   return (
     <Provider value={{
       isAuth,
       user,
       signIn,
-      signOut
+      signOut,
+      verifyUserPermisson
     }}>
       {children}
     </Provider>

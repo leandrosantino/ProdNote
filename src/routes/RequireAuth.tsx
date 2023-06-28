@@ -10,8 +10,6 @@ export function RequireAuth ({ permission }: RequiredPermissionProps) {
   const { isAuth, user } = useAuth()
   const location = useLocation()
 
-  console.log(user)
-
   return (
     <>{
       isAuth

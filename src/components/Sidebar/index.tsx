@@ -1,14 +1,15 @@
 import { useEffect, useState } from 'react'
-import { Aside, PageButton } from './style'
+import { Aside } from './style'
 import { ToggleButtonGroup, useTheme } from '@mui/material'
 
-import { useLocation, useNavigate } from 'react-router-dom'
+import { useLocation } from 'react-router-dom'
+import { PageButton } from '../PageButton'
 
 export function Sidebar () {
   const { pathname } = useLocation()
   const [alignment, setAlignment] = useState(pathname)
   const { palette: { mode } } = useTheme()
-  const navigate = useNavigate()
+  // const navigate = useNavigate()
 
   useEffect(() => {
     setAlignment(pathname)
@@ -28,9 +29,11 @@ export function Sidebar () {
         }}
         orientation="vertical"
       >
-        <PageButton onClick={() => { navigate('/generateTags') }} value="/generateTags">Gerar Etiquetas</PageButton>
-        <PageButton onClick={() => { navigate('/registerTag') }} value="/registerTag">Leitor de Etiquetas</PageButton>
-        <PageButton onClick={() => { navigate('/planning') }} value="/planning">Planejamento</PageButton>
+
+        <PageButton permission='GENERATE_TAGS' value="/generateTags" >Gerar Etiquetas</PageButton>
+        <PageButton permission='READ_TAGS' value="/registerTag" >Leitor de Etiquetas</PageButton>
+        <PageButton permission='PLANNING' value="/planning" >Planejamento</PageButton>
+
       </ToggleButtonGroup>
 
     </Aside >
