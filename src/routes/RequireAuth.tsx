@@ -7,7 +7,7 @@ interface RequiredPermissionProps {
 }
 
 export function RequireAuth ({ permission }: RequiredPermissionProps) {
-  const { isAuth, user } = useAuth()
+  const { isAuth, verifyUserPermisson } = useAuth()
   const location = useLocation()
 
   return (
@@ -15,10 +15,10 @@ export function RequireAuth ({ permission }: RequiredPermissionProps) {
       isAuth
         ? (!permission
             ? <Outlet />
-            : user?.permissions.includes(permission)
+            : verifyUserPermisson(permission)
               ? <Outlet />
               : <Navigate to='/unauthorized' state={{ from: location }} replace />)
-        : <Navigate to='/sginIn' state={{ from: location }} replace />
+        : <Navigate to='/signIn' state={{ from: location }} replace />
     }</>
   )
 }

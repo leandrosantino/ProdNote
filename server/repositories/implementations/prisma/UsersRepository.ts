@@ -9,7 +9,8 @@ const users: User[] = [
     email: 'leandrosantino2013@gmail.com',
     permissions: [
       { description: 'GENERATE_TAGS', id: 1 },
-      { description: 'READ_TAGS', id: 3 }
+      { description: 'READ_TAGS', id: 3 },
+      { description: 'PLANNING', id: 2 }
     ]
   },
   {

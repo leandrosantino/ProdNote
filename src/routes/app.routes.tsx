@@ -1,9 +1,9 @@
 import { BrowserRouter, Route, Routes } from 'react-router-dom'
 import { SignIn } from '../pages/signIn'
-import { Planning } from '../pages/production/planning'
-import { RegisterTag } from '../pages/production/registerTag'
+import { Planning } from '../pages/planning'
+import { RegisterTag } from '../pages/registerTag'
 import { Layout } from '../components/Layout'
-import { TagGenerator } from '../pages/production/tagGenerator'
+import { TagGenerator } from '../pages/tagGenerator'
 import { RequireAuth } from './RequireAuth'
 
 export function AppRoutes () {
@@ -12,7 +12,7 @@ export function AppRoutes () {
       <Routes>
         <Route path="/" Component={Layout}>
 
-          <Route path="sginIn" element={<SignIn />} />
+          <Route path="signIn" element={<SignIn />} />
 
           <Route element={<RequireAuth/>}>
             <Route path='/' element={<h1>Bem vindo!</h1>} />

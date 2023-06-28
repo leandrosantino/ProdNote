@@ -17,6 +17,13 @@ export function SignIn () {
   })
 
   useEffect(() => {
+    setIsError({
+      userName: false,
+      password: false
+    })
+  }, [userName, password])
+
+  useEffect(() => {
     if (isAuth) {
       navigate('/')
     }
