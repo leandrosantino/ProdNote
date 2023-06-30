@@ -1,5 +1,7 @@
+import fs from 'fs'
 import { createElement } from 'react'
 import { ReactSSR } from '../providers/implementations/ReactSSR'
+import { PDFCreator } from '../providers/implementations/PDFCreator'
 
 interface TagProps { data: { a: string } }
 
@@ -8,27 +10,15 @@ function Teste ({ data }: TagProps) {
 }
 
 const reactSSR = new ReactSSR()
+const pdfCreator = new PDFCreator()
 
 const app = reactSSR.renderToString<TagProps>({
   data: { a: 'fsfefef' }
 }, Teste)
 
-console.log(app)
-
-async function generate () {
-  const browser = await puppe.launch({
-    headless: 'new'
+pdfCreator.createFromHtml(app)
+  .then(pdf => {
+    console.log(app)
+    fs.writeFileSync('C:/Users/leand/Área de Trabalho/teste.pdf', pdf, { encoding: 'utf-8' })
   })
-  const page = await browser.newPage()
-  await page.setContent(app)
-  const pdf = await page.pdf({
-    printBackground: true,
-    format: 'A4'
-  })
-  await browser.close()
-  return pdf
-}
-
-// generate().then(val => {
-//   fs.writeFileSync('C:/Users/leand/Área de Trabalho/teste.pdf', val, { encoding: 'utf-8' })
-// }).catch((err) => { console.log(err) })
+  .catch((err) => { console.log(err) })
