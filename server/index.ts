@@ -6,7 +6,9 @@ import { getFastifyPlugin } from 'trpc-playground/handlers/fastify'
 import { appRouter, type AppRouter } from './routers'
 import fastifyCors from '@fastify/cors'
 import { createContext } from './context'
-import { logger } from './utils/logger';
+import { logger } from './utils/logger'
+
+import './utils/reactTest'
 
 (async () => {
   const server = fastify()

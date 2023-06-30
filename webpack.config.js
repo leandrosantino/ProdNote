@@ -46,13 +46,13 @@ module.exports = {
   module: {
     rules: [
       {
-        test: /\.ts?$/,
+        test: /\.(ts|tsx)$/,
         use: { loader: 'ts-loader', options: { configFile: 'server.tsconfig.json' } },
       },
     ],
   },
   resolve: {
-    extensions: ['.ts', '.js'],
+    extensions: ['.ts', '.js', '.tsx'],
     plugins: [
       new tsconfigPaths({ baseUrl: './' })
     ]
