@@ -22,11 +22,11 @@ const { Provider } = AuthContext
 export function AuthProvider ({ children }: { children: ReactNode }) {
   const [isAuth, setAuth] = useState(false)
   const [user, setUser] = useState<User | null>(null)
-
-  async function signIn (userName: string, password: string) {
+  // userName: string, password: string
+  async function signIn () {
     const accessToken = await fetch.auth.login.mutate({
-      userName,
-      password
+      userName: 'PROD@adler',
+      password: 'alpha45c'
     })
     if (accessToken) {
       setToken(accessToken)
