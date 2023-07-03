@@ -12,13 +12,13 @@ function Teste ({ data }: TagProps) {
 const reactSSR = new ReactSSR()
 const pdfCreator = new PDFCreator()
 
-const app = reactSSR.renderToString<TagProps>({
+const html = reactSSR.renderToString<TagProps>({
   data: { a: 'fsfefef' }
 }, Teste)
 
-pdfCreator.createFromHtml(app)
+pdfCreator.createFromHtml(html)
   .then(pdf => {
-    console.log(app)
+    console.log(html)
     fs.writeFileSync('C:/Users/leand/Área de Trabalho/teste.pdf', pdf, { encoding: 'utf-8' })
   })
   .catch((err) => { console.log(err) })

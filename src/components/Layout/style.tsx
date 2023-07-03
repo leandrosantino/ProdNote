@@ -7,12 +7,13 @@ export const Main = styled.main`
   height: 100vh;
   display: grid;
   grid-template-rows: 50px auto;
-  grid-template-columns: 200px auto;
+  grid-template-columns: 256px auto;
   header{grid-area: head}
   aside{grid-area: side;}
   section{
+    padding: 1.2rem;
     grid-area: content;
-    background-color: ${p => p.theme.palette.background.default}
+    background-color: white
   }
 
   &.noAuth{
@@ -23,7 +24,7 @@ export const Main = styled.main`
 
   &.auth{
     grid-template-areas:
-      "head head head"
+      "side head head"
       "side content content";
   }
 

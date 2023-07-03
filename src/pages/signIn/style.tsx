@@ -24,9 +24,7 @@ export const AuthCard = styled(Paper)`
   border-radius: 12px;
 
 
-  background-color: ${p => p.theme.palette.mode === 'light'
-    ? p.theme.palette.grey[300]
-: ''};
+  background-color: gray;
 
   form{
     display: flex;

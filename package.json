@@ -9,7 +9,7 @@
     "server": "tsx watch ./server/index.ts config=./tsconfig.node.json",
     "server.build": "set NODE_ENV=production && webpack",
     "server.build-dev": "set NODE_ENV=development && webpack",
-    "commit": "git add . && cz && git push",
+    "commit": "git add . && cz",
     "test": "jest",
     "lint-fix": "npx eslint --fix ./",
     "lint": "npx eslint ./"
@@ -21,6 +21,9 @@
     "@mui/icons-material": "^5.11.16",
     "@mui/material": "^5.13.3",
     "@mui/styled-engine-sc": "^5.12.0",
+    "@radix-ui/colors": "^1.0.0",
+    "@radix-ui/react-avatar": "^1.0.3",
+    "@radix-ui/react-switch": "^1.0.3",
     "@radix-ui/react-toggle-group": "^1.0.4",
     "@tanstack/react-query": "^4.29.12",
     "@trpc/client": "^10.29.1",

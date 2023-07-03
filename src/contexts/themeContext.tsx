@@ -1,11 +1,41 @@
 import { type ReactNode, createContext, useState } from 'react'
-import { ThemeProvider, createTheme } from '@mui/material'
+import { ThemeProvider } from 'styled-components'
+import {
+  gray,
+  blue,
+  red,
+  green,
+  grayDark,
+  blueDark,
+  redDark,
+  greenDark
+} from '@radix-ui/colors'
 
 type Mode = 'dark' | 'light'
 
 interface ThemeModeContextProps {
   mode: Mode
   setMode: (mode: Mode) => void
+}
+
+const colors = {
+  light: {
+    ...gray,
+    ...blue,
+    ...red,
+    ...green
+  },
+  dark: {
+    ...grayDark,
+    ...blueDark,
+    ...redDark,
+    ...greenDark
+  }
+}
+
+export interface Theme {
+  colors: typeof colors
+  mode: Mode
 }
 
 export const ThemeModeContext = createContext({} as ThemeModeContextProps)
@@ -19,9 +49,10 @@ export function ThemeModeProvider ({ children }: { children: ReactNode }) {
       value={{ mode, setMode }}
     >
       <ThemeProvider
-        theme={createTheme({
-          palette: { mode }
-        })}
+        theme={{
+          colors,
+          mode: 'light'
+        }}
       >
         {children}
       </ThemeProvider>

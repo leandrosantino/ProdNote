@@ -1,25 +1,38 @@
 import { createGlobalStyle } from 'styled-components'
-import '@fontsource/roboto/300.css'
-import '@fontsource/roboto/400.css'
-import '@fontsource/roboto/500.css'
-import '@fontsource/roboto/700.css'
 
 export const GlobalStyle = createGlobalStyle`
 
-  html{
-    font-family: 'roboto', sans-serif;
-  }
-
-  *{
+  * {
     margin: 0;
     padding: 0;
-    outline: 0;
     box-sizing: border-box;
   }
 
-  body{
-    background-color: #fff;
-    -webkit-font-smoothing: antialiased !important;
+  html {
+    font-size: 62.5%
+  }
+
+  @media(max-width: 720px) {
+    html {
+      font-size: 55%
+    }
+  }
+
+  body,
+  input,
+  textarea,
+  select,
+  button {
+    font: 400 1.2rem 'Poppins', sans-serif
+  }
+
+  button {
+    cursor: pointer
+  }
+
+  a {
+    color: inherit;
+    text-decoration: none;
   }
 
 `
