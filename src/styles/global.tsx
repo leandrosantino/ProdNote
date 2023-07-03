@@ -21,7 +21,9 @@ export const GlobalStyle = createGlobalStyle`
   button {
     transition: all .2s linear .06s;
   }
-
+  input,
+  textarea,
+  select,
   button{
     background-color: transparent;
     border: none;

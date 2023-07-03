@@ -23,10 +23,10 @@ export function AuthProvider ({ children }: { children: ReactNode }) {
   const [isAuth, setAuth] = useState(false)
   const [user, setUser] = useState<User | null>(null)
 
-  async function signIn () {
+  async function signIn (userName: string, password: string) {
     const accessToken = await fetch.auth.login.mutate({
-      userName: 'PROD@adler',
-      password: 'alpha45c'
+      userName,
+      password
     })
     if (accessToken) {
       setToken(accessToken)

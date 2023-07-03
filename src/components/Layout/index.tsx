@@ -8,9 +8,11 @@ export function Layout () {
   const { isAuth } = useAuth()
 
   return (
-    <Main className={isAuth ? 'auth' : 'noAuth'}>
+    <Main isAuth={isAuth ? 'true' : 'false'}>
       <Header />
-      {isAuth && <Sidebar />}
+      {isAuth && <>
+        <Sidebar />
+      </>}
       <section>
         <Outlet />
       </section>

@@ -1,8 +1,8 @@
-import { Button, Typography } from '@mui/material'
-import { Container, InputText, AuthCard } from './style'
+import { Container, FormRoot, FormField } from './style'
 import { useAuth } from '../../hooks/useAuth'
 import { useNavigate } from 'react-router-dom'
 import { useState, type FormEvent, useEffect } from 'react'
+import * as Form from '@radix-ui/react-form'
 
 export function SignIn () {
   const { signIn, isAuth } = useAuth()
@@ -27,18 +27,6 @@ export function SignIn () {
     if (isAuth) {
       navigate('/')
     }
-    signIn(userName, password)
-      .then(() => {
-        navigate('/')
-      })
-      .catch(err => {
-        const message = (err as Error).message
-        setIsError({
-          userName: message === 'Unregistered User',
-          password: message === 'Invalid Password!'
-        })
-        console.log(message)
-      })
   })
 
   function handleSignIn (event: FormEvent) {
@@ -58,59 +46,67 @@ export function SignIn () {
   }
 
   return (
-    <></>
-    // <Container elevation={0}>
+    <Container>
+      <h3>Login</h3>
 
-  //   <div>
-  //     <Typography variant="h5" component="h1">
-  //       PCP - System
-  //     </Typography>
-  //     <Typography variant="subtitle1" component="h2">
-  //       Sistema de Planejamento e Controle de Produção
-  //     </Typography>
-  //   </div>
+      <FormRoot
+        onSubmit={e => { handleSignIn(e) }}
+      >
+        <FormField name="email" serverInvalid={isError.userName}>
 
-  //   <AuthCard elevation={3}>
-  //     <form
-  //       onSubmit={handleSignIn}
-  //     >
-  //       <Typography variant="h5" component="h3">
-  //         Login
-  //       </Typography>
+          <div>
+            <Form.Label>Email</Form.Label>
 
-  //       <InputText
-  //         label="Usuário"
-  //         type="text"
-  //         autoComplete="current-user"
-  //         variant="standard"
-  //         value={userName}
-  //         onChange={(e) => { setUserName(e.target.value) }}
-  //         error={isError.userName}
-  //         helperText={isError.userName ? 'Usuário não cadastrado!' : ''}
-  //       />
+          {isError.userName
+            ? <Form.Message>
+              Usuário não registrado!
+            </Form.Message>
+            : <>
+            <Form.Message match="valueMissing">
+              Por favor insira o email
+            </Form.Message>
+          </>}
+          </div>
 
-  //       <InputText
-  //         label="Senha"
-  //         type="password"
-  //         autoComplete="current-password"
-  //         variant="standard"
-  //         value={password}
-  //         onChange={(e) => { setPassword(e.target.value) }}
-  //         error={isError.password}
-  //         helperText={isError.password ? 'Senha incorreta!' : ''}
-  //       />
+          <Form.Control
+            type="text"
+            required
+            value={userName}
+            onChange={e => { setUserName(e.target.value) }}
+          />
 
-  //       <Button
-  //         variant="contained"
-  //         color="primary"
-  //         size="medium"
-  //         type="submit"
-  //       >
-  //         Entrar
-  //       </Button>
-  //     </form>
+        </FormField>
 
-  //   </AuthCard>
-  // </Container >
+        <FormField name="password" serverInvalid={isError.password}>
+
+          <div>
+            <Form.Label>Senha</Form.Label>
+
+            {isError.password
+              ? <Form.Message>
+                Senha inválida!
+              </Form.Message>
+              : <>
+              <Form.Message match="valueMissing">
+                Por favor insira a senha
+              </Form.Message>
+            </>}
+          </div>
+
+          <Form.Control
+            type="password"
+            required
+            value={password}
+            onChange={e => { setPassword(e.target.value) }}
+          />
+
+        </FormField>
+
+        <Form.Submit>
+          ENTRAR
+        </Form.Submit>
+
+      </FormRoot>
+    </Container>
   )
 }

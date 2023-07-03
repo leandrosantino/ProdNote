@@ -6,9 +6,4 @@ export default defineConfig({
   build: {
     outDir: './dist/static'
   },
-  resolve: {
-    alias: {
-      '@mui/styled-engine': '@mui/styled-engine-sc'
-    }
-  }
 })

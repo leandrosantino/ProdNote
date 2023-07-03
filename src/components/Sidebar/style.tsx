@@ -2,7 +2,6 @@ import styled from 'styled-components'
 import * as ToggleGroup from '@radix-ui/react-toggle-group'
 
 export const Aside = styled.aside`
-  grid-area: 'side';
   background-color: ${p => p.theme.colors.dark.blue4};
   color: ${p => p.theme.colors.dark.gray12};
 

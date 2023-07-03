@@ -1,6 +1,6 @@
 import styled from 'styled-components'
 
-export const Main = styled.main`
+export const Main = styled.main<{ isAuth: 'true' | 'false' }>`
 
   font-size: 1.6rem;
   width: 100%;
@@ -14,17 +14,18 @@ export const Main = styled.main`
     padding: 1.2rem;
     grid-area: content;
   }
-
-  &.noAuth{
-    grid-template-areas:
-      "head head head"
-      "content content content";
-  }
-
-  &.auth{
-    grid-template-areas:
+  grid-template-areas:
+  ${p => {
+    if (p.isAuth === 'false') {
+      return `
+        "head head head"
+        "content content content"
+      `
+    }
+    return `
       "side head head"
-      "side content content";
-  }
+      "side content content"
+    `
+  }};
 
 `
