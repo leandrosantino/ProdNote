@@ -18,6 +18,16 @@ export const GlobalStyle = createGlobalStyle`
     }
   }
 
+  button {
+    transition: all .2s linear .06s;
+  }
+
+  button{
+    background-color: transparent;
+    border: none;
+  }
+
+
   body,
   input,
   textarea,

@@ -1,6 +1,22 @@
-import { Avatar, AvatarFallback, Container, Switch, SwitchThumb } from './style'
+import {
+  Avatar,
+  AvatarFallback,
+  Container,
+  Switch,
+  SwitchThumb,
+  DropdownMenuTrigger,
+  DropdownMenuContent,
+  DropdownMenuSeparator
+} from './style'
+import * as DropdownMenu from '@radix-ui/react-dropdown-menu'
+import { PersonIcon, ExitIcon } from '@radix-ui/react-icons'
+import { useAuth } from '../../hooks/useAuth'
+import { useNavigate } from 'react-router-dom'
 
 export function Header () {
+  const { signOut } = useAuth()
+  const navigate = useNavigate()
+
   return (
     <Container>
 
@@ -16,11 +32,41 @@ export function Header () {
           <SwitchThumb/>
         </Switch>
 
-        <Avatar>
-          <AvatarFallback>
-            PR
-          </AvatarFallback>
-      </Avatar>
+        <DropdownMenu.Root>
+          <DropdownMenuTrigger>
+              <Avatar>
+                <AvatarFallback>
+                  PR
+                </AvatarFallback>
+              </Avatar>
+          </DropdownMenuTrigger>
+
+          <DropdownMenu.Portal>
+            <DropdownMenuContent sideOffset={10}>
+              <DropdownMenu.Item>
+                <button
+                  onClick={() => { navigate('userInfo') }}
+                >
+                  <span>Info. Usuário</span>
+                  <PersonIcon/>
+                </button>
+
+              </DropdownMenu.Item>
+              <DropdownMenuSeparator/>
+              <DropdownMenu.Item>
+                <button
+                  className='btQuit'
+                  onClick={() => { signOut() }}
+                >
+                  <span>Sair</span>
+                  <ExitIcon/>
+                </button>
+              </DropdownMenu.Item>
+            </DropdownMenuContent>
+          </DropdownMenu.Portal>
+
+        </DropdownMenu.Root>
+
       </div>
 
     </Container>

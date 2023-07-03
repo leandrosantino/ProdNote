@@ -41,11 +41,10 @@ export const ToggleGroupItem = styled(ToggleGroup.Item)`
   padding: 1.2rem;
   font-size: 1.4rem;
   font-weight: 500;
-  transition: all .2s;
   border: none;
 
   &[data-state="on"]{
-    background-color: rgba(255,255,255,.1);
+    background-color: rgba(255,255,255,.15);
 
   }
 

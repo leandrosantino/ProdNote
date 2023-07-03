@@ -1,11 +1,10 @@
 import { useAuth } from '../../hooks/useAuth'
-import { Container } from './styles'
 
 export function UserInfo () {
   const { user } = useAuth()
 
   return (
-    <Container elevation={0} >
+    <div>
       <h2>Informações do Usuario</h2>
       <p>
         <span>Nome:</span> {user?.name}
@@ -14,6 +13,6 @@ export function UserInfo () {
         <span>Email:</span> {user?.email}
       </p>
 
-    </Container>
+    </div>
   )
 }

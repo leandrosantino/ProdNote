@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react'
 import { Aside, ToggleGroupRoot } from './style'
 import { PageButton } from './PageButton'
-import { useLocation } from 'react-router-dom'
+import { Link, useLocation } from 'react-router-dom'
 
 export function Sidebar () {
   const { pathname } = useLocation()
@@ -14,9 +14,11 @@ export function Sidebar () {
   return (
     <Aside>
 
-      <h2>
-        Prod<span>Note</span>
-      </h2>
+      <Link to='/'>
+        <h2>
+          Prod<span>Note</span>
+        </h2>
+      </Link>
 
       <ToggleGroupRoot
         type='single'

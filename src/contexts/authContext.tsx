@@ -21,16 +21,8 @@ const { Provider } = AuthContext
 
 export function AuthProvider ({ children }: { children: ReactNode }) {
   const [isAuth, setAuth] = useState(false)
-  const [user, setUser] = useState<User | null>({
-    email: 'leandrosantino2013@gmail.com',
-    name: 'PROD@adler',
-    permissions: [
-      'GENERATE_TAGS',
-      'READ_TAGS',
-      'PLANNING'
-    ]
-  })
-  // userName: string, password: string
+  const [user, setUser] = useState<User | null>(null)
+
   async function signIn () {
     const accessToken = await fetch.auth.login.mutate({
       userName: 'PROD@adler',
