@@ -1,4 +1,4 @@
-import { type IProductRepository } from '../../IProductRepository'
+import { type IProductRepository } from '../../interfaces/IProductRepository'
 import { type Product } from '../../../entities/Product'
 
 export class ProductRepository implements IProductRepository {

@@ -1,7 +1,7 @@
-import { type IPDFCriator } from '../IPDFCreator'
+import { type IPDFProvider } from '../interfaces/IPDFProvider'
 import puppe from 'puppeteer'
 
-export class PDFCreator implements IPDFCriator {
+export class PDFProvider implements IPDFProvider {
   async createFromHtml (html: string) {
     const browser = await puppe.launch({
       headless: 'new'

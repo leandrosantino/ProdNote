@@ -1,8 +1,8 @@
 import { ServerStyleSheet } from 'styled-components'
-import { type IReactSSR } from '../IReactSSR'
+import { type ISSRProvider } from '../interfaces/ISSRProvider'
 import ReactDOM from 'react-dom/server'
 
-export class ReactSSR implements IReactSSR {
+export class SSRProvider implements ISSRProvider {
   renderToString<T>(props: T, Component: (props: T) => JSX.Element) {
     const stylesheet = new ServerStyleSheet()
     const html = ReactDOM.renderToString(stylesheet.collectStyles(Component(props)))

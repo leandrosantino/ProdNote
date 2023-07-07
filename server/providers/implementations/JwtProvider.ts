@@ -1,5 +1,5 @@
 import jwt, { type SignOptions, type VerifyOptions } from 'jsonwebtoken'
-import { type IJwtProvider, type IJwtUserData } from '../IJwtProvider'
+import { type IJwtProvider, type IJwtUserData } from '../interfaces/IJwtProvider'
 
 export class JwtProvider implements IJwtProvider {
   secret: string

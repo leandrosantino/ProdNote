@@ -1,5 +1,5 @@
 import { type SystemPermission } from '../../../entities/SystemPermission'
-import { type ISystemPermissionsRepository } from '../../ISystemPermissionsRepository'
+import { type ISystemPermissionsRepository } from '../../interfaces/ISystemPermissionsRepository'
 
 const permission: SystemPermission[] = [
   {

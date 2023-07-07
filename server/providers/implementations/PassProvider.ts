@@ -1,4 +1,4 @@
-import { type IPassProvider } from '../IPassProvider'
+import { type IPassProvider } from '../interfaces/IPassProvider'
 import crypto from 'crypto'
 
 export class PassProvider implements IPassProvider {

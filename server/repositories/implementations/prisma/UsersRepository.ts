@@ -1,5 +1,5 @@
 import { type User } from '../../../entities/User'
-import { type IUsersRepository } from '../../IUsersRepository'
+import { type IUsersRepository } from '../../interfaces/IUsersRepository'
 
 const users: User[] = [
   {

@@ -2,7 +2,7 @@ import { initTRPC } from '@trpc/server'
 import { type Context } from '../context'
 import { JwtProvider } from '../providers/implementations/JwtProvider'
 import { HttpError } from '../utils/HttpError'
-import { type IJwtUserData } from '../providers/IJwtProvider'
+import { type IJwtUserData } from '../providers/interfaces/IJwtProvider'
 const t = initTRPC.context<Context>().create()
 
 const jwt = new JwtProvider()

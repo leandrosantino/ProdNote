@@ -1,7 +1,7 @@
-import { type IUsersRepository } from '../../repositories/IUsersRepository'
+import { type IUsersRepository } from '../../repositories/interfaces/IUsersRepository'
 import { type IUserAuthRequestDTO, type IUserAuthResponseDTO } from './UserAuthDTO'
-import { type IJwtProvider } from '../../providers/IJwtProvider'
-import { type IPassProvider } from '../../providers/IPassProvider'
+import { type IJwtProvider } from '../../providers/interfaces/IJwtProvider'
+import { type IPassProvider } from '../../providers/interfaces/IPassProvider'
 
 export class UserAuth {
   constructor (

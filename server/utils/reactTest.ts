@@ -1,7 +1,7 @@
 import fs from 'fs'
 import { createElement } from 'react'
-import { ReactSSR } from '../providers/implementations/ReactSSR'
-import { PDFCreator } from '../providers/implementations/PDFCreator'
+import { SSRProvider } from '../providers/implementations/SSRProvider'
+import { PDFProvider } from '../providers/implementations/PDFProvider'
 
 interface TagProps { data: { a: string } }
 
@@ -9,14 +9,14 @@ function Teste ({ data }: TagProps) {
   return createElement('div', { data })
 }
 
-const reactSSR = new ReactSSR()
-const pdfCreator = new PDFCreator()
+const ssrProvider = new SSRProvider()
+const pdfProvider = new PDFProvider()
 
-const html = reactSSR.renderToString<TagProps>({
+const html = ssrProvider.renderToString<TagProps>({
   data: { a: 'fsfefef' }
 }, Teste)
 
-pdfCreator.createFromHtml(html)
+pdfProvider.createFromHtml(html)
   .then(pdf => {
     console.log(html)
     fs.writeFileSync('C:/Users/leand/Área de Trabalho/teste.pdf', pdf, { encoding: 'utf-8' })

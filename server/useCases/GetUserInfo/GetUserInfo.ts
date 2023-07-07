@@ -1,4 +1,4 @@
-import { type IUsersRepository } from '../../repositories/IUsersRepository'
+import { type IUsersRepository } from '../../repositories/interfaces/IUsersRepository'
 import { type GetUserInfoResponseDTO, type GetUserInfoRequestDTO } from './GetUserInfoDTO'
 
 export class GetUserInfo {
