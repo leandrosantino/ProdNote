@@ -1,7 +1,19 @@
-import { trpc } from '../../utils/api'
+import { Container } from './styles'
 
 export function TagGenerator () {
-  const { data } = trpc.user.authTeste.useQuery()
+  return (
+    <Container>
 
-  return (<div>{data}</div>)
+      <form>
+
+        <h1>Etiquetas</h1>
+
+      </form>
+
+      <section>
+
+      </section>
+
+    </Container>
+  )
 }
