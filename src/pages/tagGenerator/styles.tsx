@@ -8,23 +8,30 @@ export const Container = styled.div`
   display: flex;
   gap: .8rem;
 
-  div{
+  section{
     flex: 1;
   }
 
   form{
     width: 100%;
-    padding: .8rem;
-    gap: .4rem;
+    gap: .8rem;
     display: flex;
-    flex-direction: column;
+    align-items: center;
+
+    div{
+      width: 100%;
+    }
+
+    .amountField{
+      width: 12rem;
+    }
+
   }
 
-  section{
+  section:last-child{
     border: 0.1rem solid ${p => p.theme.colors.dark.gray10};
     border-radius: .4rem;
     flex: 1;
   }
-
 
 `
