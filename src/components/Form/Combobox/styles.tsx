@@ -8,6 +8,7 @@ export const Field = styled(Form.Field)`
   flex-direction: column;
 
 
+
   div{
     width: 100%;
     display: flex;
@@ -61,7 +62,16 @@ export const Field = styled(Form.Field)`
 
 export const Content = styled.div`
   position: relative;
+  z-index: 11;
+`
 
+export const BackContainer = styled.div`
+  width: 100vw;
+  height: 100vh;
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 10;
 `
 
 export const Menu = styled.menu`
@@ -70,6 +80,7 @@ export const Menu = styled.menu`
   left: .4rem;
   margin-top: .4rem;
   width: 85%;
+  z-index: 11;
 
   padding: .8rem;
   border-radius: .4rem;

@@ -1,6 +1,6 @@
 import { MagnifyingGlassIcon } from '@radix-ui/react-icons'
 import * as Form from '@radix-ui/react-form'
-import { Content, Field, Menu } from './styles'
+import { BackContainer, Content, Field, Menu } from './styles'
 
 import { useEffect, useState } from 'react'
 
@@ -14,9 +14,10 @@ interface ComboboxRootProps {
   name: string
   onSelect: (option: Option) => void
   options: Option []
+  invalid?: boolean
 }
 
-export function Combobox ({ options, onSelect, ...rest }: ComboboxRootProps) {
+export function Combobox ({ options, onSelect, invalid = false, ...rest }: ComboboxRootProps) {
   const [showMenu, setShowMenu] = useState(true)
   const [value, setValue] = useState('')
   const [optionsFiltered, setOptionsFiltered] = useState<Option[]>(options)
@@ -30,14 +31,27 @@ export function Combobox ({ options, onSelect, ...rest }: ComboboxRootProps) {
 
   useEffect(() => {
     if (optionsFiltered.length === 0) setShowMenu(false)
+    if (optionsFiltered.length === 1 && optionsFiltered[0].name === value) {
+      onSelect(optionsFiltered[0])
+      setShowMenu(false)
+    }
   }, [optionsFiltered])
 
   return (
-    <Content>
+    <>
+      <Content>
 
-      <Field name={rest.name}>
+      <Field name={rest.name} serverInvalid={invalid}>
         <div>
           <Form.Label>{rest.name}</Form.Label>
+          {invalid &&
+            <Form.Message>
+              O produto selecionado é invalido
+            </Form.Message>
+          }
+          <Form.Message match='valueMissing'>
+            Preencha o campo para continuar
+          </Form.Message>
         </div>
         <div>
           <Form.Control asChild>
@@ -51,7 +65,7 @@ export function Combobox ({ options, onSelect, ...rest }: ComboboxRootProps) {
                   ? setShowMenu(true)
                   : setShowMenu(false)
               }}
-              onBlur={() => { setTimeout(() => { setShowMenu(false) }, 100) }}
+              // onBlur={() => { setTimeout(() => { setShowMenu(false) }, 100) }}
             />
           </Form.Control>
           <MagnifyingGlassIcon/>
@@ -59,22 +73,25 @@ export function Combobox ({ options, onSelect, ...rest }: ComboboxRootProps) {
       </Field>
 
       {showMenu &&
-        <Menu>
-          {optionsFiltered.map(option => (
-            <button
-              type='button'
-              key={option.name}
-              onClick={() => {
-                onSelect(option)
-                setValue(option.name)
-              }}
-            >
-              {option.name}
-            </button>
-          ))}
-        </Menu>
+        <>
+          <Menu>
+            {optionsFiltered.map(option => (
+              <button
+                type='button'
+                key={option.name}
+                onClick={() => {
+                  // onSelect(option)
+                  setValue(option.name)
+                }}
+              >
+                {option.name}
+              </button>
+            ))}
+          </Menu>
+        </>
       }
-
-    </Content>
+      </Content>
+      {showMenu && <BackContainer onClick={() => { setShowMenu(false) }}/>}
+    </>
   )
 }

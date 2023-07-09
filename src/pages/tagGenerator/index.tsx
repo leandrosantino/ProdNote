@@ -13,12 +13,13 @@ export function TagGenerator () {
     <Container>
 
       <div>
-        <Form.Root>
+        <Form.Root onSubmit={(e) => { e.preventDefault() }} >
           <Combobox
             name='Produto'
             onSelect={(option) => { console.log(option) }}
             options={options}
             placeholder='Insira o nome do produto que deseja procurar'
+            invalid={false}
           />
 
         </Form.Root>
