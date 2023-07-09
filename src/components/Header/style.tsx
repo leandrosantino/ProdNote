@@ -1,7 +1,8 @@
-import styled, { keyframes } from 'styled-components'
+import styled from 'styled-components'
 import * as RadixAvatar from '@radix-ui/react-avatar'
 import * as RadixSwitch from '@radix-ui/react-switch'
 import * as DropdownMenu from '@radix-ui/react-dropdown-menu'
+import { slideDownAndFade } from '../../styles/global'
 
 export const Container = styled.header<{ isAuth: 'true' | 'false' }>`
   display: flex;
@@ -106,17 +107,6 @@ export const DropdownMenuTrigger = styled(DropdownMenu.Trigger)`
 
 `
 
-const slideDownAndFade = keyframes`
-  from {
-    opacity: 0;
-    transform: translateY(-2px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
-`
-
 export const DropdownMenuContent = styled(DropdownMenu.Content)`
   margin-right: 1rem;
   width: 13rem;
@@ -162,5 +152,4 @@ export const DropdownMenuSeparator = styled(DropdownMenu.Separator)`
   width: 100%;
   height: .1rem;
   background-color: rgba(0,0,0,.08);
-
 `

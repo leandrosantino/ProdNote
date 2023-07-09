@@ -1,4 +1,4 @@
-import { createGlobalStyle } from 'styled-components'
+import { createGlobalStyle, keyframes } from 'styled-components'
 
 export const GlobalStyle = createGlobalStyle`
 
@@ -19,7 +19,7 @@ export const GlobalStyle = createGlobalStyle`
   }
 
   button {
-    transition: all .2s linear .06s;
+    transition: all .2s linear;
   }
   input,
   textarea,
@@ -47,4 +47,15 @@ export const GlobalStyle = createGlobalStyle`
     text-decoration: none;
   }
 
+`
+
+export const slideDownAndFade = keyframes`
+from {
+  opacity: 0;
+  transform: translateY(-2px);
+}
+to {
+  opacity: 1;
+  transform: translateY(0);
+}
 `

@@ -1,14 +1,30 @@
 import { Container } from './styles'
+import * as Form from '@radix-ui/react-form'
+import { Combobox } from '../../components/Form/Combobox'
+
+const options = [
+  { name: 'Carpet frontal headline 592/551', value: '1' },
+  { name: 'Teto moldado 226', value: '2' },
+  { name: 'Bloco hood 551', value: '3' }
+]
 
 export function TagGenerator () {
   return (
     <Container>
 
-      <form>
+      <div>
+        <Form.Root>
+          <Combobox
+            name='Produto'
+            onSelect={(option) => { console.log(option) }}
+            options={options}
+            placeholder='Insira o nome do produto que deseja procurar'
+          />
 
-        <h1>Etiquetas</h1>
+        </Form.Root>
 
-      </form>
+        vlsdçfiuvdçorilgkn
+      </div>
 
       <section>
 

@@ -6,15 +6,24 @@ export const Container = styled.div`
   height: 100%;
 
   display: flex;
+  gap: .8rem;
 
-  form{
+  div{
     flex: 1;
   }
 
+  form{
+    width: 100%;
+    padding: .8rem;
+    gap: .4rem;
+    display: flex;
+    flex-direction: column;
+  }
+
   section{
-    border: 1px solid black;
+    border: 0.1rem solid ${p => p.theme.colors.dark.gray10};
+    border-radius: .4rem;
     flex: 1;
-    border: 1px solid black;
   }
 
 
