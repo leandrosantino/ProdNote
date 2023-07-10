@@ -7,7 +7,7 @@ export const Button = styled.button`
   background-color: ${p => p.theme.colors.dark.blue4};
   color: ${p => p.theme.colors.dark.gray12};
   font-weight: 400;
-  font-size: 1.6rem;
+  font-size: 1.4rem;
 
   display: flex;
   justify-content: center;

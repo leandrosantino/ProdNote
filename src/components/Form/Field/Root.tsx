@@ -1,23 +1,7 @@
-import { type ReactNode } from 'react'
-import { Root } from './styles'
-import { FieldContextProvider } from './context'
+import styled from 'styled-components'
 
-interface FieldRootProps {
-  children: ReactNode
-  isValid: boolean
-  message?: string
-  className?: string
-}
-
-export function FieldRoot ({ children, isValid, message, className }: FieldRootProps) {
-  return (
-    <FieldContextProvider {...{ isValid }} >
-        <Root {...{ className }}>
-          {children}
-          {!isValid &&
-            <span>{message}</span>
-          }
-        </Root>
-    </FieldContextProvider>
-  )
-}
+export const Root = styled.div`
+  display: flex;
+  flex-direction: column;
+  justify-content:center ;
+`

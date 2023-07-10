@@ -1,9 +1,11 @@
-import { FieldControl } from './Control'
-import { FieldLabel } from './Label'
-import { FieldRoot } from './Root'
+import { ErrorMessage } from './ErrorMessage'
+import { Input } from './Input'
+import { Label } from './Label'
+import { Root } from './Root'
 
 export const Field = {
-  Root: FieldRoot,
-  Label: FieldLabel,
-  Control: FieldControl
+  Root,
+  Label,
+  Input,
+  ErrorMessage
 }

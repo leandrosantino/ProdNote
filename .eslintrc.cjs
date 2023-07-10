@@ -34,6 +34,7 @@ module.exports = {
         '@typescript-eslint/explicit-function-return-type': 'off',
         '@typescript-eslint/consistent-type-assertions':'off',
         '@typescript-eslint/strict-boolean-expressions': 'off',
-        'array-callback-return': 'off'
+        'array-callback-return': 'off',
+        "@typescript-eslint/no-misused-promises": "off"
     }
 }

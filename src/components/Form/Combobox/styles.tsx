@@ -20,7 +20,7 @@ export const Menu = styled.menu`
   background-color: red;
   left: .4rem;
   top: 0;
-  margin-top: 6.4rem;
+  margin-top: 4rem;
   min-width: 30rem;
   max-height: 200px;
   overflow-x: auto;

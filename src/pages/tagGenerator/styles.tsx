@@ -17,13 +17,14 @@ export const Container = styled.div`
     gap: .8rem;
     display: flex;
     align-items: center;
-
-    div{
-      width: 100%;
-    }
+    justify-content: center ;
 
     .amountField{
       width: 12rem;
+    }
+
+    .productField{
+      width: 100%;
     }
 
   }
