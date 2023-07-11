@@ -10,6 +10,8 @@ const Span = styled.span`
   padding: 0 .4rem;
   font-size: 1.2rem;
   color: ${p => p.theme.colors.light.red11};
+  width: 100%;
+  text-align: start;
 `
 
 export function ErrorMessage ({ field }: ErrorMessageProps) {

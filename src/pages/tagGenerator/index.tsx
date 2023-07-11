@@ -1,12 +1,12 @@
-import { Container, Separator, Info } from './styles'
+import { Container, Separator, Info, Switch, SwitchThumb } from './styles'
 import { Field } from '../../components/Form/Field'
 import { Button } from '../../components/Form/Botton'
-import { PlusCircledIcon, TrashIcon, DownloadIcon } from '@radix-ui/react-icons'
+import { PlusCircledIcon, TrashIcon, DownloadIcon, CheckCircledIcon, CrossCircledIcon } from '@radix-ui/react-icons'
 import { useForm, FormProvider } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { z } from 'zod'
 import { Combobox } from '../../components/Form/Combobox'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { Table } from '../../components/Table'
 
 type Options = Record<string, {
@@ -17,6 +17,7 @@ interface SelectedProducts {
   name: string
   id: string
   amount: number
+  isFractional: boolean
 }
 
 const options: Options = {
@@ -37,15 +38,17 @@ export function TagGenerator () {
   const [pagesAmount, setPagesAmount] = useState(0)
 
   const addProductsFormSchema = z.object({
-    amount: z.coerce.number()
-      .min(1, '0 - 10')
-      .max(10, '0 - 10'),
     product: z.string()
+      .nonempty('O campo é obrigatório')
       .refine(value => options[value] !== undefined, 'Produto desconhecido')
       .refine(
         value => (selectedProducts.filter(product => product.name === value)).length === 0,
         'Este produto já foi adicionado'
-      )
+      ),
+    amount: z.coerce.number()
+      .min(1, '0 - 10')
+      .max(10, '0 - 10'),
+    fractional: z.coerce.boolean()
   })
 
   type AddProductsFormData = z.infer<typeof addProductsFormSchema>
@@ -56,16 +59,25 @@ export function TagGenerator () {
   const {
     handleSubmit,
     resetField,
-    setValue
+    setValue,
+    register,
+    watch
   } = addProductsForm
 
+  useEffect(() => {
+    setValue('fractional', false)
+  }, [])
+
   function handleAddProduct (data: AddProductsFormData) {
+    console.log(data)
     setSelectedProducts(oldState => [...oldState, {
       amount: data.amount,
       id: options[data.product].id,
-      name: data.product
+      name: data.product,
+      isFractional: data.fractional
     }])
     setValue('amount', 1)
+    setValue('fractional', false)
     resetField('product')
     setPagesAmount(oldState => oldState + data.amount)
   }
@@ -73,6 +85,13 @@ export function TagGenerator () {
   function handleRemoveProduct (product: SelectedProducts) {
     setSelectedProducts(oldeState => oldeState.filter(entry => entry.id !== product.id))
     setPagesAmount(oldState => oldState - product.amount)
+  }
+
+  function handleDownloadTagsInPDF () {
+    if (selectedProducts.length > 0) {
+      setSelectedProducts([])
+      alert('Baixando PDF...')
+    }
   }
 
   return (
@@ -85,26 +104,46 @@ export function TagGenerator () {
         <FormProvider {...addProductsForm}>
           <form onSubmit={handleSubmit(handleAddProduct)} >
 
-              <Field.Root className='productField'>
-                <Field.Label>Produto:</Field.Label>
-                <Combobox
-                  name='product'
-                  options={Object.keys(options)}
-                  placeholder='Insira o nome do produto que deseja adicionar'
-                />
-                <Field.ErrorMessage field='product' />
-              </Field.Root>
+            <Field.Root className='productField'>
+              <Field.Label>Produto:</Field.Label>
+              <Combobox
+                name='product'
+                options={Object.keys(options)}
+                placeholder='Insira o nome do produto que deseja adicionar'
+              />
+              <Field.ErrorMessage field='product' />
+            </Field.Root>
 
-              <Field.Root className='amountField'>
-                <Field.Label htmlFor='amount' >Quant.:</Field.Label>
-                <Field.Input min={1} max={10} type='number' name='amount' />
-                <Field.ErrorMessage field='amount'/>
-              </Field.Root>
+            <div>
+              <div>
+                <Field.Root className='amountField'>
+                  <Field.Label htmlFor='amount' >Quant.:</Field.Label>
+                  <Field.Input
+                    min={1} max={10}
+                    type='number' name='amount'
+                    placeholder='0-10'
+                  />
+                  <Field.ErrorMessage field='amount'/>
+                </Field.Root>
+                <label htmlFor="">Fracionada: </label>
+                <Switch
+                  defaultChecked={false}
+                  {...register('fractional')}
+                  checked={watch().fractional}
+                  onCheckedChange={(value) => {
+                    setValue('fractional', value)
+                  }}
+                >
+                  <SwitchThumb/>
+                </Switch>
+              </div>
 
               <Button type='submit'>
                 adicionar
                 <PlusCircledIcon/>
               </Button>
+
+            </div>
 
           </form>
         </FormProvider>
@@ -114,13 +153,22 @@ export function TagGenerator () {
         <Table.Root>
           <Table.Head>
             <th>Produto</th>
+            <th>Frac.</th>
             <th>Quant.</th>
             <th></th>
           </Table.Head>
           <Table.Body>
             {selectedProducts?.map(product => (
-              <tr key={product.id} >
-                <td>{product.name}</td>
+              <tr key={product.id} data-fractional={product.isFractional ? 'yes' : 'no'}>
+                <td>{product.name} caiuscgasoiucgas casuigc aoiusc gasoiu casuiucag scio</td>
+                <td
+                  className='tableFractionalTag'
+                  data-fractional={product.isFractional ? 'yes' : 'no'}
+                >{
+                  product.isFractional
+                    ? <CheckCircledIcon/>
+                    : <CrossCircledIcon/>
+                }</td>
                 <td>{product.amount}</td>
                 <td>
                   <button onClick={() => { handleRemoveProduct(product) }}>
@@ -134,15 +182,17 @@ export function TagGenerator () {
 
         <Info>
           <span>{pagesAmount} páginas</span>
-          <Button>
+          <Button
+            onClick={handleDownloadTagsInPDF}
+          >
             Baixar
             <DownloadIcon/>
           </Button>
         </Info>
 
       </section>
-
       <section>
+        <div>a</div>
 
       </section>
 

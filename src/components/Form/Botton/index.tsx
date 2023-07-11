@@ -6,7 +6,7 @@ export const Button = styled.button`
   border-radius: .4rem;
   background-color: ${p => p.theme.colors.dark.blue4};
   color: ${p => p.theme.colors.dark.gray12};
-  font-weight: 400;
+  font-weight: 500;
   font-size: 1.2rem;
 
   display: flex;
@@ -20,6 +20,6 @@ export const Button = styled.button`
   }
 
   &:hover{
-    opacity: .9;
+    background-color: ${p => p.theme.colors.dark.blue6};
   }
 `

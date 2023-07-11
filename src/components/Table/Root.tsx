@@ -9,7 +9,7 @@ export const Root = styled.table`
     "body"
   ;
 
-  grid-template-rows: 4rem auto 3rem;
+  grid-template-rows: 4rem auto;
 
 
   thead, tbody{

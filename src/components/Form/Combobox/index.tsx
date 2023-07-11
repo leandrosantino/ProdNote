@@ -2,6 +2,7 @@ import { Field } from '../Field'
 import { BackContainer, Content, Menu } from './styles'
 import { type HTMLProps, useEffect, useState } from 'react'
 import { useFormContext } from 'react-hook-form'
+import { MagnifyingGlassIcon, Cross2Icon } from '@radix-ui/react-icons'
 
 interface ComboboxRootProps extends HTMLProps<HTMLInputElement> {
   name: string
@@ -15,6 +16,7 @@ export function Combobox ({ options, onSelectOption, isValid = true, message, ..
   const [showMenu, setShowMenu] = useState(false)
   const [value, setValue] = useState('')
   const [optionsFiltered, setOptionsFiltered] = useState<string[]>(options)
+  const [inEdition, setInEdition] = useState(false)
 
   useEffect(() => {
     setOptionsFiltered(options?.filter(option =>
@@ -38,9 +40,12 @@ export function Combobox ({ options, onSelectOption, isValid = true, message, ..
   useEffect(() => {
     const fieldValue = getValues(rest.name)
     setValue(fieldValue)
-    fieldValue?.length > 0
-      ? setShowMenu(true)
-      : setShowMenu(false)
+    if (fieldValue?.length > 0) {
+      setShowMenu(true)
+      setInEdition(true)
+      return
+    }
+    setShowMenu(false)
   }, [watch()[rest.name]])
 
   return (
@@ -48,6 +53,19 @@ export function Combobox ({ options, onSelectOption, isValid = true, message, ..
       <Content>
 
       <Field.Input
+        icon={<>
+          {inEdition
+            ? <button
+              onClick={() => {
+                setFormValue(rest.name, '')
+                setInEdition(false)
+              }}
+            >
+              <Cross2Icon/>
+            </button>
+            : <MagnifyingGlassIcon/>
+          }
+        </>}
         type="text"
         {...rest}
       />

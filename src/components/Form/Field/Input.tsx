@@ -52,6 +52,31 @@ const Container = styled.div`
       margin: auto;
     }
 
+    button{
+      width: 2rem;
+      height: 2rem;
+      position: absolute;
+      right: .8rem;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+
+      svg{
+        position: inherit;
+        width: 2rem;
+        height: 2rem;
+        margin: none;
+        inset: 0;
+      }
+
+      &:hover{
+        color: ${p => p.theme.colors.light.red11};
+      }
+
+    }
+
+
+
     input{
       padding-right: 3.2rem;
       text-overflow: ellipsis;

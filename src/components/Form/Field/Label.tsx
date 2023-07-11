@@ -6,4 +6,5 @@ export const Label = styled.label`
   height: 2rem;
   font-size: 1.4rem;
   text-align: start;
+  width: 100%;
 `
