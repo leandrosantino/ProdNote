@@ -1,11 +1,12 @@
-import { Container } from './styles'
+import { Container, Separator, Table, Tbody, Thead, Info } from './styles'
 import { Field } from '../../components/Form/Field'
 import { Button } from '../../components/Form/Botton'
-import { PlusCircledIcon } from '@radix-ui/react-icons'
+import { PlusCircledIcon, TrashIcon, DownloadIcon } from '@radix-ui/react-icons'
 import { useForm, FormProvider } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { z } from 'zod'
 import { Combobox } from '../../components/Form/Combobox'
+import { useState } from 'react'
 
 type Options = Record<string, {
   id: string
@@ -24,61 +25,111 @@ const options: Options = {
   'Bloco hood 5518': { id: '3' }
 }
 
-const addProductsFormSchema = z.object({
-  amount: z.coerce.number()
-    .min(1, '0 - 10')
-    .max(10, '0 - 10'),
-  product: z.string()
-    .refine(value => options[value] !== undefined, 'Produto desconhecido')
-    .transform(value => {
-      return { name: value, id: options[value].id }
-    })
-})
-
-type AddProductsFormData = z.infer<typeof addProductsFormSchema>
-
 export function TagGenerator () {
+  const [selectedProducts, setselectedProducts] = useState<Array<{
+    name: string
+    id: string
+    amount: number
+  }>>([])
+
+  const addProductsFormSchema = z.object({
+    amount: z.coerce.number()
+      .min(1, '0 - 10')
+      .max(10, '0 - 10'),
+    product: z.string()
+      .refine(value => options[value] !== undefined, 'Produto desconhecido')
+      .refine(
+        value => (selectedProducts.filter(product => product.name === value)).length === 0,
+        'Este produto já foi adicionado'
+      )
+  })
+
+  type AddProductsFormData = z.infer<typeof addProductsFormSchema>
+
   const addProductsForm = useForm<AddProductsFormData>({
     resolver: zodResolver(addProductsFormSchema)
   })
   const {
-    handleSubmit
+    handleSubmit,
+    resetField,
+    setValue
   } = addProductsForm
 
   function handleAddProduct (data: AddProductsFormData) {
-    console.log(data)
+    setselectedProducts(oldState => [...oldState, {
+      amount: data.amount,
+      id: options[data.product].id,
+      name: data.product
+    }])
+    setValue('amount', 1)
+    resetField('product')
   }
 
   return (
     <Container>
 
       <section className='a'>
-          <FormProvider {...addProductsForm}>
-            <form onSubmit={handleSubmit(handleAddProduct)} >
 
-                <Field.Root className='productField'>
-                  <Field.Label>Produto:</Field.Label>
-                  <Combobox
-                    name='product'
-                    options={Object.keys(options)}
-                    placeholder='Insira o nome do produto que deseja adicionar'
-                  />
-                  <Field.ErrorMessage field='product' />
-                </Field.Root>
+        <h3>Gerar Etiquetas</h3>
 
-                <Field.Root className='amountField'>
-                  <Field.Label htmlFor='amount' >Quant.</Field.Label>
-                  <Field.Input min={1} type='number' name='amount' />
-                  <Field.ErrorMessage field='amount'/>
-                </Field.Root>
+        <FormProvider {...addProductsForm}>
+          <form onSubmit={handleSubmit(handleAddProduct)} >
 
-                <Button type='submit'>
-                  adicionar
-                  <PlusCircledIcon/>
-                </Button>
+              <Field.Root className='productField'>
+                <Field.Label>Produto:</Field.Label>
+                <Combobox
+                  name='product'
+                  options={Object.keys(options)}
+                  placeholder='Insira o nome do produto que deseja adicionar'
+                />
+                <Field.ErrorMessage field='product' />
+              </Field.Root>
 
-            </form>
-          </FormProvider>
+              <Field.Root className='amountField'>
+                <Field.Label htmlFor='amount' >Quant.:</Field.Label>
+                <Field.Input min={1} type='number' name='amount' />
+                <Field.ErrorMessage field='amount'/>
+              </Field.Root>
+
+              <Button type='submit'>
+                adicionar
+                <PlusCircledIcon/>
+              </Button>
+
+          </form>
+        </FormProvider>
+
+        <Separator/>
+
+        <Table>
+          <Thead>
+            <tr>
+              <th>Produto</th>
+              <th>Quant.</th>
+              <th></th>
+            </tr>
+          </Thead>
+          <Tbody>
+            {selectedProducts?.map(product => (
+              <tr key={product.id} >
+                <td>{product.name}</td>
+                <td>{product.amount}</td>
+                <td>
+                  <button><TrashIcon/></button>
+                </td>
+              </tr>
+            ))}
+          </Tbody>
+        </Table>
+
+        <Info>
+          <span>10 páginas</span>
+          <Button>
+            Baixar
+            <DownloadIcon/>
+          </Button>
+        </Info>
+
       </section>
 
       <section>

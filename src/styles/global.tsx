@@ -35,7 +35,8 @@ export const GlobalStyle = createGlobalStyle`
   textarea,
   select,
   button {
-    font: 400 1.2rem 'Poppins', sans-serif
+    font: 400 1.2rem 'Poppins', sans-serif;
+    color: ${p => p.theme.colors.dark.gray5};
   }
 
   button {

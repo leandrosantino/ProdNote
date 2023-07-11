@@ -17,12 +17,11 @@ export const BackContainer = styled.div`
 
 export const Menu = styled.menu`
   position: absolute;
-  background-color: red;
   left: .4rem;
   top: 0;
   margin-top: 4rem;
   min-width: 30rem;
-  max-height: 200px;
+  max-height: 20rem;
   overflow-x: auto;
   z-index: 11;
 

@@ -17,9 +17,9 @@ export function Combobox ({ options, onSelectOption, isValid = true, message, ..
   const [optionsFiltered, setOptionsFiltered] = useState<string[]>(options)
 
   useEffect(() => {
-    setOptionsFiltered(options.filter(option =>
-      option.toLocaleUpperCase()
-        .search(value.toLocaleUpperCase()) >= 0
+    setOptionsFiltered(options?.filter(option =>
+      option?.toLocaleUpperCase()
+        .search(value?.toLocaleUpperCase()) >= 0
     ))
   }, [value])
 
