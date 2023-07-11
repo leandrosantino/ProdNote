@@ -14,6 +14,13 @@ export const Main = styled.main<{ isAuth: 'true' | 'false' }>`
     padding: 1.2rem;
     grid-area: content;
   }
+
+  @media(max-width: 800px){
+    grid-template-areas:
+      "head head"
+      "content content";
+  }
+
   grid-template-areas:
   ${p => {
     if (p.isAuth === 'false') {
@@ -27,5 +34,18 @@ export const Main = styled.main<{ isAuth: 'true' | 'false' }>`
       "side content content"
     `
   }};
+
+  header div button{
+    width: 4rem;
+    aspect-ratio: 1/1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: .4rem;
+    &:hover, &:active{
+      background-color: ${p => p.theme.colors.light.gray5}
+    }
+
+  }
 
 `

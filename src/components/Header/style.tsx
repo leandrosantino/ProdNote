@@ -28,10 +28,23 @@ export const Container = styled.header<{ isAuth: 'true' | 'false' }>`
     }
   }
 
-  h3{
-    color: ${p => p.isAuth === 'true' ? p.theme.colors.dark.blue7 : ''};
-    font-weight: 500;
-    font-size: 1.6rem;
+  div{
+    h3{
+      color: ${p => p.isAuth === 'true' ? p.theme.colors.dark.blue7 : ''};
+      font-weight: 500;
+      font-size: 1.6rem;
+    }
+
+    button{
+      display: none;
+    }
+
+    @media(max-width: 800px){
+      button{
+        display: inherit;
+      }
+    }
+
   }
 
   div{
@@ -103,11 +116,12 @@ export const DropdownMenuTrigger = styled(DropdownMenu.Trigger)`
 
   background: transparent;
   border: none;
-
+  opacity: 1;
 
 `
 
 export const DropdownMenuContent = styled(DropdownMenu.Content)`
+  background-color: #802525;
   margin-right: 1rem;
   width: 13rem;
   padding: .8rem;

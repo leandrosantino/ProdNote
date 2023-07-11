@@ -44,7 +44,7 @@ import './utils/reactTest'
     await reply.sendFile('index.html')
   })
 
-  server.listen({ port: 3336 }, (err) => {
+  server.listen({ port: 3336, host: '0.0.0.0' }, (err) => {
     if (err != null) {
       logger.error(String(err))
       return

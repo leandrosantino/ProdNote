@@ -5,14 +5,17 @@ import { AuthProvider } from './contexts/authContext'
 import { GlobalStyle } from './styles/global'
 import { AppRoutes } from './routes/app.routes'
 import { QueryProvider } from './providers/queryClientProvider'
+import { SideBarContextProvider } from './contexts/sideBarContext'
 
 ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
   <React.StrictMode>
     <QueryProvider>
       <ThemeModeProvider>
         <AuthProvider>
-          <GlobalStyle />
-          <AppRoutes />
+          <SideBarContextProvider>
+            <GlobalStyle />
+            <AppRoutes />
+          </SideBarContextProvider>
         </AuthProvider>
       </ThemeModeProvider>
     </QueryProvider>

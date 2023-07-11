@@ -45,6 +45,7 @@ export function Combobox ({ options, onSelectOption, isValid = true, message, ..
       setInEdition(true)
       return
     }
+    setInEdition(false)
     setShowMenu(false)
   }, [watch()[rest.name]])
 

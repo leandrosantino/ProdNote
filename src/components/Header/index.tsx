@@ -10,21 +10,28 @@ import * as DropdownMenu from '@radix-ui/react-dropdown-menu'
 import { PersonIcon, ExitIcon } from '@radix-ui/react-icons'
 import { useAuth } from '../../hooks/useAuth'
 import { useNavigate } from 'react-router-dom'
+import { useSideBarShow } from '../../hooks/useSideBarShow'
 
 export function Header () {
   const { signOut, isAuth, user } = useAuth()
   const navigate = useNavigate()
+  const { setShowSideBar } = useSideBarShow()
 
   return (
     <Container isAuth={isAuth ? 'true' : 'false'} >
 
       {!isAuth &&
-        <h2>
-          Prod<span>Note</span>
-        </h2>
+          <h2>
+            Prod<span>Note</span>
+          </h2>
       }
 
-      <h3>Adler Pelzer Group</h3>
+      <div>
+        <button
+          onClick={() => { setShowSideBar(true) }}
+        >Teste</button>
+        <h3>Adler Pelzer Group</h3>
+      </div>
 
       {isAuth && <div>
 

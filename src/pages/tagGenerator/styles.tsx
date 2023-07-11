@@ -46,6 +46,10 @@ export const Container = styled.div`
     flex: 1;
   }
 
+  @media(max-width: 1300px){
+    section:last-child{display: none;}
+  }
+
   section:last-child{
     border: 0.1rem solid ${p => p.theme.colors.dark.gray10};
     border-radius: .4rem;

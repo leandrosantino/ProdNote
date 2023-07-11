@@ -5,21 +5,38 @@ export const Aside = styled.aside`
   background-color: ${p => p.theme.colors.dark.blue4};
   color: ${p => p.theme.colors.dark.gray12};
 
-  h2{
+  head{
     width: 100%;
     height: 5rem;
     display: flex;
-    justify-content: start;
+    justify-content: space-between;
     align-items: center;
     border-bottom: 1.5px solid rgba(255,255,255,.1);
-    font-size: 2.4rem;
-    font-weight: 500;
     padding: 2rem;
 
-    span{
-      color: ${p => p.theme.colors.dark.blue11};
+    button{
+      display: none;
+    }
+
+    h2{
+      font-size: 2.4rem;
+      font-weight: 500;
+      span{
+        color: ${p => p.theme.colors.dark.blue11};
+      }
     }
   }
+
+  @media(max-width: 800px){
+    position: absolute;
+    height: 100vh;
+    z-index: 100;
+    width: 60%;
+    head button{
+      display: inherit;
+    }
+  }
+
 `
 
 export const ToggleGroupRoot = styled(ToggleGroup.Root)`
