@@ -1,4 +1,4 @@
-import { Container, Separator, Table, Tbody, Thead, Info } from './styles'
+import { Container, Separator, Info } from './styles'
 import { Field } from '../../components/Form/Field'
 import { Button } from '../../components/Form/Botton'
 import { PlusCircledIcon, TrashIcon, DownloadIcon } from '@radix-ui/react-icons'
@@ -7,10 +7,17 @@ import { zodResolver } from '@hookform/resolvers/zod'
 import { z } from 'zod'
 import { Combobox } from '../../components/Form/Combobox'
 import { useState } from 'react'
+import { Table } from '../../components/Table'
 
 type Options = Record<string, {
   id: string
 }>
+
+interface SelectedProducts {
+  name: string
+  id: string
+  amount: number
+}
 
 const options: Options = {
   'Carpet frontal headline 592/551': { id: '1' },
@@ -23,12 +30,6 @@ const options: Options = {
   'Bloco hood 5516': { id: '8' },
   'Bloco hood 5517': { id: '9' },
   'Bloco hood 5518': { id: '10' }
-}
-
-interface SelectedProducts {
-  name: string
-  id: string
-  amount: number
 }
 
 export function TagGenerator () {
@@ -110,30 +111,26 @@ export function TagGenerator () {
 
         <Separator/>
 
-        <Table>
-          <Thead>
-            <tr>
-              <th>Produto</th>
-              <th>Quant.</th>
-              <th></th>
-            </tr>
-          </Thead>
-          <Tbody>
+        <Table.Root>
+          <Table.Head>
+            <th>Produto</th>
+            <th>Quant.</th>
+            <th></th>
+          </Table.Head>
+          <Table.Body>
             {selectedProducts?.map(product => (
               <tr key={product.id} >
                 <td>{product.name}</td>
                 <td>{product.amount}</td>
                 <td>
-                  <button
-                    onClick={() => { handleRemoveProduct(product) }}
-                  >
+                  <button onClick={() => { handleRemoveProduct(product) }}>
                     <TrashIcon/>
                   </button>
                 </td>
               </tr>
             ))}
-          </Tbody>
-        </Table>
+          </Table.Body>
+        </Table.Root>
 
         <Info>
           <span>{pagesAmount} páginas</span>
