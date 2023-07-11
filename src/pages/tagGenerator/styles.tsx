@@ -55,6 +55,14 @@ export const Separator = styled.div`
 export const Table = styled.table`
   width: 100%;
   font-size: 1.4rem;
+  display: grid;
+  grid-template-areas:
+    "head"
+    "body"
+  ;
+
+  grid-template-rows: 4rem auto 3rem;
+
 
   thead, tbody{
     tr{
@@ -83,6 +91,7 @@ export const Table = styled.table`
 `
 
 export const Thead = styled.thead`
+  grid-area: "head";
   display: flex;
   justify-content: center;
   align-items: center;
@@ -92,8 +101,9 @@ export const Thead = styled.thead`
 
 export const Tbody = styled.tbody`
   font-size: 1.2rem;
-  height: 1rem;
-  overflow-x: scroll;
+  max-height: 25rem;
+  grid-area: "body";
+  overflow-y: auto;
 
   tr{
     border-bottom: 1px solid ${p => p.theme.colors.light.gray8};

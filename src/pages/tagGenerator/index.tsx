@@ -16,21 +16,24 @@ const options: Options = {
   'Carpet frontal headline 592/551': { id: '1' },
   'Teto moldado 226': { id: '2' },
   'Bloco hood 551': { id: '3' },
-  'Bloco hood 5512': { id: '3' },
-  'Bloco hood 5513': { id: '3' },
-  'Bloco hood 5514': { id: '3' },
-  'Bloco hood 5515': { id: '3' },
-  'Bloco hood 5516': { id: '3' },
-  'Bloco hood 5517': { id: '3' },
-  'Bloco hood 5518': { id: '3' }
+  'Bloco hood 5512': { id: '4' },
+  'Bloco hood 5513': { id: '5' },
+  'Bloco hood 5514': { id: '6' },
+  'Bloco hood 5515': { id: '7' },
+  'Bloco hood 5516': { id: '8' },
+  'Bloco hood 5517': { id: '9' },
+  'Bloco hood 5518': { id: '10' }
+}
+
+interface SelectedProducts {
+  name: string
+  id: string
+  amount: number
 }
 
 export function TagGenerator () {
-  const [selectedProducts, setselectedProducts] = useState<Array<{
-    name: string
-    id: string
-    amount: number
-  }>>([])
+  const [selectedProducts, setSelectedProducts] = useState<SelectedProducts[]>([])
+  const [pagesAmount, setPagesAmount] = useState(0)
 
   const addProductsFormSchema = z.object({
     amount: z.coerce.number()
@@ -56,13 +59,19 @@ export function TagGenerator () {
   } = addProductsForm
 
   function handleAddProduct (data: AddProductsFormData) {
-    setselectedProducts(oldState => [...oldState, {
+    setSelectedProducts(oldState => [...oldState, {
       amount: data.amount,
       id: options[data.product].id,
       name: data.product
     }])
     setValue('amount', 1)
     resetField('product')
+    setPagesAmount(oldState => oldState + data.amount)
+  }
+
+  function handleRemoveProduct (product: SelectedProducts) {
+    setSelectedProducts(oldeState => oldeState.filter(entry => entry.id !== product.id))
+    setPagesAmount(oldState => oldState - product.amount)
   }
 
   return (
@@ -87,7 +96,7 @@ export function TagGenerator () {
 
               <Field.Root className='amountField'>
                 <Field.Label htmlFor='amount' >Quant.:</Field.Label>
-                <Field.Input min={1} type='number' name='amount' />
+                <Field.Input min={1} max={10} type='number' name='amount' />
                 <Field.ErrorMessage field='amount'/>
               </Field.Root>
 
@@ -115,7 +124,11 @@ export function TagGenerator () {
                 <td>{product.name}</td>
                 <td>{product.amount}</td>
                 <td>
-                  <button><TrashIcon/></button>
+                  <button
+                    onClick={() => { handleRemoveProduct(product) }}
+                  >
+                    <TrashIcon/>
+                  </button>
                 </td>
               </tr>
             ))}
@@ -123,7 +136,7 @@ export function TagGenerator () {
         </Table>
 
         <Info>
-          <span>10 páginas</span>
+          <span>{pagesAmount} páginas</span>
           <Button>
             Baixar
             <DownloadIcon/>
@@ -139,17 +152,3 @@ export function TagGenerator () {
     </Container>
   )
 }
-
-/**
- *
- *
-  *
- *
-
-          <Field.Root message='teste' isValid={false} className='amountField'>
-            <Field.Label>Quant.</Field.Label>
-            <Field.Control>
-              <input type="number" />
-            </Field.Control>
-          </Field.Root>
-*/

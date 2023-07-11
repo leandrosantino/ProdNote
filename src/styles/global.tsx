@@ -39,6 +39,20 @@ export const GlobalStyle = createGlobalStyle`
     color: ${p => p.theme.colors.dark.gray5};
   }
 
+  *::-webkit-scrollbar {
+    width: .6rem;
+  }
+
+  *::-webkit-scrollbar-track {
+    background: transparent;
+  }
+
+  *::-webkit-scrollbar-thumb {
+    width: .1rem;
+    border-radius: .3rem;
+    background-color: ${p => p.theme.colors.light.gray10};
+  }
+
   button {
     cursor: pointer
   }
