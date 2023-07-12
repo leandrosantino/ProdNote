@@ -5,7 +5,7 @@ export const Aside = styled.aside`
   background-color: ${p => p.theme.colors.dark.blue4};
   color: ${p => p.theme.colors.dark.gray12};
 
-  head{
+  header{
     width: 100%;
     height: 5rem;
     display: flex;
@@ -15,7 +15,10 @@ export const Aside = styled.aside`
     padding: 2rem;
 
     button{
-      display: none;
+      color: ${p => p.theme.colors.dark.gray12};
+      &:hover{
+        background-color: rgba(255,255,255,.06);
+      }
     }
 
     h2{
@@ -27,15 +30,33 @@ export const Aside = styled.aside`
     }
   }
 
+  transition: transform 100ms;
+  transform: translateX(0);
+
+  &[data-show='off']{
+    transform: translateX(-30rem);
+  }
+
   @media(max-width: 800px){
     position: absolute;
     height: 100vh;
-    z-index: 100;
-    width: 60%;
-    head button{
-      display: inherit;
+    z-index: 101;
+    width: 30rem;
+    box-shadow: 1px 2px 12px 0px rgba(0,0,0,.4);
+
+    header{
+      padding-left: .5rem;
     }
+
   }
+
+`
+
+export const AbsoluteContainer = styled.div`
+  position: absolute;
+  width: 100%;
+  height: 100vh;
+  z-index: 100;
 
 `
 

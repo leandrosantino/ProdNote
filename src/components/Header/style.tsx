@@ -5,11 +5,16 @@ import * as DropdownMenu from '@radix-ui/react-dropdown-menu'
 import { slideDownAndFade } from '../../styles/global'
 
 export const Container = styled.header<{ isAuth: 'true' | 'false' }>`
+  position: relative;
   display: flex;
   align-items: center;
   justify-content: space-between;
   padding: 0 2rem;
   /* box-shadow: 0px 1px 3px 1px rgba(0,0,0, 0.15); */
+
+  @media(max-width: 800px){
+    padding-left: .5rem;;
+  }
 
   ${p => p.isAuth === 'false'
  ? `
@@ -34,17 +39,6 @@ export const Container = styled.header<{ isAuth: 'true' | 'false' }>`
       font-weight: 500;
       font-size: 1.6rem;
     }
-
-    button{
-      display: none;
-    }
-
-    @media(max-width: 800px){
-      button{
-        display: inherit;
-      }
-    }
-
   }
 
   div{

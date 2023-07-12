@@ -18,7 +18,6 @@ export function SideBarContextProvider ({ children }: { children: ReactNode }) {
   }, [])
 
   window.addEventListener('resize', () => {
-    console.log(window.innerWidth)
     if (window.innerWidth >= 800) {
       setShowSideBar(true)
       return

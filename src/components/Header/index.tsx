@@ -11,6 +11,7 @@ import { PersonIcon, ExitIcon } from '@radix-ui/react-icons'
 import { useAuth } from '../../hooks/useAuth'
 import { useNavigate } from 'react-router-dom'
 import { useSideBarShow } from '../../hooks/useSideBarShow'
+import { ShowSideBarButton } from '../ShowSideBarButton'
 
 export function Header () {
   const { signOut, isAuth, user } = useAuth()
@@ -27,10 +28,8 @@ export function Header () {
       }
 
       <div>
-        <button
-          onClick={() => { setShowSideBar(true) }}
-        >Teste</button>
-        <h3>Adler Pelzer Group</h3>
+        <ShowSideBarButton onClick={() => { setShowSideBar(true) }} />
+        <h3>LS Solucrions Ltda.</h3>
       </div>
 
       {isAuth && <div>

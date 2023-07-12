@@ -1,8 +1,9 @@
 import { useEffect, useState } from 'react'
-import { Aside, ToggleGroupRoot } from './style'
+import { AbsoluteContainer, Aside, ToggleGroupRoot } from './style'
 import { PageButton } from './PageButton'
 import { Link, useLocation } from 'react-router-dom'
 import { useSideBarShow } from '../../hooks/useSideBarShow'
+import { ShowSideBarButton } from '../ShowSideBarButton'
 
 export function Sidebar () {
   const { pathname } = useLocation()
@@ -16,23 +17,20 @@ export function Sidebar () {
     }
   }, [pathname])
 
-  if (!showSideBar) {
-    return null
-  }
-
   return (
-    <Aside>
+    <>
+      <Aside
+      data-show={showSideBar ? 'on' : 'off'}
+    >
 
-      <head>
+      <header>
+        <ShowSideBarButton onClick={() => { setShowSideBar(false) }} />
         <Link to='/'>
           <h2>
             Prod<span>Note</span>
           </h2>
         </Link>
-        <button
-          onClick={() => { setShowSideBar(false) }}
-        >teste</button>
-      </head>
+      </header>
 
       <ToggleGroupRoot
         type='single'
@@ -45,5 +43,16 @@ export function Sidebar () {
 
       </ToggleGroupRoot>
     </Aside >
+    {
+      window.innerWidth < 800 && showSideBar &&
+      <AbsoluteContainer
+        onClick={() => {
+          if (window.innerWidth < 800) {
+            setShowSideBar(false)
+          }
+        }}
+    />
+    }
+    </>
   )
 }

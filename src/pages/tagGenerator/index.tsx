@@ -139,7 +139,7 @@ export function TagGenerator () {
               </div>
 
               <Button type='submit'>
-                adicionar
+                Adicionar
                 <PlusCircledIcon/>
               </Button>
 
@@ -192,8 +192,7 @@ export function TagGenerator () {
 
       </section>
       <section>
-        <div>a</div>
-
+        <div></div>
       </section>
 
     </Container>

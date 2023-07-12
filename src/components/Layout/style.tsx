@@ -35,17 +35,6 @@ export const Main = styled.main<{ isAuth: 'true' | 'false' }>`
     `
   }};
 
-  header div button{
-    width: 4rem;
-    aspect-ratio: 1/1;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    border-radius: .4rem;
-    &:hover, &:active{
-      background-color: ${p => p.theme.colors.light.gray5}
-    }
 
-  }
 
 `

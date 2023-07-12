@@ -46,7 +46,10 @@ export const Container = styled.div`
     flex: 1;
   }
 
-  @media(max-width: 1300px){
+  @media(max-width: 1087px){
+    section:last-child{display: none;}
+  }
+  @media(max-height: 650px){
     section:last-child{display: none;}
   }
 
