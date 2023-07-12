@@ -3,7 +3,7 @@ import { type GetUserInfoResponseDTO, type GetUserInfoRequestDTO } from './GetUs
 
 export class GetUserInfo {
   constructor (
-    public userRepository: IUsersRepository
+    private readonly userRepository: IUsersRepository
   ) { }
 
   async execute (id: GetUserInfoRequestDTO) {

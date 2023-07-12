@@ -12,13 +12,13 @@
 // const ssrProvider = new SSRProvider()
 // const pdfProvider = new PDFProvider()
 
-// // const html = ssrProvider.renderToString<TagProps>({
-// //   data: { a: 'fsfefef' }
-// // }, Teste)
+// const html = ssrProvider.renderToString<TagProps>({
+//   data: { a: 'fsfefef' }
+// }, Teste)
 
-// // pdfProvider.createFromHtml(html)
-// //   .then(pdf => {
-// //     console.log(html)
-// //     fs.writeFileSync('C:/Users/leand/Área de Trabalho/teste.pdf', pdf, { encoding: 'utf-8' })
-// //   })
-// //   .catch((err) => { console.log(err) })
+// pdfProvider.createFromHtml(html)
+//   .then(pdf => {
+//     console.log(html)
+//     fs.writeFileSync('C:/Users/leand/Área de Trabalho/teste.pdf', pdf, { encoding: 'utf-8' })
+//   })
+//   .catch((err) => { console.log(err) })

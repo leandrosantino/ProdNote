@@ -1,6 +1,6 @@
-import { type IUsersRepository } from '../../repositories/IUsersRepository'
-import { type IJwtProvider } from '../../providers/IJwtProvider'
-import { type IPassProvider } from '../../providers/IPassProvider'
+import { type IUsersRepository } from '../../repositories/interfaces/IUsersRepository'
+import { type IJwtProvider } from '../../providers/interfaces/IJwtProvider'
+import { type IPassProvider } from '../../providers/interfaces/IPassProvider'
 import { UserAuth } from './UserAuth'
 import { type User } from '../../entities/User'
 

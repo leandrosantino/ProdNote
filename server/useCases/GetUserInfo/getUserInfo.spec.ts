@@ -1,4 +1,4 @@
-import { type IUsersRepository } from '../../repositories/IUsersRepository'
+import { type IUsersRepository } from '../../repositories/interfaces/IUsersRepository'
 import { GetUserInfo } from '../GetUserInfo/GetUserInfo'
 import { type GetUserInfoResponseDTO } from '../../useCases/GetUserInfo/GetUserInfoDTO'
 import { type User } from '../../entities/User'

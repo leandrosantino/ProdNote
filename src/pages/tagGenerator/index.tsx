@@ -4,11 +4,11 @@ import { Button } from '../../components/Form/Botton'
 import { PlusCircledIcon, TrashIcon, DownloadIcon, CheckCircledIcon, CrossCircledIcon } from '@radix-ui/react-icons'
 import { useForm, FormProvider } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
-import { z } from 'zod'
 import { Combobox } from '../../components/Form/Combobox'
 import { useEffect, useState } from 'react'
 import { Table } from '../../components/Table'
 import { Switch } from '../../components/Form/Switch'
+import { z } from 'zod'
 
 type Options = Record<string, {
   id: string
@@ -34,6 +34,18 @@ const options: Options = {
   'Bloco hood 5518': { id: '10' }
 }
 
+const addProductsFormSchema = z.object({
+  product: z.string()
+    .nonempty('O campo é obrigatório')
+    .refine(value => options[value] !== undefined, 'Produto desconhecido'),
+  amount: z.coerce.number()
+    .min(1, '0 - 10')
+    .max(10, '0 - 10'),
+  fractional: z.coerce.boolean()
+})
+
+type AddProductsFormData = z.infer<typeof addProductsFormSchema>
+
 export function TagGenerator () {
   const [selectedProducts, setSelectedProducts] = useState<SelectedProducts[]>([])
   const [pagesAmount, setPagesAmount] = useState(0)
@@ -42,22 +54,6 @@ export function TagGenerator () {
   useEffect(() => {
     setDownloadError(false)
   }, [selectedProducts])
-
-  const addProductsFormSchema = z.object({
-    product: z.string()
-      .nonempty('O campo é obrigatório')
-      .refine(value => options[value] !== undefined, 'Produto desconhecido')
-      .refine(
-        value => (selectedProducts.filter(product => product.name === value)).length === 0,
-        'Este produto já foi adicionado'
-      ),
-    amount: z.coerce.number()
-      .min(1, '0 - 10')
-      .max(10, '0 - 10'),
-    fractional: z.coerce.boolean()
-  })
-
-  type AddProductsFormData = z.infer<typeof addProductsFormSchema>
 
   const addProductsForm = useForm<AddProductsFormData>({
     resolver: zodResolver(addProductsFormSchema)
@@ -83,8 +79,8 @@ export function TagGenerator () {
     setPagesAmount(oldState => oldState + data.amount)
   }
 
-  function handleRemoveProduct (product: SelectedProducts) {
-    setSelectedProducts(oldeState => oldeState.filter(entry => entry.id !== product.id))
+  function handleRemoveProduct (product: SelectedProducts, productIndex: number) {
+    setSelectedProducts(oldeState => oldeState.filter((_, index) => index !== productIndex))
     setPagesAmount(oldState => oldState - product.amount)
   }
 
@@ -160,9 +156,9 @@ export function TagGenerator () {
             <th></th>
           </Table.Head>
           <Table.Body>
-            {selectedProducts?.map(product => (
-              <tr key={product.id} data-fractional={product.isFractional ? 'yes' : 'no'}>
-                <td>{product.name} caiuscgasoiucgas casuigc aoiusc gasoiu casuiucag scio</td>
+            {selectedProducts?.map((product, index) => (
+              <tr key={index} data-fractional={product.isFractional ? 'yes' : 'no'}>
+                <td>{product.name}</td>
                 <td
                   className='tableFractionalTag'
                   data-fractional={product.isFractional ? 'yes' : 'no'}
@@ -173,7 +169,7 @@ export function TagGenerator () {
                 }</td>
                 <td>{product.amount}</td>
                 <td>
-                  <button onClick={() => { handleRemoveProduct(product) }}>
+                  <button onClick={() => { handleRemoveProduct(product, index) }}>
                     <TrashIcon/>
                   </button>
                 </td>

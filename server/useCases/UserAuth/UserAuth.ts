@@ -5,9 +5,9 @@ import { type IPassProvider } from '../../providers/interfaces/IPassProvider'
 
 export class UserAuth {
   constructor (
-    public usersRepository: IUsersRepository,
-    public jwt: IJwtProvider,
-    public pass: IPassProvider
+    private readonly usersRepository: IUsersRepository,
+    private readonly jwt: IJwtProvider,
+    private readonly pass: IPassProvider
   ) { }
 
   async execute (data: IUserAuthRequestDTO) {

@@ -1,6 +1,6 @@
-import { type IUsersRepository } from '../../repositories/IUsersRepository'
+import { type IUsersRepository } from '../../repositories/interfaces/IUsersRepository'
 import { type ICreateUserRequestDTO, type ICreateUserResponseDTO } from './CreateUserDTO'
-import { type ISystemPermissionsRepository } from '../../repositories/ISystemPermissionsRepository'
+import { type ISystemPermissionsRepository } from '../../repositories/interfaces/ISystemPermissionsRepository'
 
 export class CreateUser {
   constructor (
