@@ -1,4 +1,4 @@
-import { Container, Separator, Info, Switch, SwitchThumb } from './styles'
+import { Container, Separator, Info } from './styles'
 import { Field } from '../../components/Form/Field'
 import { Button } from '../../components/Form/Botton'
 import { PlusCircledIcon, TrashIcon, DownloadIcon, CheckCircledIcon, CrossCircledIcon } from '@radix-ui/react-icons'
@@ -6,8 +6,9 @@ import { useForm, FormProvider } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { z } from 'zod'
 import { Combobox } from '../../components/Form/Combobox'
-import { useEffect, useState } from 'react'
+import { useState } from 'react'
 import { Table } from '../../components/Table'
+import { Switch } from '../../components/Form/Switch'
 
 type Options = Record<string, {
   id: string
@@ -56,17 +57,12 @@ export function TagGenerator () {
   const addProductsForm = useForm<AddProductsFormData>({
     resolver: zodResolver(addProductsFormSchema)
   })
+
   const {
     handleSubmit,
     resetField,
-    setValue,
-    register,
-    watch
+    setValue
   } = addProductsForm
-
-  useEffect(() => {
-    setValue('fractional', false)
-  }, [])
 
   function handleAddProduct (data: AddProductsFormData) {
     console.log(data)
@@ -105,8 +101,9 @@ export function TagGenerator () {
           <form onSubmit={handleSubmit(handleAddProduct)} >
 
             <Field.Root className='productField'>
-              <Field.Label>Produto:</Field.Label>
+              <Field.Label htmlFor='product' >Produto:</Field.Label>
               <Combobox
+                id='product'
                 name='product'
                 options={Object.keys(options)}
                 placeholder='Insira o nome do produto que deseja adicionar'
@@ -119,23 +116,17 @@ export function TagGenerator () {
                 <Field.Root className='amountField'>
                   <Field.Label htmlFor='amount' >Quant.:</Field.Label>
                   <Field.Input
+                    id='amount'
                     min={1} max={10}
                     type='number' name='amount'
                     placeholder='0-10'
                   />
                   <Field.ErrorMessage field='amount'/>
                 </Field.Root>
-                <label htmlFor="">Fracionada: </label>
-                <Switch
-                  defaultChecked={false}
-                  {...register('fractional')}
-                  checked={watch().fractional}
-                  onCheckedChange={(value) => {
-                    setValue('fractional', value)
-                  }}
-                >
-                  <SwitchThumb/>
-                </Switch>
+                <div>
+                  <label htmlFor="fractional">Fracionada: </label>
+                  <Switch name='fractional' />
+                </div>
               </div>
 
               <Button type='submit'>

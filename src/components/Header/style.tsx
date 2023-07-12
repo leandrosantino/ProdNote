@@ -1,6 +1,5 @@
 import styled from 'styled-components'
 import * as RadixAvatar from '@radix-ui/react-avatar'
-import * as RadixSwitch from '@radix-ui/react-switch'
 import * as DropdownMenu from '@radix-ui/react-dropdown-menu'
 import { slideDownAndFade } from '../../styles/global'
 
@@ -74,37 +73,6 @@ export const Avatar = styled(RadixAvatar.Root)`
 
 `
 export const AvatarFallback = styled(RadixAvatar.Fallback)``
-
-export const Switch = styled(RadixSwitch.Root)`
-  width: 4rem;
-  height: 2.4rem;
-  border-radius: 1.2rem;
-  position: relative;
-  display: flex;
-  align-items: center;
-  border: none; /*1px solid ${p => p.theme.colors.dark.gray10}; */
-  background-color: ${p => p.theme.colors.light.blue6};
-`
-
-export const SwitchThumb = styled(RadixSwitch.Thumb)`
-  display: block;
-  width: 2rem;
-  height: 2rem;
-  border-radius: 100%;
-  background-color: ${p => p.theme.colors.light.blue8};
-  color: ${p => p.theme.colors.light.gray1};
-  display: flex;
-  justify-content: center;
-  align-items: center;
-
-  transition: transform 100ms;
-  transform: translateX(.3rem);
-  will-change: transform;
-  &[data-state='checked'] {
-    transform: translateX(1.7rem);
-  }
-
-`
 
 export const DropdownMenuTrigger = styled(DropdownMenu.Trigger)`
 

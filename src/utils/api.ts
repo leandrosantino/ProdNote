@@ -5,7 +5,7 @@ let token: string = ''
 
 const links = [
   httpBatchLink({
-    url: 'http://10.0.0.106:3336/api',
+    url: `http://${window.location.hostname}:3336/api`,
     async headers () {
       return {
         authorization: token
