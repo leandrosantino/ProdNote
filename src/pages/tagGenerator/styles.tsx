@@ -91,6 +91,12 @@ export const Container = styled.div`
 
 `
 
+export const DownloadError = styled.span`
+  font-size: 1.2rem;
+  color: ${p => p.theme.colors.light.red11};
+  padding: .4rem;
+`
+
 export const Separator = styled.div`
   width: 100%;
   height: 1px;

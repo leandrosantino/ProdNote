@@ -1,4 +1,4 @@
-import { Container, Separator, Info } from './styles'
+import { Container, Separator, Info, DownloadError } from './styles'
 import { Field } from '../../components/Form/Field'
 import { Button } from '../../components/Form/Botton'
 import { PlusCircledIcon, TrashIcon, DownloadIcon, CheckCircledIcon, CrossCircledIcon } from '@radix-ui/react-icons'
@@ -6,7 +6,7 @@ import { useForm, FormProvider } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { z } from 'zod'
 import { Combobox } from '../../components/Form/Combobox'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { Table } from '../../components/Table'
 import { Switch } from '../../components/Form/Switch'
 
@@ -37,6 +37,11 @@ const options: Options = {
 export function TagGenerator () {
   const [selectedProducts, setSelectedProducts] = useState<SelectedProducts[]>([])
   const [pagesAmount, setPagesAmount] = useState(0)
+  const [downloadError, setDownloadError] = useState(false)
+
+  useEffect(() => {
+    setDownloadError(false)
+  }, [selectedProducts])
 
   const addProductsFormSchema = z.object({
     product: z.string()
@@ -87,7 +92,9 @@ export function TagGenerator () {
     if (selectedProducts.length > 0) {
       setSelectedProducts([])
       alert('Baixando PDF...')
+      return
     }
+    setDownloadError(true)
   }
 
   return (
@@ -140,6 +147,10 @@ export function TagGenerator () {
         </FormProvider>
 
         <Separator/>
+
+        {downloadError &&
+          <DownloadError>Adicione ao menos 1 produto para continuar</DownloadError>
+        }
 
         <Table.Root>
           <Table.Head>
