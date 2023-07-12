@@ -53,6 +53,17 @@ export const Container = styled.div`
     section:last-child{display: none;}
   }
 
+  animation: mymove .5s;
+
+  @keyframes mymove {
+    from {
+      transform: translateY(1rem);
+    }
+    to {
+      transform: translateY(0);
+    }
+  }
+
   section:last-child{
     border: 0.1rem solid ${p => p.theme.colors.dark.gray10};
     border-radius: .4rem;
