@@ -21,6 +21,6 @@
   },
   "include": [
     "server/**/*",
-    "src/components/Tag/**/*"
+    "src/serverComponents/**/*"
   ]
 }

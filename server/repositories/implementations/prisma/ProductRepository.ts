@@ -16,7 +16,7 @@ const products: Product[] = [
   {
     amount: 2,
     classification: 'acabado',
-    description: 'Carpete moldado esquedo',
+    description: 'Bloco Hood 552',
     partNumber: '6187481',
     projectNumber: '592',
     sapCode: '112847718.01',
@@ -28,7 +28,11 @@ const products: Product[] = [
 
 export class ProductRepository implements IProductRepository {
   async getById (id: string) {
-    return {} as Product
+    const resp = products.filter(entry => entry.id === id)
+    if (resp.length === 1) {
+      return resp[0]
+    }
+    return null
   }
 
   async findMany () {

@@ -2,7 +2,7 @@ import styled from 'styled-components'
 
 export const Body = styled.tbody`
   font-size: 1.2rem;
-  max-height: 20rem;
+  max-height: 45vh;
   grid-area: "body";
   overflow-y: auto;
 

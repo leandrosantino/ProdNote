@@ -31,8 +31,8 @@
   "include": [
     "src",
     "server/routers/index.ts",
-    "server/entities/SystemPermission.ts",
-    "server/entities/Product.ts"
+    "server/entities/**/*",
+    "server/interfaces/**/*",
   ],
   "references": [
     {

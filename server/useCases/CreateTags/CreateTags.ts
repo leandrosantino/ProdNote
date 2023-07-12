@@ -2,32 +2,33 @@ import { type IProductRepository } from '../../repositories/interfaces/IProductR
 import { type IPDFProvider } from '../../providers/interfaces/IPDFProvider'
 import { type ISSRProvider } from '../../providers/interfaces/ISSRProvider'
 import { type CreateTagsRequestDTO } from './CreateTagsDTO'
-import { type Product } from '../../entities/Product'
-interface CompoonentPorps { data: Product, isFractional: boolean }
+import { type ITagsPDFContainerComponent, type ITagsPDFContainerComponentProps, type ITagsProps } from '../../interfaces/ITagsPDFContainerComponent'
 
 export class CreateTags {
   constructor (
     private readonly productRepository: IProductRepository,
     private readonly pdfProvider: IPDFProvider,
     private readonly ssrProvider: ISSRProvider,
-    private readonly tagComponent: (porps: { products: CompoonentPorps[] }) => JSX.Element
+    private readonly tagComponent: ITagsPDFContainerComponent
   ) {}
 
   async execute (productList: CreateTagsRequestDTO) {
-    const products: CompoonentPorps[] = []
+    const products: ITagsProps[] = []
 
     for await (const { amount, id, isFractional } of productList) {
       const product = await this.productRepository.getById(id)
-      for (let i = 1; i <= amount; i++) {
-        products.push({ data: product, isFractional })
+      if (product !== null) {
+        for (let i = 1; i <= amount; i++) {
+          products.push({ data: product, isFractional })
+        }
       }
     }
 
-    const html = this.ssrProvider.renderToString<{ products: CompoonentPorps[] }>(
-      { products },
+    const html = this.ssrProvider.renderToString<ITagsPDFContainerComponentProps>(
+      { tags: products },
       this.tagComponent
     )
 
-    await this.pdfProvider.createFromHtml(html)
+    return await this.pdfProvider.createFromHtml(html)
   }
 }
