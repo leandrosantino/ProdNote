@@ -1,8 +1,8 @@
-import { planProduction } from '.'
+import { productionPlan } from '.'
 
-describe('test plan production', () => {
+describe('test production plan', () => {
   test('should retrun production list', async () => {
-    const productionList = planProduction.execute({
+    const productionList = productionPlan.execute({
       machinesId: ['2', '1'],
       products: [
         { partNumber: '1', stock: 300, demand: 400 },

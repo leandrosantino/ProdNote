@@ -1,6 +1,6 @@
 import { z } from 'zod'
 
-export const planProductionRequestsDTOSchema = z.object({
+export const productionPlanRequestsDTOSchema = z.object({
   machinesId: z.array(z.string()),
   products: z.array(z.object({
     partNumber: z.string(),
@@ -9,4 +9,4 @@ export const planProductionRequestsDTOSchema = z.object({
   }))
 })
 
-export type PlanProductionRequestDTO = z.infer<typeof planProductionRequestsDTOSchema>
+export type ProductionPlanRequestDTO = z.infer<typeof productionPlanRequestsDTOSchema>

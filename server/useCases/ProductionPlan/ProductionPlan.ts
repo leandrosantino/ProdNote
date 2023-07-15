@@ -1,5 +1,5 @@
 import { type IMachineRepository } from '../../repositories/interfaces/IMachineRepository'
-import { type PlanProductionRequestDTO } from './PlanProductionDTO'
+import { type ProductionPlanRequestDTO } from './ProductionPlanDTO'
 
 interface ProcessedMachine {
   capacity: number
@@ -13,12 +13,12 @@ interface ProcessedProducts {
   piorityCoefficient: number
 }
 
-export class PlanProduction {
+export class ProductionPlan {
   constructor (
     private readonly machineRepository: IMachineRepository
   ) {}
 
-  async execute ({ machinesId, products }: PlanProductionRequestDTO) {
+  async execute ({ machinesId, products }: ProductionPlanRequestDTO) {
     const porcessedMachines: ProcessedMachine[] = await this
       .getMachineInfo(machinesId)
 
@@ -83,7 +83,7 @@ export class PlanProduction {
     return 's'
   }
 
-  private async getMachineInfo (machinesId: PlanProductionRequestDTO['machinesId']) {
+  private async getMachineInfo (machinesId: ProductionPlanRequestDTO['machinesId']) {
     const machines: ProcessedMachine[] = []
 
     for await (const id of machinesId) {
