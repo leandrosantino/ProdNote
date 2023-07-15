@@ -4,7 +4,7 @@ import { type ProductionPlanRequestDTO } from './ProductionPlanDTO'
 interface ProcessedMachine {
   capacity: number
   slug: string
-  currentActionDurationInhours: number
+  totalDurationOfActions: number
 }
 
 interface ProcessedProducts {
@@ -19,15 +19,6 @@ export class ProductionPlan {
   ) {}
 
   async execute ({ machinesId, products }: ProductionPlanRequestDTO) {
-    const porcessedMachines: ProcessedMachine[] = await this
-      .getMachineInfo(machinesId)
-
-    const machinesOrderBycapacity = this.orderArrayOfObjects<ProcessedMachine>(
-      porcessedMachines,
-      'capacity',
-      'desc'
-    )
-
     const listOfProcessedProducts: ProcessedProducts[] = products.map(product => ({
       partNumber: product.partNumber,
       quantityToBeProduced: product.demand - product.stock,
@@ -40,47 +31,78 @@ export class ProductionPlan {
       'asc'
     )
 
-    const groupedProductsList = this.groupArrayOfObjects<ProcessedProducts>(
-      productsSortedByPriorityCoefficient,
-      machinesOrderBycapacity.length
-    )
-    const productionScript: Array<{
+    const productsSortedByQuantityToBeProduced = this
+      .sortProductsByQuantityToBeProduced(
+        productsSortedByPriorityCoefficient
+      )
+
+    const productionScript: Record<string, Array<{
       partNumber: string
-      machineSlug: string
-      action: string
       durationInMilliseconds: number
       piorityCoefficient: number
       quantityToBeProduced: number
-    }> = []
+    }>> = {}
 
-    let machinesOrderByActionDuration = machinesOrderBycapacity
+    const porcessedMachines: ProcessedMachine[] = await this
+      .getMachineInfo(machinesId)
 
-    groupedProductsList.forEach((group) => {
-      group.forEach(({ partNumber, quantityToBeProduced, piorityCoefficient }, index) => {
-        const machine = machinesOrderByActionDuration[index]
+    let machinesOrderByCapacityAndActionsDuration = porcessedMachines
+
+    productsSortedByQuantityToBeProduced
+      .forEach(({ partNumber, quantityToBeProduced, piorityCoefficient }) => {
+        machinesOrderByCapacityAndActionsDuration = this
+          .orderArrayOfObjects(
+            (this.orderArrayOfObjects(
+              machinesOrderByCapacityAndActionsDuration,
+              'capacity',
+              'desc'
+            )),
+            'totalDurationOfActions',
+            'asc'
+          )
+
+        const machine = machinesOrderByCapacityAndActionsDuration[0]
         const durationInMilliseconds = (quantityToBeProduced / machine.capacity)
-        machine.currentActionDurationInhours = durationInMilliseconds
+        machine.totalDurationOfActions += durationInMilliseconds
 
-        productionScript.push({
+        const scriptData = {
           partNumber,
-          action: 'Produzir',
-          machineSlug: machine.slug,
           durationInMilliseconds,
           piorityCoefficient,
           quantityToBeProduced
-        })
+        }
+
+        productionScript[machine.slug]
+          ? productionScript[machine.slug].push(scriptData)
+          : productionScript[machine.slug] = [scriptData]
       })
-      machinesOrderByActionDuration = this
-        .orderArrayOfObjects(
-          machinesOrderByActionDuration,
-          'currentActionDurationInhours',
-          'asc'
-        )
-    })
 
     console.log(productionScript)
 
     return 's'
+  }
+
+  private sortProductsByQuantityToBeProduced (products: ProcessedProducts[]) {
+    return products
+      .sort((laterObject, currentObject) => {
+        const differenceBetweenPriorityCoefficient =
+          laterObject.piorityCoefficient - currentObject.piorityCoefficient
+        const differenceBetweenQuantityToBeProduced =
+          laterObject.quantityToBeProduced - currentObject.quantityToBeProduced
+        if (
+          differenceBetweenPriorityCoefficient <= 10 &&
+        differenceBetweenQuantityToBeProduced >= 100
+        ) {
+          return -1
+        }
+        if (
+          differenceBetweenPriorityCoefficient > 10 &&
+        differenceBetweenQuantityToBeProduced < 100
+        ) {
+          return 1
+        }
+        return 0
+      })
   }
 
   private async getMachineInfo (machinesId: ProductionPlanRequestDTO['machinesId']) {
@@ -92,27 +114,12 @@ export class ProductionPlan {
         machines.push({
           capacity: machine.capacity,
           slug: machine.slug,
-          currentActionDurationInhours: 0
+          totalDurationOfActions: 0
         })
       }
     }
 
     return machines
-  }
-
-  private groupArrayOfObjects <T>(objects: T[], quantityPerGroup: number) {
-    const groupedArray: T[][] = []
-    for (let index = 0; index <= objects.length - 1; index += quantityPerGroup) {
-      const group: T[] = []
-      for (let i = 0; i < quantityPerGroup; i++) {
-        const object = objects[index + i]
-        if (object) {
-          group.push(object)
-        }
-      }
-      groupedArray.push(group)
-    }
-    return groupedArray
   }
 
   private orderArrayOfObjects <T>(
@@ -122,11 +129,11 @@ export class ProductionPlan {
   ) {
     return objects
       .sort((previousObject, currentObject) => {
-        if (previousObject[referenceKey] < currentObject[referenceKey]) {
-          return order === 'asc' ? -1 : 1
-        }
         if (previousObject[referenceKey] > currentObject[referenceKey]) {
           return order === 'asc' ? 1 : -1
+        }
+        if (previousObject[referenceKey] < currentObject[referenceKey]) {
+          return order === 'asc' ? -1 : 1
         }
         return 0
       })
