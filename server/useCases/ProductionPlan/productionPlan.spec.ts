@@ -14,6 +14,10 @@ describe('test production plan', () => {
       ]
     })
 
+    console.table([
+      { a: 'teste', b: 'ok' }
+    ])
+
     expect(productionList).toStrictEqual('s')
   })
 })

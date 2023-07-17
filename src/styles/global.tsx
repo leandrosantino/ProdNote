@@ -2,6 +2,10 @@ import { createGlobalStyle, keyframes } from 'styled-components'
 
 export const GlobalStyle = createGlobalStyle`
 
+  :root{
+    --shadow : 1px 1px 5px 0px rgba(0, 0, 0, 0.2);
+  }
+
   * {
     margin: 0;
     padding: 0;

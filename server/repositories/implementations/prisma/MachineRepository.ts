@@ -24,4 +24,8 @@ export class MachineRepository implements IMachineRepository {
     }
     return null
   }
+
+  async findMany () {
+    return machines
+  }
 }

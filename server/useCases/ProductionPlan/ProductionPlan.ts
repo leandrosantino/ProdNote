@@ -1,5 +1,5 @@
 import { type IMachineRepository } from '../../repositories/interfaces/IMachineRepository'
-import { type ProductionPlanRequestDTO } from './ProductionPlanDTO'
+import { type ProductionPlanRequestDTO, type ProductionPlanResponseDTO } from './ProductionPlanDTO'
 
 interface ProcessedMachine {
   capacity: number
@@ -36,12 +36,7 @@ export class ProductionPlan {
         productsSortedByPriorityCoefficient
       )
 
-    const productionScript: Record<string, Array<{
-      partNumber: string
-      durationInMilliseconds: number
-      piorityCoefficient: number
-      quantityToBeProduced: number
-    }>> = {}
+    const productionScript: ProductionPlanResponseDTO = {}
 
     const porcessedMachines: ProcessedMachine[] = await this
       .getMachineInfo(machinesId)
@@ -77,9 +72,7 @@ export class ProductionPlan {
           : productionScript[machine.slug] = [scriptData]
       })
 
-    console.log(productionScript)
-
-    return 's'
+    return productionScript
   }
 
   private sortProductsByQuantityToBeProduced (products: ProcessedProducts[]) {

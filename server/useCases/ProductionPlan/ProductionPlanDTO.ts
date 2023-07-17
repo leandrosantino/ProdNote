@@ -10,3 +10,17 @@ export const productionPlanRequestsDTOSchema = z.object({
 })
 
 export type ProductionPlanRequestDTO = z.infer<typeof productionPlanRequestsDTOSchema>
+
+export const productionPlanResponseDTOSchema = z.record(
+  z.string(),
+  z.array(
+    z.object({
+      partNumber: z.string(),
+      durationInMilliseconds: z.number(),
+      piorityCoefficient: z.number(),
+      quantityToBeProduced: z.number()
+    })
+  )
+)
+
+export type ProductionPlanResponseDTO = z.infer<typeof productionPlanResponseDTOSchema>
