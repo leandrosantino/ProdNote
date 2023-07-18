@@ -13,9 +13,9 @@ export const Container = styled.div`
   flex-direction: row;
 
   &>div{
-    width: 40rem;
+    width: 45rem;
     height: fit-content;
-    min-height: 50rem;
+    min-height: 60rem;
     box-shadow: var(--shadow);
     border-radius: 1.2rem;
     background-color: ${p => p.theme.colors.light.gray3};
@@ -26,7 +26,7 @@ export const Container = styled.div`
     gap: .8rem;
     padding: 2rem;
 
-    h1{
+    &>h1{
     font-size: 2rem;
     font-weight: 500;
     width: 100%;
@@ -54,6 +54,11 @@ export const FormCase = styled.div`
     flex-direction: column;
     justify-content: start;
 
+    &>span{
+      font-size: 1.2rem;
+      color: ${p => p.theme.colors.light.red11}
+    }
+
   }
 
   header{
@@ -73,6 +78,8 @@ export const FormCase = styled.div`
 `
 
 export const ProductInputsList = styled.div`
+
+  height: 100%;
 
   display: flex;
   flex-direction: column;
@@ -129,6 +136,29 @@ export const ProductsLabels = styled.div`
 
   }
 `
-export const ScriptCase = styled.div`
 
+export const ScriptCase = styled.div`
+  article{
+    width: 100%;
+    overflow-y: auto;
+    height: 50rem;
+    font-size: 1.4rem;
+
+    ul{
+      margin: .8rem 0;
+      li{
+        margin: .4rem 0;
+      }
+    }
+
+  }
+`
+
+export const MachineInfo = styled.li`
+  text-indent: 1.2rem;
+  font-weight: 600;
+  `
+
+export const ProductInfo = styled.li`
+  font-weight: 500;
 `

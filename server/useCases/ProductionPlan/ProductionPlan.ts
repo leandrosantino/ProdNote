@@ -57,7 +57,7 @@ export class ProductionPlan {
           )
 
         const machine = machinesOrderByCapacityAndActionsDuration[0]
-        const durationInMilliseconds = (quantityToBeProduced / machine.capacity)
+        const durationInMilliseconds = (quantityToBeProduced / machine.capacity) * 60 * 60 * 1000
         machine.totalDurationOfActions += durationInMilliseconds
 
         const scriptData = {

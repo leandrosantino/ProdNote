@@ -1,57 +1,80 @@
 import { z } from 'zod'
 import { Field } from '../../components/Form/Field'
-import { Container, FormCase, MachinesInputsList, ProductInputsList, ProductsLabels, ScriptCase } from './styles'
-import { FormProvider, useForm } from 'react-hook-form'
+import { Container, FormCase, MachineInfo, MachinesInputsList, ProductInfo, ProductInputsList, ProductsLabels, ScriptCase } from './styles'
+import { FormProvider, useForm, useFieldArray } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { trpc } from '../../utils/api'
 import { TrashIcon } from '@radix-ui/react-icons'
 import { Button } from '../../components/Form/Botton'
 
-const script = {
-  M15: [
-    {
-      partNumber: '5',
-      durationInMilliseconds: 12.592592592592593,
-      piorityCoefficient: 0.32,
-      quantityToBeProduced: 340
-    },
-    {
-      partNumber: '1',
-      durationInMilliseconds: 3.7037037037037037,
-      piorityCoefficient: 0.75,
-      quantityToBeProduced: 100
-    },
-    {
-      partNumber: '3',
-      durationInMilliseconds: 5.555555555555555,
-      piorityCoefficient: 0.7692307692307693,
-      quantityToBeProduced: 150
-    }
-  ],
-  M16: [
-    {
-      partNumber: '6',
-      durationInMilliseconds: 11.333333333333334,
-      piorityCoefficient: 0.22727272727272727,
-      quantityToBeProduced: 170
-    },
-    {
-      partNumber: '2',
-      durationInMilliseconds: 6.666666666666667,
-      piorityCoefficient: 0.5,
-      quantityToBeProduced: 100
-    }
-  ]
-}
-
 export function Planning () {
-  const productionPlanForm = useForm({
-    resolver: zodResolver(z.object({
-      teste: z.string()
+  const productionPlanFormSchema = z.object({
+    products: z.array(z.object({
+      partNumber: z.string().nonempty('campo vazio'),
+      stock: z.coerce.number().min(1, '>=1'),
+      demand: z.coerce.number().min(1, '>=1')
     }))
+      .min(2, 'Adicione no mínimo 2 produto')
+      .superRefine((val, ctx) => {
+        const partNumbers = val.map(entry => entry.partNumber)
+        if (partNumbers.length !== new Set(partNumbers).size) {
+          ctx.addIssue({
+            code: z.ZodIssueCode.custom,
+            message: 'Não pode existir partNumbers repetidos'
+          })
+        }
+      }),
+    machines: z.array(z.object({ value: z.string().nonempty('selecione uma máquina') }))
+      .min(1, 'Adicione no mínimo 1 máquina')
+      .superRefine((val, ctx) => {
+        const machines = val.map(entry => entry.value)
+        if (machines.length !== new Set(machines).size) {
+          ctx.addIssue({
+            code: z.ZodIssueCode.custom,
+            message: 'Selecione máquinas diferentes '
+          })
+        }
+      })
+  })
+
+  type ProductionPlanForm = z.infer<typeof productionPlanFormSchema>
+
+  const productionPlanForm = useForm<ProductionPlanForm>({
+    resolver: zodResolver(productionPlanFormSchema)
+  })
+
+  const { handleSubmit, formState: { errors } } = productionPlanForm
+
+  const productsFieldArray = useFieldArray({
+    control: productionPlanForm.control,
+    name: 'products'
+  })
+
+  const machinesFieldArray = useFieldArray({
+    control: productionPlanForm.control,
+    name: 'machines'
   })
 
   const machines = trpc.machine.get.useQuery()
+  const productionScript = trpc.productionPlan.execute.useMutation()
+
+  function timeInMillisecondsToString (milliseconds: number) {
+    console.log(milliseconds)
+    const timeInFloatHours = milliseconds / 1000 / 60 / 60
+    const hours = parseInt(timeInFloatHours.toString())
+    const minutes = parseInt(((timeInFloatHours * 60) % 60).toString())
+    return `${hours}:${minutes}h`
+  }
+
+  function calculate (data: ProductionPlanForm) {
+    console.log(data)
+    productionScript.mutate({
+      machinesId: data.machines.map(machine => machine.value),
+      products: data.products
+    })
+    const key = 'M15'
+    console.log(productionScript.data?.[key].map(a => a.partNumber))
+  }
 
   return (
     <Container>
@@ -61,34 +84,49 @@ export function Planning () {
         <h1>Formulário</h1>
 
         <FormProvider {...productionPlanForm}>
-          <form>
+          <form onSubmit={handleSubmit(calculate)}>
 
             <header>
               <span>Máquinas</span>
-              <button type='button'>Adicionar</button>
+              <button type='button'
+                onClick={() => {
+                  if (machinesFieldArray.fields.length < 2) {
+                    machinesFieldArray.append({ value: '' })
+                  }
+                }}
+              >Adicionar</button>
             </header>
 
             <MachinesInputsList>
-              <div>
-                <Field.Root>
-                  <Field.Select
-                    name='teste'
-                    >
-                    {machines.data?.map(({ id, slug }) => (
-                      <option key={id} value={id}>{slug}</option>
-                    ))}
-                  </Field.Select>
-                </Field.Root>
-                <button type='button'>
-                  <TrashIcon/>
-                </button>
-              </div>
+              {machinesFieldArray.fields.map((field, index) => (
+                <div key={field.id} >
+                  <Field.Root>
+                    <Field.Select
+                      name={`machines.${index}.value`}
+                      >
+                      {machines.data?.map(({ id, slug }) => (
+                        <option key={id} value={id}>{slug}</option>
+                      ))}
+                    </Field.Select>
+                    <Field.ErrorMessage field={`machines.${index}.value`}/>
+                  </Field.Root>
+                  <button type='button' onClick={() => { machinesFieldArray.remove(index) }}>
+                    <TrashIcon/>
+                  </button>
+                </div>
+              ))}
 
             </MachinesInputsList>
 
+            <span>{errors.machines?.message}</span>
+
             <header>
               <span>Produtos</span>
-              <button type='button'>Adicionar</button>
+              <button type='button' onClick={() => {
+                productsFieldArray.append({
+                  demand: 0, partNumber: '', stock: 0
+                })
+              }}>Adicionar</button>
             </header>
 
             <ProductsLabels>
@@ -99,49 +137,37 @@ export function Planning () {
             </ProductsLabels>
 
             <ProductInputsList>
-              <div>
 
-                <Field.Root>
-                  <Field.Input name='teste'/>
-                </Field.Root>
+              {productsFieldArray.fields.map((field, index) => (
+                <div key={field.id}>
 
-                <Field.Root>
-                  <Field.Input name='teste' type='number'/>
-                </Field.Root>
+                  <Field.Root>
+                    <Field.Input name={`products.${index}.partNumber`}/>
+                    <Field.ErrorMessage field={`products.${index}.partNumber`}/>
+                  </Field.Root>
 
-                <Field.Root>
-                  <Field.Input name='teste' type='number'/>
-                </Field.Root>
+                  <Field.Root>
+                    <Field.Input name={`products.${index}.stock`} type='number'/>
+                    <Field.ErrorMessage field={`products.${index}.stock`}/>
+                  </Field.Root>
 
-                <div>
-                  <button type='button'>
-                    <TrashIcon/>
-                  </button>
+                  <Field.Root>
+                    <Field.Input name={`products.${index}.demand`} type='number'/>
+                    <Field.ErrorMessage field={`products.${index}.demand`}/>
+                  </Field.Root>
+
+                  <div>
+                    <button type='button' onClick={() => { productsFieldArray.remove(index) }}>
+                      <TrashIcon/>
+                    </button>
+                  </div>
+
                 </div>
+              ))}
 
-              </div>
-              <div>
-
-                <Field.Root>
-                  <Field.Input name='teste'/>
-                </Field.Root>
-
-                <Field.Root>
-                  <Field.Input name='teste' type='number'/>
-                </Field.Root>
-
-                <Field.Root>
-                  <Field.Input name='teste' type='number'/>
-                </Field.Root>
-
-                <div>
-                  <button type='button'>
-                    <TrashIcon/>
-                  </button>
-                </div>
-
-              </div>
             </ProductInputsList>
+
+            <span>{errors.products?.message}</span>
 
             <Button>Calcular</Button>
 
@@ -153,16 +179,29 @@ export function Planning () {
       <ScriptCase>
         <h1>Planejamento</h1>
 
-        {Object.keys(script).map((key) => (
-          <div key={key} >
+        <article>
+          <ul>
+            {Object.keys(productionScript.data ? productionScript.data : {}).map((key) => (
+              <MachineInfo key={key} >
 
-            <h1>{key}</h1>
-            {script[key as keyof typeof script].map(({ partNumber }) => (
-              <h2 key={partNumber}>{partNumber}</h2>
+                {key} - capacidade: {machines.data?.filter(entry => entry.slug === key)[0].capacity}jph
+                <ul>
+                  {productionScript?.data?.[key].map((info) => (
+                    <ProductInfo key={info?.partNumber}>
+                      {`
+                        PN: ${info?.partNumber} =>
+                        (${info?.quantityToBeProduced} Peças) -
+                        tempo: ${timeInMillisecondsToString(info?.durationInMilliseconds)} -
+                        prioridade: ${info?.piorityCoefficient.toFixed(2)}
+                      `}
+                    </ProductInfo>
+                  ))}
+                </ul>
+
+              </MachineInfo>
             ))}
-
-          </div>
-        ))}
+          </ul>
+        </article>
 
       </ScriptCase>
 
