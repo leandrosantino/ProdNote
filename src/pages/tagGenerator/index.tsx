@@ -9,6 +9,8 @@ import { useEffect, useState } from 'react'
 import { Table } from '../../components/Table'
 import { Switch } from '../../components/Form/Switch'
 import { z } from 'zod'
+import { trpc } from '../../utils/api'
+import fileDownload from 'js-file-download'
 
 type Options = Record<string, {
   id: string
@@ -22,16 +24,8 @@ interface SelectedProducts {
 }
 
 const options: Options = {
-  'Carpet frontal headline 592/551': { id: '1' },
-  'Teto moldado 226': { id: '2' },
-  'Bloco hood 551': { id: '3' },
-  'Bloco hood 5512': { id: '4' },
-  'Bloco hood 5513': { id: '5' },
-  'Bloco hood 5514': { id: '6' },
-  'Bloco hood 5515': { id: '7' },
-  'Bloco hood 5516': { id: '8' },
-  'Bloco hood 5517': { id: '9' },
-  'Bloco hood 5518': { id: '10' }
+  'Carpete moldado esquedo': { id: '1' },
+  'Bloco Hood 552': { id: '2' }
 }
 
 const addProductsFormSchema = z.object({
@@ -50,6 +44,7 @@ export function TagGenerator () {
   const [selectedProducts, setSelectedProducts] = useState<SelectedProducts[]>([])
   const [pagesAmount, setPagesAmount] = useState(0)
   const [downloadError, setDownloadError] = useState(false)
+  const tagsDownloadQuery = trpc.tag.createcreateTags.useMutation({})
 
   useEffect(() => {
     setDownloadError(false)
@@ -84,10 +79,18 @@ export function TagGenerator () {
     setPagesAmount(oldState => oldState - product.amount)
   }
 
-  function handleDownloadTagsInPDF () {
+  async function handleDownloadTagsInPDF () {
     if (selectedProducts.length > 0) {
-      setSelectedProducts([])
-      alert('Baixando PDF...')
+      tagsDownloadQuery.mutateAsync(selectedProducts)
+        .then((buffer) => {
+          const file = new Blob([new Uint8Array(buffer.data).buffer], {
+            type: 'application/pdf'
+          })
+          fileDownload(file, 'teste.pdf')
+          window.open(window.URL.createObjectURL(file), '_blank')
+          setSelectedProducts([])
+        })
+        .catch(console.log)
       return
     }
     setDownloadError(true)
@@ -180,6 +183,7 @@ export function TagGenerator () {
 
         <Info>
           <span>{pagesAmount} páginas</span>
+          <span>{tagsDownloadQuery.isLoading ? 'baixando...' : ''}</span>
           <Button
             onClick={handleDownloadTagsInPDF}
           >

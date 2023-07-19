@@ -31,7 +31,10 @@
     "@trpc/client": "^10.29.1",
     "@trpc/react-query": "^10.29.1",
     "@trpc/server": "^10.29.1",
+    "axios": "^1.4.0",
     "fastify": "^4.17.0",
+    "file-saver": "^2.0.5",
+    "js-file-download": "^0.4.12",
     "jsonwebtoken": "^9.0.0",
     "puppeteer": "^20.7.4",
     "react": "^18.2.0",
@@ -47,6 +50,7 @@
   "devDependencies": {
     "@commitlint/cli": "^17.6.5",
     "@commitlint/config-conventional": "^17.6.5",
+    "@types/file-saver": "^2.0.5",
     "@types/jest": "^29.5.2",
     "@types/jsonwebtoken": "^9.0.2",
     "@types/react": "^18.0.37",

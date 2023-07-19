@@ -11,7 +11,7 @@ const products: Product[] = [
     sapCode: '112847718.01',
     technicalDescription: 'carpete font fender esquedo',
     ute: 'ute-5',
-    id: 'iahwrguiabwepiuaewfiaue'
+    id: '1'
   },
   {
     amount: 2,
@@ -22,7 +22,7 @@ const products: Product[] = [
     sapCode: '112847718.01',
     technicalDescription: 'carpete font fender esquedo',
     ute: 'ute-5',
-    id: 'igsdivubasodivbasddbr'
+    id: '2'
   }
 ]
 

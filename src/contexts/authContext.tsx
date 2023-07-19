@@ -25,8 +25,8 @@ export function AuthProvider ({ children }: { children: ReactNode }) {
 
   async function signIn (userName: string, password: string) {
     const accessToken = await fetch.auth.login.mutate({
-      userName: 'PROD@teste',
-      password: 'alpha45c'
+      userName, // : 'PROD@teste',
+      password// : 'alpha45c'
     })
     if (accessToken) {
       setToken(accessToken)

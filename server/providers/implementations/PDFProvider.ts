@@ -13,6 +13,6 @@ export class PDFProvider implements IPDFProvider {
       format: 'A4'
     })
     await browser.close()
-    return pdf
+    return Buffer.from(pdf)
   }
 }

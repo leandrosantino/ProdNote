@@ -27,18 +27,18 @@ export function SignIn () {
     if (isAuth) {
       navigate('/')
     }
-    signIn(userName, password)
-      .then(() => {
-        navigate('/')
-      })
-      .catch(err => {
-        const message = (err as Error).message
-        setIsError({
-          userName: message === 'Unregistered User',
-          password: message === 'Invalid Password!'
-        })
-        console.log(message)
-      })
+    // signIn(userName, password)
+    //   .then(() => {
+    //     navigate('/')
+    //   })
+    //   .catch(err => {
+    //     const message = (err as Error).message
+    //     setIsError({
+    //       userName: message === 'Unregistered User',
+    //       password: message === 'Invalid Password!'
+    //     })
+    //     console.log(message)
+    //   })
   })
 
   function handleSignIn (event: FormEvent) {

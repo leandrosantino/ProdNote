@@ -29,7 +29,7 @@ export function Header () {
 
       <div>
         <ShowSideBarButton onClick={() => { setShowSideBar(true) }} />
-        <h3>LS Solucrions Ltda.</h3>
+        <h3>Adler Pelzer Group</h3>
       </div>
 
       {isAuth && <div>
