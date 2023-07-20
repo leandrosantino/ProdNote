@@ -1,4 +1,4 @@
-import { Container, Separator, Info, DownloadError } from './styles'
+import { Container, Separator, Info, DownloadError, SpinnerCase, TagSection } from './styles'
 import { Field } from '../../components/Form/Field'
 import { Button } from '../../components/Form/Botton'
 import { PlusCircledIcon, TrashIcon, DownloadIcon, CheckCircledIcon, CrossCircledIcon } from '@radix-ui/react-icons'
@@ -10,11 +10,14 @@ import { Table } from '../../components/Table'
 import { Switch } from '../../components/Form/Switch'
 import { z } from 'zod'
 import { trpc } from '../../utils/api'
-import fileDownload from 'js-file-download'
+import { ImSpinner6 } from 'react-icons/im'
+import { Tag } from '../../components/Tag'
+import { type Product } from '../../../server/entities/Product'
 
-type Options = Record<string, {
+interface Options {
+  description: string
   id: string
-}>
+}
 
 interface SelectedProducts {
   name: string
@@ -23,19 +26,33 @@ interface SelectedProducts {
   isFractional: boolean
 }
 
-const options: Options = {
-  'Carpete moldado esquedo': { id: '1' },
-  'Bloco Hood 552': { id: '2' }
-}
+const products: Options[] = [
+  { description: 'Carpete moldado esquedo', id: '1' },
+  { description: 'Bloco Hood 552', id: '2' }
+]
+
+const PAGE_AMOUNT_LIMIT = 100
 
 const addProductsFormSchema = z.object({
   product: z.string()
     .nonempty('O campo é obrigatório')
-    .refine(value => options[value] !== undefined, 'Produto desconhecido'),
+    .refine(value => {
+      return products
+        .filter(entry => entry.description === value)
+        .map(entry => entry.description)
+        .includes(value)
+    }, 'Produto desconhecido'),
+
   amount: z.coerce.number()
-    .min(1, '0 - 10')
-    .max(10, '0 - 10'),
-  fractional: z.coerce.boolean()
+    .min(1, `1 - ${PAGE_AMOUNT_LIMIT}`)
+    .max(PAGE_AMOUNT_LIMIT, `1 - ${PAGE_AMOUNT_LIMIT}`),
+
+  fractional: z.coerce.boolean(),
+  id: z.string()
+
+}).transform(form => {
+  form.id = products.filter(entry => entry.description === form.product)[0].id
+  return form
 })
 
 type AddProductsFormData = z.infer<typeof addProductsFormSchema>
@@ -43,12 +60,19 @@ type AddProductsFormData = z.infer<typeof addProductsFormSchema>
 export function TagGenerator () {
   const [selectedProducts, setSelectedProducts] = useState<SelectedProducts[]>([])
   const [pagesAmount, setPagesAmount] = useState(0)
-  const [downloadError, setDownloadError] = useState(false)
-  const tagsDownloadQuery = trpc.tag.createcreateTags.useMutation({})
+  const [downloadStatus, setDownloadStatus] = useState({
+    error: false,
+    msg: ''
+  })
 
-  useEffect(() => {
-    setDownloadError(false)
-  }, [selectedProducts])
+  const { data: products, isLoading: productsLoading } = trpc.product.getAll.useQuery()
+
+  const [viewProduct, setViewProduct] = useState<{
+    data: Product
+    isFractional: boolean
+  }>()
+
+  const tagsDownloadQuery = trpc.tag.createcreateTags.useMutation({})
 
   const addProductsForm = useForm<AddProductsFormData>({
     resolver: zodResolver(addProductsFormSchema)
@@ -60,11 +84,18 @@ export function TagGenerator () {
     setValue
   } = addProductsForm
 
+  useEffect(() => {
+    setDownloadStatus({
+      error: false, msg: ''
+    })
+    setValue('id', '')
+  }, [selectedProducts])
+
   function handleAddProduct (data: AddProductsFormData) {
     console.log(data)
     setSelectedProducts(oldState => [...oldState, {
       amount: data.amount,
-      id: options[data.product].id,
+      id: data.id,
       name: data.product,
       isFractional: data.fractional
     }])
@@ -77,23 +108,47 @@ export function TagGenerator () {
   function handleRemoveProduct (product: SelectedProducts, productIndex: number) {
     setSelectedProducts(oldeState => oldeState.filter((_, index) => index !== productIndex))
     setPagesAmount(oldState => oldState - product.amount)
+    setViewProduct(undefined)
   }
 
   async function handleDownloadTagsInPDF () {
-    if (selectedProducts.length > 0) {
-      tagsDownloadQuery.mutateAsync(selectedProducts)
-        .then((buffer) => {
-          const file = new Blob([new Uint8Array(buffer.data).buffer], {
-            type: 'application/pdf'
-          })
-          fileDownload(file, 'teste.pdf')
-          window.open(window.URL.createObjectURL(file), '_blank')
-          setSelectedProducts([])
-        })
-        .catch(console.log)
+    if (selectedProducts.length === 0) {
+      setDownloadStatus({
+        error: true,
+        msg: 'Adicione ao menos 1 produto para continuar'
+      })
       return
     }
-    setDownloadError(true)
+
+    if (pagesAmount > PAGE_AMOUNT_LIMIT) {
+      setDownloadStatus({
+        error: true,
+        msg: 'Limite de paginas excedido'
+      })
+      return
+    }
+
+    tagsDownloadQuery.mutateAsync(selectedProducts)
+      .then((buffer) => {
+        const file = new Blob([new Uint8Array(buffer.data).buffer], {
+          type: 'application/pdf'
+        })
+        // fileDownload(file, 'teste.pdf')
+        window.open(window.URL.createObjectURL(file), '_blank')
+        setSelectedProducts([])
+      })
+      .catch(console.log)
+  }
+
+  function handleSetViewProduct (index: number) {
+    if (products) {
+      setViewProduct({
+        data: products.filter(
+          ({ description }) => description === selectedProducts[index].name
+        )[0],
+        isFractional: selectedProducts[index].isFractional
+      })
+    }
   }
 
   return (
@@ -109,10 +164,11 @@ export function TagGenerator () {
             <Field.Root className='productField'>
               <Field.Label htmlFor='product' >Produto:</Field.Label>
               <Combobox
+                disabled={productsLoading}
                 id='product'
                 name='product'
-                options={Object.keys(options)}
-                placeholder='Insira o nome do produto que deseja adicionar'
+                options={products?.map(entry => entry.description) ?? []}
+                placeholder={productsLoading ? 'Carregando...' : 'Insira o nome do produto que deseja adicionar'}
               />
               <Field.ErrorMessage field='product' />
             </Field.Root>
@@ -123,9 +179,9 @@ export function TagGenerator () {
                   <Field.Label htmlFor='amount' >Quant.:</Field.Label>
                   <Field.Input
                     id='amount'
-                    min={1} max={10}
+                    min={1}
                     type='number' name='amount'
-                    placeholder='0-10'
+                    placeholder={`1 - ${PAGE_AMOUNT_LIMIT}`}
                   />
                   <Field.ErrorMessage field='amount'/>
                 </Field.Root>
@@ -135,7 +191,7 @@ export function TagGenerator () {
                 </div>
               </div>
 
-              <Button type='submit'>
+              <Button type='submit' disabled={tagsDownloadQuery.isLoading}>
                 Adicionar
                 <PlusCircledIcon/>
               </Button>
@@ -147,8 +203,8 @@ export function TagGenerator () {
 
         <Separator/>
 
-        {downloadError &&
-          <DownloadError>Adicione ao menos 1 produto para continuar</DownloadError>
+        {downloadStatus.error &&
+          <DownloadError>{downloadStatus.msg}</DownloadError>
         }
 
         <Table.Root>
@@ -160,9 +216,14 @@ export function TagGenerator () {
           </Table.Head>
           <Table.Body>
             {selectedProducts?.map((product, index) => (
-              <tr key={index} data-fractional={product.isFractional ? 'yes' : 'no'}>
-                <td>{product.name}</td>
+              <tr
+                key={index} data-fractional={product.isFractional ? 'yes' : 'no'}
+                >
                 <td
+                  onClick={() => { handleSetViewProduct(index) }}
+                >{product.name}</td>
+                <td
+                  onClick={() => { handleSetViewProduct(index) }}
                   className='tableFractionalTag'
                   data-fractional={product.isFractional ? 'yes' : 'no'}
                 >{
@@ -170,7 +231,9 @@ export function TagGenerator () {
                     ? <CheckCircledIcon/>
                     : <CrossCircledIcon/>
                 }</td>
-                <td>{product.amount}</td>
+                <td
+                  onClick={() => { handleSetViewProduct(index) }}
+                >{product.amount}</td>
                 <td>
                   <button onClick={() => { handleRemoveProduct(product, index) }}>
                     <TrashIcon/>
@@ -182,10 +245,14 @@ export function TagGenerator () {
         </Table.Root>
 
         <Info>
-          <span>{pagesAmount} páginas</span>
-          <span>{tagsDownloadQuery.isLoading ? 'baixando...' : ''}</span>
+          <span>{pagesAmount}-{PAGE_AMOUNT_LIMIT} páginas</span>
+          {tagsDownloadQuery.isLoading && <SpinnerCase>
+            <ImSpinner6 size={20}/>
+             Preparando arquivos...
+          </SpinnerCase>}
           <Button
             onClick={handleDownloadTagsInPDF}
+            disabled={tagsDownloadQuery.isLoading}
           >
             Baixar
             <DownloadIcon/>
@@ -193,9 +260,12 @@ export function TagGenerator () {
         </Info>
 
       </section>
-      <section>
-        <div></div>
-      </section>
+
+      <TagSection>
+        {viewProduct &&
+          <Tag productInfo={viewProduct} />
+        }
+      </TagSection>
 
     </Container>
   )

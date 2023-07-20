@@ -63,18 +63,6 @@ export const Container = styled.div`
     }
   }
 
-  section:last-child{
-    border: 0.1rem solid ${p => p.theme.colors.dark.gray10};
-    border-radius: .4rem;
-    height: calc(100vh - 7.4rem);
-
-    div{
-      aspect-ratio: 7/10;
-      height: 100%;
-      background-color: aquamarine;
-    }
-  }
-
   tr[data-fractional='yes']{
     background-color: ${p => p.theme.colors.light.red4};
     &:hover{
@@ -89,6 +77,13 @@ export const Container = styled.div`
     }
   }
 
+`
+
+export const TagSection = styled.section`
+  border: 0.1rem solid ${p => p.theme.colors.dark.gray10};
+  border-radius: .4rem;
+  height: calc(100vh - 7.4rem);
+  aspect-ratio: 7/10;
 `
 
 export const DownloadError = styled.span`
@@ -109,7 +104,7 @@ export const Info = styled.div`
   width: 100%;
   display: flex;
   justify-content: space-between;
-  align-items: start;
+  align-items: center;
   font-size: 1.2rem;
   margin-top: 1.2rem;
   padding: 0 .8rem;
@@ -117,5 +112,28 @@ export const Info = styled.div`
   span{
     color: ${p => p.theme.colors.light.gray10};
   }
+
+`
+export const SpinnerCase = styled.span`
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: .8rem;
+
+
+  @keyframes rotate {
+    from {
+      transform: rotate(0deg);
+    }
+
+    to {
+      transform: rotate(359deg);
+    }
+  }
+  svg{
+    animation: rotate 3s linear infinite;
+  }
+
 
 `

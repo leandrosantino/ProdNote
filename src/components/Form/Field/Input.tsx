@@ -33,6 +33,10 @@ const Container = styled.div`
       font-size: 1.2rem;
     }
 
+    &:disabled{
+      background-color: ${p => p.theme.colors.light.gray4};
+    }
+
   }
 
   &[data-invalid='true']{

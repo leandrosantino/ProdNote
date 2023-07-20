@@ -3,7 +3,7 @@ import { type Context } from '../context'
 import { authenticattionMiddleware } from '../middlewares/authenticattionMiddleware'
 import { z } from 'zod'
 import { productSchema } from '../entities/Product'
-import { ProductRepository } from '../repositories/implementations/prisma/ProductRepository'
+import { getProducts } from '../services/getProducts'
 
 const t = initTRPC.context<Context>().create()
 
@@ -13,7 +13,6 @@ export const productRoutes = t.router({
   getAll: protect
     .output(z.array(productSchema))
     .query(async () => {
-      const productRepository = new ProductRepository()
-      return await productRepository.findMany()
+      return await getProducts.execute()
     })
 })

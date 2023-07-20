@@ -22,4 +22,10 @@ export const Button = styled.button`
   &:hover{
     background-color: ${p => p.theme.colors.dark.blue6};
   }
+
+  &:disabled{
+    background-color: ${p => p.theme.colors.dark.blue4};
+    opacity: .7;
+  }
+
 `
