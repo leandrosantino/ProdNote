@@ -3,6 +3,7 @@ import { type Product } from '../entities/Product'
 export interface ITagsProps {
   data: Product
   isFractional: boolean
+  tagId: string
 }
 
 export interface ITagsPDFContainerComponentProps {

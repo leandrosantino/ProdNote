@@ -11,7 +11,7 @@ import { Switch } from '../../components/Form/Switch'
 import { z } from 'zod'
 import { trpc } from '../../utils/api'
 import { ImSpinner6 } from 'react-icons/im'
-import { Tag } from '../../components/Tag'
+import { TagSheet } from '../../components/TagSheet'
 import { type Product } from '../../../server/entities/Product'
 
 interface Options {
@@ -89,6 +89,7 @@ export function TagGenerator () {
       error: false, msg: ''
     })
     setValue('id', '')
+    handleSetViewProduct(selectedProducts.length - 1)
   }, [selectedProducts])
 
   function handleAddProduct (data: AddProductsFormData) {
@@ -263,7 +264,7 @@ export function TagGenerator () {
 
       <TagSection>
         {viewProduct &&
-          <Tag productInfo={viewProduct} />
+          <TagSheet scale='reduce' productInfo={viewProduct} />
         }
       </TagSection>
 

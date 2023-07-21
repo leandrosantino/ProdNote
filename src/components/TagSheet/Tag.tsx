@@ -1,0 +1,114 @@
+import { QRCodeSVG } from 'qrcode.react'
+import { type Product } from '../../../server/entities/Product'
+import { TagContent } from './style'
+
+interface TagProps {
+  qrcode?: boolean
+  id: string
+  productInfo: {
+    data?: Product | null
+    isFractional: boolean
+  }
+  scale: 'full' | 'reduce'
+}
+
+export function Tag ({ id, productInfo, qrcode, scale }: TagProps) {
+  const qrcodeElement = (
+    <>
+      {qrcode &&
+        < QRCodeSVG
+        id="qrCode"
+        value={JSON.stringify({
+          productId: productInfo?.data?.id,
+          tagId: id,
+          amount: productInfo?.isFractional ? 0 : productInfo?.data?.amount
+        })}
+        size={scale === 'reduce' ? 150 : 256}
+        fgColor='#002060'
+        bgColor={'#fff '} level={'H'}
+      />
+      }
+    </>
+  )
+
+  console.log(qrcodeElement)
+
+  return (
+    <TagContent
+      data-qrcode={qrcode ? 'on' : 'off'}
+      data-scale={scale}
+      {...{ scale }}
+    >
+
+      <header>
+        <span>ETIQUETA DE PRODUTO ACABADO</span>
+        <span>ADLER PELZER PE</span>
+      </header>
+
+      <span className='label' >DESCRIÇÃO:</span>
+
+      <div className='description' >
+        <div>
+          <span>{productInfo.data?.description}</span>
+          <span>{productInfo.data?.technicalDescription}</span>
+        </div>
+        <span>{productInfo.data?.ute}</span>
+      </div>
+
+      <div className="body">
+        <div>
+
+          <span className="label">CÓDIGO JEEP:</span>
+          <div className='dataCase' >{productInfo.data?.partNumber}</div>
+
+          <span className="label">CÓDIGO ADLER:</span>
+          <div className='dataCase' >{productInfo.data?.sapCode}</div>
+
+          <span className="label">QUANTIDADE:</span>
+          <div className='dataCase largeText' >{
+          productInfo.isFractional
+            ? '.'
+            : productInfo.data?.amount
+          }</div>
+
+          <span className="label">CÓDIGO ADLER:</span>
+          <div className='dataCase largeText' >{productInfo.data?.projectNumber}</div>
+
+        </div>
+
+        <div>
+
+          <span className="label">{qrcode ? 'QRCODE:' : 'FIFO:'}</span>
+          <div className='dataCase fullheight displayCenter' >
+            {qrcodeElement}
+          </div>
+
+          {
+            !qrcode &&
+            <div className='form'>
+
+              <div className='formFrame' >
+                <span className='label' >RESPONSÁVEL:</span>
+                <div className='formInput'></div>
+              </div>
+
+              <div className='formFrame' >
+                <span className='label' >OPERADOR:</span>
+                <div className='formInput'></div>
+              </div>
+
+              <div className='formFrame' >
+                <span className='label' >TURNO:</span>
+                <div className='widthTurno formInput'></div>
+              </div>
+
+            </div>
+          }
+
+        </div>
+
+      </div>
+
+    </TagContent>
+  )
+}

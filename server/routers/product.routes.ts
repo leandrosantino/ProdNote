@@ -4,6 +4,7 @@ import { authenticattionMiddleware } from '../middlewares/authenticattionMiddlew
 import { z } from 'zod'
 import { productSchema } from '../entities/Product'
 import { getProducts } from '../services/getProducts'
+import { ProductRepository } from '../repositories/implementations/prisma/ProductRepository'
 
 const t = initTRPC.context<Context>().create()
 
@@ -14,5 +15,14 @@ export const productRoutes = t.router({
     .output(z.array(productSchema))
     .query(async () => {
       return await getProducts.execute()
+    }),
+  getById: protect
+    .output(productSchema.nullable())
+    .input(z.object({
+      id: z.string()
+    }))
+    .query(async ({ input }) => {
+      const productRepository = new ProductRepository()
+      return await productRepository.getById(input.id)
     })
 })

@@ -10,7 +10,15 @@ export class PDFProvider implements IPDFProvider {
     await page.setContent(html)
     const pdf = await page.pdf({
       printBackground: true,
-      format: 'A4'
+      format: 'A4',
+      width: 210,
+      height: 297,
+      margin: {
+        top: 5,
+        bottom: 15,
+        left: 10,
+        right: 10
+      }
     })
     await browser.close()
     return Buffer.from(pdf)

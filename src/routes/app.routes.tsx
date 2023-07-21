@@ -11,6 +11,7 @@ export function AppRoutes () {
   return (
     <BrowserRouter>
       <Routes>
+            <Route path='registerTag' Component={RegisterTag} />
         <Route path="/" Component={Layout}>
 
           <Route path="signIn" element={<SignIn />} />
@@ -22,7 +23,6 @@ export function AppRoutes () {
           </Route>
 
           <Route element={<RequireAuth permission='READ_TAGS'/>}>
-            <Route path='registerTag' Component={RegisterTag} />
           </Route>
 
           <Route element={<RequireAuth permission='GENERATE_TAGS'/>}>
