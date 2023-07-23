@@ -5,7 +5,7 @@ const tags = [{
     amount: 1,
     classification: 'acabado',
     description: 'Carpete moldado esquedo',
-    partNumber: '6187481',
+    partNumber: '618748189',
     projectNumber: '592',
     sapCode: '112847718.01',
     technicalDescription: 'carpete font fender esquedo',
@@ -17,5 +17,10 @@ const tags = [{
 }]
 
 export function RegisterTag () {
-  return (<TagsPDFContainer {...{ tags }}/>)
+  return (
+    <>
+      <TagsPDFContainer {...{ tags }}/>
+      <TagsPDFContainer {...{ tags }}/>
+    </>
+  )
 }

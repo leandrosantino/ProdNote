@@ -14,10 +14,10 @@ export class PDFProvider implements IPDFProvider {
       width: 210,
       height: 297,
       margin: {
-        top: 5,
-        bottom: 15,
-        left: 10,
-        right: 10
+        top: '7mm',
+        bottom: '7mm',
+        left: '5mm',
+        right: '5mm'
       }
     })
     await browser.close()

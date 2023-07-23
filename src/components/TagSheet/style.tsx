@@ -14,7 +14,10 @@ export const Container = styled.div`
 
 export const TagContent = styled.div<{ scale: 'full' | 'reduce' }>`
 
-  font-family: Arial;
+  *{
+    font-family: Arial;
+  }
+  color: black;
 
   --padding: ${p => p.scale === 'reduce' ? '2px' : '4px'};
   --border-width: 2px;
@@ -29,7 +32,6 @@ export const TagContent = styled.div<{ scale: 'full' | 'reduce' }>`
   flex-wrap: nowrap;
 
   header{
-    font-size: .02em;
     width: 100%;
     display: flex;
     flex-direction: column;
@@ -151,8 +153,9 @@ export const TagContent = styled.div<{ scale: 'full' | 'reduce' }>`
     }
     .largeText{
       padding: 0px;
-      font-size: 70px;
-      font-weight: 900;
+      font-size: 80px;
+      font-weight: 600;
+      height: 100%;
     }
   }
 

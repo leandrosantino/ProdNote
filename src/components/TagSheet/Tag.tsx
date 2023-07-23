@@ -58,8 +58,8 @@ export function Tag ({ id, productInfo, qrcode, scale }: TagProps) {
       <div className="body">
         <div>
 
-          <span className="label">CÓDIGO JEEP:</span>
-          <div className='dataCase' >{productInfo.data?.partNumber}</div>
+          <span className="label">PROJETO:</span>
+          <div className='dataCase' >{productInfo.data?.projectNumber}</div>
 
           <span className="label">CÓDIGO ADLER:</span>
           <div className='dataCase' >{productInfo.data?.sapCode}</div>
@@ -71,8 +71,8 @@ export function Tag ({ id, productInfo, qrcode, scale }: TagProps) {
             : productInfo.data?.amount
           }</div>
 
-          <span className="label">CÓDIGO ADLER:</span>
-          <div className='dataCase largeText' >{productInfo.data?.projectNumber}</div>
+          <span className="label">CÓDIGO JEEP:</span>
+          <div className='dataCase largeText' >{productInfo.data?.partNumber}</div>
 
         </div>
 
