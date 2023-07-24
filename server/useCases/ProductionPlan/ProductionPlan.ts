@@ -102,7 +102,7 @@ export class ProductionPlan {
     const machines: ProcessedMachine[] = []
 
     for await (const id of machinesId) {
-      const machine = await this.machineRepository.getById(id)
+      const machine = await this.machineRepository.findById(id)
       if (machine) {
         machines.push({
           capacity: machine.capacity,

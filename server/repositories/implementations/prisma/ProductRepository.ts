@@ -27,7 +27,7 @@ const products: Product[] = [
 ]
 
 export class ProductRepository implements IProductRepository {
-  async getById (id: string) {
+  async findById (id: string) {
     const resp = products.filter(entry => entry.id === id)
     if (resp.length === 1) {
       return resp[0]

@@ -14,7 +14,7 @@ export class PDFProvider implements IPDFProvider {
       width: 210,
       height: 297,
       margin: {
-        top: '7mm',
+        top: '6mm',
         bottom: '7mm',
         left: '5mm',
         right: '5mm'

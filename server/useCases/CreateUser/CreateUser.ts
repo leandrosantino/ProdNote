@@ -22,7 +22,7 @@ export class CreateUser {
     }
 
     const userPermissions = await this.systemPermissionsRepository
-      .findManyById(permissions)
+      .findManyByIdList(permissions)
 
     await this.usersRepository.create({
       name, email, password, permissions: userPermissions

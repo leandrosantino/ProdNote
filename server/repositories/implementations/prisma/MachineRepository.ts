@@ -17,7 +17,7 @@ const machines: Machine[] = [
 ]
 
 export class MachineRepository implements IMachineRepository {
-  async getById (id: string) {
+  async findById (id: string) {
     const machine = machines.filter(machine => machine.id === id)[0]
     if (machine) {
       return machine

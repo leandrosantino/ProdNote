@@ -25,7 +25,7 @@ export class SystemPermissionRepository implements ISystemPermissionsRepository 
     return permission
   }
 
-  async findManyById (ids: number[]) {
+  async findManyByIdList (ids: number[]) {
     const resp = [] as SystemPermission[]
 
     ids.forEach(id => {

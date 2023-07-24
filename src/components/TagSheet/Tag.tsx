@@ -45,7 +45,10 @@ export function Tag ({ id, productInfo, qrcode, scale }: TagProps) {
         <span>ADLER PELZER PE</span>
       </header>
 
-      <span className='label' >DESCRIÇÃO:</span>
+      <div className='idCase' >
+        <span className='label' >DESCRIÇÃO:</span>
+        <span className='label' >ID: {id.toUpperCase()}</span>
+      </div>
 
       <div className='description' >
         <div>

@@ -72,7 +72,7 @@ export function TagGenerator () {
     isFractional: boolean
   }>()
 
-  const tagsDownloadQuery = trpc.tag.createcreateTags.useMutation({})
+  const tagsDownloadQuery = trpc.tag.create.useMutation({})
 
   const addProductsForm = useForm<AddProductsFormData>({
     resolver: zodResolver(addProductsFormSchema)
@@ -137,12 +137,13 @@ export function TagGenerator () {
         // fileDownload(file, 'teste.pdf')
         window.open(window.URL.createObjectURL(file), '_blank')
         setSelectedProducts([])
+        setPagesAmount(0)
       })
       .catch(console.log)
   }
 
   function handleSetViewProduct (index: number) {
-    if (products) {
+    if (products && selectedProducts.length > 0) {
       setViewProduct({
         data: products.filter(
           ({ description }) => description === selectedProducts[index].name
@@ -165,6 +166,7 @@ export function TagGenerator () {
             <Field.Root className='productField'>
               <Field.Label htmlFor='product' >Produto:</Field.Label>
               <Combobox
+                autoComplete='off'
                 disabled={productsLoading}
                 id='product'
                 name='product'
@@ -236,7 +238,9 @@ export function TagGenerator () {
                   onClick={() => { handleSetViewProduct(index) }}
                 >{product.amount}</td>
                 <td>
-                  <button onClick={() => { handleRemoveProduct(product, index) }}>
+                  <button
+                    disabled={tagsDownloadQuery.isLoading}
+                    onClick={() => { handleRemoveProduct(product, index) }}>
                     <TrashIcon/>
                   </button>
                 </td>

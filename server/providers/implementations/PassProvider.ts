@@ -2,7 +2,7 @@ import { type IPassProvider } from '../interfaces/IPassProvider'
 import crypto from 'crypto'
 
 export class PassProvider implements IPassProvider {
-  algorithm = 'sha512'
+  private readonly algorithm = 'sha512'
 
   generate (loginPass: string): string {
     const hash = crypto.createHmac(this.algorithm, loginPass)

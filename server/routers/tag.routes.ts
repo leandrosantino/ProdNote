@@ -10,7 +10,7 @@ const t = initTRPC.context<Context>().create()
 const protect = t.procedure.use(authenticattionMiddleware)
 
 export const tagRoutes = t.router({
-  createcreateTags: protect.use(requiredPermissionMiddleware('GENERATE_TAGS'))
+  create: protect.use(requiredPermissionMiddleware('GENERATE_TAGS'))
     .input(createTagsRequestDTOSchema)
     .mutation(async ({ input }) => {
       return await createTags.execute(input)

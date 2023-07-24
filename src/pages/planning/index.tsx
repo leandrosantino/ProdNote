@@ -55,7 +55,7 @@ export function Planning () {
     name: 'machines'
   })
 
-  const machines = trpc.machine.get.useQuery()
+  const machines = trpc.machine.getAll.useQuery()
   const productionScript = trpc.productionPlan.execute.useMutation()
 
   function timeInMillisecondsToString (milliseconds: number) {

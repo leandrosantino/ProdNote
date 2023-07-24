@@ -3,16 +3,18 @@ import { type Context } from '../context'
 import { authenticattionMiddleware } from '../middlewares/authenticattionMiddleware'
 import { machineSchema } from '../entities/Machine'
 import { z } from 'zod'
-import { getMachines } from '../services/getMachines'
+import { MachineRepository } from '../repositories/implementations/prisma/MachineRepository'
 
 const t = initTRPC.context<Context>().create()
 
 const protect = t.procedure.use(authenticattionMiddleware)
 
+const machineRepository = new MachineRepository()
+
 export const MachineRoutes = t.router({
-  get: protect
+  getAll: protect
     .output(z.array(machineSchema))
     .query(async () => {
-      return await getMachines.execute()
+      return await machineRepository.findMany()
     })
 })

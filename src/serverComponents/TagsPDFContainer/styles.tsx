@@ -19,5 +19,5 @@ export const Sheet = styled.div`
   display: flex;
   flex-direction: column;
   gap: 20px;
-  margin-bottom: 11px;
+  margin-bottom: 2px;
 `

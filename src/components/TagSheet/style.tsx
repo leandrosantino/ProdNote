@@ -21,7 +21,7 @@ export const TagContent = styled.div<{ scale: 'full' | 'reduce' }>`
 
   --padding: ${p => p.scale === 'reduce' ? '2px' : '4px'};
   --border-width: 2px;
-  --font-weight: ${p => p.scale === 'reduce' ? '600' : '900'};
+  --font-weight: 600;
   --font-size: ${p => p.scale === 'reduce' ? '28px' : '40px'};
 
   flex: 1;
@@ -41,6 +41,11 @@ export const TagContent = styled.div<{ scale: 'full' | 'reduce' }>`
       width: 100%;
       text-align: center;
     }
+  }
+
+  .idCase{
+    display: flex;
+    justify-content: space-between;
   }
 
   .label{
@@ -156,6 +161,9 @@ export const TagContent = styled.div<{ scale: 'full' | 'reduce' }>`
       font-size: 80px;
       font-weight: 600;
       height: 100%;
+    }
+    .label{
+      font-size: 14px;
     }
   }
 
