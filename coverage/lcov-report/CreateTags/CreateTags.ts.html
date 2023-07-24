@@ -23,30 +23,30 @@
         <div class='clearfix'>
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">100% </span>
+                <span class="strong">0% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>47/47</span>
+                <span class='fraction'>0/47</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">100% </span>
+                <span class="strong">0% </span>
                 <span class="quiet">Branches</span>
-                <span class='fraction'>6/6</span>
+                <span class='fraction'>0/1</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">100% </span>
+                <span class="strong">0% </span>
                 <span class="quiet">Functions</span>
-                <span class='fraction'>3/3</span>
+                <span class='fraction'>0/1</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">100% </span>
+                <span class="strong">0% </span>
                 <span class="quiet">Lines</span>
-                <span class='fraction'>47/47</span>
+                <span class='fraction'>0/47</span>
             </div>
         
             
@@ -61,7 +61,7 @@
             </div>
         </template>
     </div>
-    <div class='status-line high'></div>
+    <div class='status-line low'></div>
     <pre><table class="coverage">
 <tr><td class="line-count quiet"><a name='L1'></a><a href='#L1'>1</a>
 <a name='L2'></a><a href='#L2'>2</a>
@@ -110,100 +110,100 @@
 <a name='L45'></a><a href='#L45'>45</a>
 <a name='L46'></a><a href='#L46'>46</a>
 <a name='L47'></a><a href='#L47'>47</a>
-<a name='L48'></a><a href='#L48'>48</a></td><td class="line-coverage quiet"><span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">2x</span>
-<span class="cline-any cline-yes">2x</span>
-<span class="cline-any cline-yes">2x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">3x</span>
-<span class="cline-any cline-yes">3x</span>
-<span class="cline-any cline-yes">3x</span>
-<span class="cline-any cline-yes">3x</span>
-<span class="cline-any cline-yes">3x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">2x</span>
-<span class="cline-any cline-yes">2x</span>
-<span class="cline-any cline-yes">2x</span>
-<span class="cline-any cline-yes">2x</span>
-<span class="cline-any cline-yes">2x</span>
-<span class="cline-any cline-yes">2x</span>
-<span class="cline-any cline-yes">2x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">import { type IProductRepository } from '../../repositories/interfaces/IProductRepository'
-import { type IPDFProvider } from '../../providers/interfaces/IPDFProvider'
-import { type ISSRProvider } from '../../providers/interfaces/ISSRProvider'
-import { type CreateTagsRequestDTO } from './CreateTagsDTO'
-import { type ITagsPDFContainerComponent, type ITagsPDFContainerComponentProps, type ITagsProps } from '../../interfaces/ITagsPDFContainerComponent'
-import { type IIdProvider } from '../../providers/interfaces/IIdProvider'
-import { HttpError } from '../../utils/HttpError'
-&nbsp;
-export class CreateTags {
-  constructor (
-    private readonly productRepository: IProductRepository,
-    private readonly pdfProvider: IPDFProvider,
-    private readonly ssrProvider: ISSRProvider,
-    private readonly tagComponent: ITagsPDFContainerComponent,
-    private readonly idProvider: IIdProvider
-  ) {}
-&nbsp;
-  async execute (productList: CreateTagsRequestDTO) {
-    const products = await this.createTagsData(productList)
-&nbsp;
-    if (products === null) {
-      throw new HttpError({ code: 'BAD_REQUEST', message: 'product not found' })
-    }
-&nbsp;
-    const html = this.ssrProvider.renderToString&lt;ITagsPDFContainerComponentProps&gt;(
-      { tags: products },
-      this.tagComponent
-    )
-    return await this.pdfProvider.createFromHtml(html)
-  }
-&nbsp;
-  async createTagsData (productList: CreateTagsRequestDTO) {
-    const data: ITagsProps[] = []
-&nbsp;
-    for await (const { amount, id, isFractional } of productList) {
-      const product = await this.productRepository.findById(id)
-      if (product === null) {
-        return null
-      }
-      for (let i = 1; i &lt;= amount; i++) {
-        data.push({ data: product, isFractional, tagId: this.idProvider.generateCUID() })
-      }
-    }
-&nbsp;
-    return data
-  }
-}
+<a name='L48'></a><a href='#L48'>48</a></td><td class="line-coverage quiet"><span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js"><span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" ><span class="branch-0 cbranch-no" title="branch not covered" >import { type IProductRepository } from '../../repositories/interfaces/IProductRepository'</span></span></span>
+<span class="cstat-no" title="statement not covered" >import { type IPDFProvider } from '../../providers/interfaces/IPDFProvider'</span>
+<span class="cstat-no" title="statement not covered" >import { type ISSRProvider } from '../../providers/interfaces/ISSRProvider'</span>
+<span class="cstat-no" title="statement not covered" >import { type CreateTagsRequestDTO } from './CreateTagsDTO'</span>
+<span class="cstat-no" title="statement not covered" >import { type ITagsPDFContainerComponent, type ITagsPDFContainerComponentProps, type ITagsProps } from '../../interfaces/ITagsPDFContainerComponent'</span>
+<span class="cstat-no" title="statement not covered" >import { type IIdProvider } from '../../providers/interfaces/IIdProvider'</span>
+<span class="cstat-no" title="statement not covered" >import { HttpError } from '../../utils/HttpError'</span>
+<span class="cstat-no" title="statement not covered" ></span>
+<span class="cstat-no" title="statement not covered" >export class CreateTags {</span>
+<span class="cstat-no" title="statement not covered" >  constructor (</span>
+<span class="cstat-no" title="statement not covered" >    private readonly productRepository: IProductRepository,</span>
+<span class="cstat-no" title="statement not covered" >    private readonly pdfProvider: IPDFProvider,</span>
+<span class="cstat-no" title="statement not covered" >    private readonly ssrProvider: ISSRProvider,</span>
+<span class="cstat-no" title="statement not covered" >    private readonly tagComponent: ITagsPDFContainerComponent,</span>
+<span class="cstat-no" title="statement not covered" >    private readonly idProvider: IIdProvider</span>
+<span class="cstat-no" title="statement not covered" >  ) {}</span>
+<span class="cstat-no" title="statement not covered" ></span>
+<span class="cstat-no" title="statement not covered" >  async execute (productList: CreateTagsRequestDTO) {</span>
+<span class="cstat-no" title="statement not covered" >    const products = await this.createTagsData(productList)</span>
+<span class="cstat-no" title="statement not covered" ></span>
+<span class="cstat-no" title="statement not covered" >    if (products === null) {</span>
+<span class="cstat-no" title="statement not covered" >      throw new HttpError({ code: 'BAD_REQUEST', message: 'product not found' })</span>
+<span class="cstat-no" title="statement not covered" >    }</span>
+<span class="cstat-no" title="statement not covered" ></span>
+<span class="cstat-no" title="statement not covered" >    const html = this.ssrProvider.renderToString&lt;ITagsPDFContainerComponentProps&gt;(</span>
+<span class="cstat-no" title="statement not covered" >      { tags: products },</span>
+<span class="cstat-no" title="statement not covered" >      this.tagComponent</span>
+<span class="cstat-no" title="statement not covered" >    )</span>
+<span class="cstat-no" title="statement not covered" >    return await this.pdfProvider.createFromHtml(html)</span>
+<span class="cstat-no" title="statement not covered" >  }</span>
+<span class="cstat-no" title="statement not covered" ></span>
+<span class="cstat-no" title="statement not covered" >  async createTagsData (productList: CreateTagsRequestDTO) {</span>
+<span class="cstat-no" title="statement not covered" >    const data: ITagsProps[] = []</span>
+<span class="cstat-no" title="statement not covered" ></span>
+<span class="cstat-no" title="statement not covered" >    for await (const { amount, id, isFractional } of productList) {</span>
+<span class="cstat-no" title="statement not covered" >      const product = await this.productRepository.findById(id)</span>
+<span class="cstat-no" title="statement not covered" >      if (product === null) {</span>
+<span class="cstat-no" title="statement not covered" >        return null</span>
+<span class="cstat-no" title="statement not covered" >      }</span>
+<span class="cstat-no" title="statement not covered" >      for (let i = 1; i &lt;= amount; i++) {</span>
+<span class="cstat-no" title="statement not covered" >        data.push({ data: product, isFractional, tagId: this.idProvider.generateCUID() })</span>
+<span class="cstat-no" title="statement not covered" >      }</span>
+<span class="cstat-no" title="statement not covered" >    }</span>
+<span class="cstat-no" title="statement not covered" ></span>
+<span class="cstat-no" title="statement not covered" >    return data</span>
+<span class="cstat-no" title="statement not covered" >  }</span>
+<span class="cstat-no" title="statement not covered" >}</span>
 &nbsp;</pre></td></tr></table></pre>
 
                 <div class='push'></div><!-- for sticky footer -->
@@ -211,7 +211,7 @@ export class CreateTags {
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2023-07-24T15:58:16.563Z
+                at 2023-07-24T17:55:49.610Z
             </div>
         <script src="../prettify.js"></script>
         <script>

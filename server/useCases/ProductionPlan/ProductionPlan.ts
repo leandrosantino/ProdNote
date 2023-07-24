@@ -1,13 +1,13 @@
 import { type IMachineRepository } from '../../repositories/interfaces/IMachineRepository'
 import { type ProductionPlanRequestDTO, type ProductionPlanResponseDTO } from './ProductionPlanDTO'
 
-interface ProcessedMachine {
+export interface ProcessedMachine {
   capacity: number
   slug: string
   totalDurationOfActions: number
 }
 
-interface ProcessedProducts {
+export interface ProcessedProducts {
   partNumber: string
   quantityToBeProduced: number
   piorityCoefficient: number
@@ -19,31 +19,38 @@ export class ProductionPlan {
   ) {}
 
   async execute ({ machinesId, products }: ProductionPlanRequestDTO) {
-    const listOfProcessedProducts: ProcessedProducts[] = products.map(product => ({
-      partNumber: product.partNumber,
-      quantityToBeProduced: product.demand - product.stock,
-      piorityCoefficient: product.stock / product.demand
-    }))
+    const listOfProcessedProducts: ProcessedProducts[] = this
+      .processProduct(products)
 
-    const productsSortedByPriorityCoefficient = this.orderArrayOfObjects<ProcessedProducts>(
-      listOfProcessedProducts,
-      'piorityCoefficient',
-      'asc'
-    )
+    const productsSortedByPriorityCoefficient = this
+      .orderArrayOfObjects(
+        listOfProcessedProducts,
+        'piorityCoefficient',
+        'asc'
+      )
 
     const productsSortedByQuantityToBeProduced = this
       .sortProductsByQuantityToBeProduced(
         productsSortedByPriorityCoefficient
       )
 
-    const productionScript: ProductionPlanResponseDTO = {}
-
     const porcessedMachines: ProcessedMachine[] = await this
       .getMachineInfo(machinesId)
 
-    let machinesOrderByCapacityAndActionsDuration = porcessedMachines
+    const productionScript: ProductionPlanResponseDTO = this
+      .createProductionScript(
+        productsSortedByQuantityToBeProduced,
+        porcessedMachines
+      )
 
-    productsSortedByQuantityToBeProduced
+    return productionScript
+  }
+
+  private createProductionScript (products: ProcessedProducts[], machines: ProcessedMachine[]) {
+    const productionScript: ProductionPlanResponseDTO = {}
+    let machinesOrderByCapacityAndActionsDuration = machines
+
+    products
       .forEach(({ partNumber, quantityToBeProduced, piorityCoefficient }) => {
         machinesOrderByCapacityAndActionsDuration = this
           .orderArrayOfObjects(
@@ -75,7 +82,7 @@ export class ProductionPlan {
     return productionScript
   }
 
-  private sortProductsByQuantityToBeProduced (products: ProcessedProducts[]) {
+  sortProductsByQuantityToBeProduced (products: ProcessedProducts[]) {
     return products
       .sort((laterObject, currentObject) => {
         const differenceBetweenPriorityCoefficient =
@@ -98,7 +105,7 @@ export class ProductionPlan {
       })
   }
 
-  private async getMachineInfo (machinesId: ProductionPlanRequestDTO['machinesId']) {
+  async getMachineInfo (machinesId: ProductionPlanRequestDTO['machinesId']) {
     const machines: ProcessedMachine[] = []
 
     for await (const id of machinesId) {
@@ -115,7 +122,15 @@ export class ProductionPlan {
     return machines
   }
 
-  private orderArrayOfObjects <T>(
+  processProduct (products: ProductionPlanRequestDTO['products']): ProcessedProducts[] {
+    return products.map(product => ({
+      partNumber: product.partNumber,
+      quantityToBeProduced: product.demand - product.stock,
+      piorityCoefficient: product.stock / product.demand
+    }))
+  }
+
+  orderArrayOfObjects <T>(
     objects: T[],
     referenceKey: keyof typeof objects[number],
     order: 'asc' | 'desc'
