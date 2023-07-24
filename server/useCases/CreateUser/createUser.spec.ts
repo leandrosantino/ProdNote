@@ -21,7 +21,7 @@ describe('tests users creation', () => {
   ]
 
   const systemPermissionsRepoMock = {
-    async findManyById (ids) {
+    async findManyByIdList (ids) {
       return permissions.map((entry) => {
         for (const id of ids) {
           if (id === entry.id) return entry

@@ -30,6 +30,18 @@ module.exports = {
   //   "\\\\node_modules\\\\"
   // ],
 
+  collectCoverage: true,
+  collectCoverageFrom: [
+    './server/useCases/**',
+    '!./server/useCases/**/*DTO.ts',
+    '!./server/useCases/**/index.ts'
+  ],
+  coverageThreshold: {
+    globa: {
+      lines: 90
+    }
+  },
+
   // Indicates which provider should be used to instrument code for coverage
   coverageProvider: "v8",
 
