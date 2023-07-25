@@ -1,4 +1,4 @@
-import { Container, Separator, Info, DownloadError, SpinnerCase, TagSection } from './styles'
+import { Container, Separator, Info, DownloadError, SpinnerCase, TagSection, SelectedProductsTable } from './styles'
 import { Field } from '../../components/Form/Field'
 import { Button } from '../../components/Form/Botton'
 import { PlusCircledIcon, TrashIcon, DownloadIcon, CheckCircledIcon, CrossCircledIcon } from '@radix-ui/react-icons'
@@ -210,7 +210,7 @@ export function TagGenerator () {
           <DownloadError>{downloadStatus.msg}</DownloadError>
         }
 
-        <Table.Root>
+        <SelectedProductsTable>
           <Table.Head>
             <th>Produto</th>
             <th>Frac.</th>
@@ -247,7 +247,7 @@ export function TagGenerator () {
               </tr>
             ))}
           </Table.Body>
-        </Table.Root>
+        </SelectedProductsTable>
 
         <Info>
           <span>{pagesAmount}-{PAGE_AMOUNT_LIMIT} páginas</span>

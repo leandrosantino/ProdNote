@@ -37,7 +37,7 @@ export const Aside = styled.aside`
     transform: translateX(-30rem);
   }
 
-  @media(max-width: 800px){
+  @media(max-width: 1000px){
     position: absolute;
     height: 100vh;
     z-index: 101;

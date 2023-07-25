@@ -11,7 +11,7 @@ const Button = styled.button`
     background-color: ${p => p.theme.colors.light.gray5}
   }
 
-  @media(max-width: 800px){
+  @media(max-width: 1000px){
     display: flex;
   }
 

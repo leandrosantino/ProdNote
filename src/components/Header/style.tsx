@@ -11,7 +11,7 @@ export const Container = styled.header<{ isAuth: 'true' | 'false' }>`
   padding: 0 2rem;
   /* box-shadow: 0px 1px 3px 1px rgba(0,0,0, 0.15); */
 
-  @media(max-width: 800px){
+  @media(max-width: 1000px){
     padding-left: .5rem;;
   }
 

@@ -14,10 +14,10 @@ export const Button = styled.button`
   align-items: center;
   gap: .4rem;
 
-  svg{
+  /* svg{
     width: 2rem;
     height: 2rem;
-  }
+  } */
 
   &:hover{
     background-color: ${p => p.theme.colors.dark.blue6};

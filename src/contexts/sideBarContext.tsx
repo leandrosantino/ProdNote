@@ -12,13 +12,13 @@ export function SideBarContextProvider ({ children }: { children: ReactNode }) {
   const [showSideBar, setShowSideBar] = useState(false)
 
   useEffect(() => {
-    if (window.innerWidth >= 800) {
+    if (window.innerWidth >= 1000) {
       setShowSideBar(true)
     }
   }, [])
 
   window.addEventListener('resize', () => {
-    if (window.innerWidth >= 800) {
+    if (window.innerWidth >= 1000) {
       setShowSideBar(true)
       return
     }

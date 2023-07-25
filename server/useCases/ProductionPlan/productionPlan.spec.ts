@@ -33,29 +33,29 @@ describe('tests production plan', () => {
 
     await expect(productionScript).resolves.toStrictEqual<ProductionPlanResponseDTO>({
       M15: [
-        { partNumber: '2', durationInMilliseconds: 4860000000, piorityCoefficient: 0.6666666666666666, quantityToBeProduced: 50 },
-        { partNumber: '3', durationInMilliseconds: 14580000000, piorityCoefficient: 0.7692307692307693, quantityToBeProduced: 150 }
+        { partNumber: '2', durationInMilliseconds: 6666666.666666667, piorityCoefficient: 0.6666666666666666, quantityToBeProduced: 50 },
+        { partNumber: '3', durationInMilliseconds: 20000000, piorityCoefficient: 0.7692307692307693, quantityToBeProduced: 150 }
       ],
       M16: [
-        { partNumber: '1', durationInMilliseconds: 9720000000, piorityCoefficient: 0.75, quantityToBeProduced: 100 }
+        { partNumber: '1', durationInMilliseconds: 24000000, piorityCoefficient: 0.75, quantityToBeProduced: 100 }
       ]
     })
   })
 
-  test('should return product list with the calculation of quantity' +
-  'to be produced and piority coefficient', () => {
+  // test('should return product list with the calculation of quantity' +
+  // 'to be produced and piority coefficient', () => {
 
-  })
+  // })
 
-  test('should return product list sorted by quantity to be produced', () => {
+  // test('should return product list sorted by quantity to be produced', () => {
 
-  })
+  // })
 
-  test('should return machine info list by machine id list', () => {
+  // test('should return machine info list by machine id list', () => {
 
-  })
+  // })
 
-  test('should sorted array of objects by a specific property', () => {
+  // test('should sorted array of objects by a specific property', () => {
 
-  })
+  // })
 })

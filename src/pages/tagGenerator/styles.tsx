@@ -1,4 +1,5 @@
 import styled from 'styled-components'
+import { Table } from '../../components/Table'
 
 export const Container = styled.div`
 
@@ -84,6 +85,7 @@ export const TagSection = styled.section`
   border-radius: .4rem;
   height: calc(100vh - 7.4rem);
   aspect-ratio: 7/10;
+  padding: .8rem;
 `
 
 export const DownloadError = styled.span`
@@ -135,5 +137,19 @@ export const SpinnerCase = styled.span`
     animation: rotate 3s linear infinite;
   }
 
+
+`
+export const SelectedProductsTable = styled(Table.Root)`
+  thead, tbody{
+    tr{
+      td:first-child, th:first-child{
+        width: 100%;
+        justify-content: start;
+      }
+      td:last-child, th:last-child{
+        width: 10%;
+      }
+    }
+  }
 
 `

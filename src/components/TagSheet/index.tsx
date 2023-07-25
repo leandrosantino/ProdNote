@@ -11,7 +11,7 @@ interface TagSheetProps {
 }
 
 export function TagSheet ({ productInfo, scale }: TagSheetProps) {
-  const id = '1234556780'
+  const id = '0'.repeat(24)
 
   if (productInfo === undefined) {
     return
