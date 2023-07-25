@@ -106,7 +106,9 @@ export const RecentTagsTable = styled(Table.Root)`
       }
       td:nth-child(2), th:nth-child(2){
         width: 40%;
-        background-color: red;
+        @media(max-width: 600px){
+          display: none;
+        }
       }
       td:last-child, th:last-child{
         width: 10%;

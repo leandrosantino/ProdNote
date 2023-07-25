@@ -1,6 +1,7 @@
 import { Table } from '../../components/Table'
 import { Container, InfoCase, InfoGroup, MessageContainer, RecentTagsTable, RegisterButton } from './styles'
 import { BsSaveFill } from 'react-icons/bs'
+import { TrashIcon } from '@radix-ui/react-icons'
 
 export function RegisterTag () {
   return (
@@ -80,38 +81,19 @@ export function RegisterTag () {
           <th>Descrição</th>
           <th>TagId</th>
           <th>Data</th>
-          <th>Fracionada</th>
+          <th>Frac.</th>
           <th></th>
         </Table.Head>
         <Table.Body>
-          <tr>
-            <td>ciuahefpiauweh fapiwuefhpa weufhaiuew faiuwefpaiuwehfpaiuwe fhaiuw ehfpauweh fp</td>
-            <td>{'0'.repeat(24)}</td>
-            <td>21/02/2022</td>
-            <td>teste</td>
-            <td>teste</td>
-          </tr>
-          <tr>
-            <td>teste</td>
-            <td>teste</td>
-            <td>teste</td>
-            <td>teste</td>
-            <td>teste</td>
-          </tr>
-          <tr>
-            <td>teste</td>
-            <td>teste</td>
-            <td>teste</td>
-            <td>teste</td>
-            <td>teste</td>
-          </tr>
-          <tr>
-            <td>teste</td>
-            <td>teste</td>
-            <td>teste</td>
-            <td>teste</td>
-            <td>teste</td>
-          </tr>
+          {Array(4).map((_, index) => (
+            <tr key={index}>
+              <td>Carpete moldado fkfiwuegfqiwpuegfo qwefoqiuwef</td>
+              <td>{'0'.repeat(24)}</td>
+              <td>21/02/2022</td>
+              <td>True</td>
+              <td><button><TrashIcon/></button></td>
+            </tr>
+          ))}
         </Table.Body>
       </RecentTagsTable>
       </section>
