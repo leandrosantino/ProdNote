@@ -11,6 +11,8 @@ export interface ProcessedProducts {
   partNumber: string
   quantityToBeProduced: number
   piorityCoefficient: number
+  dailyDemand: number
+  initialStock: number
 }
 
 export class ProductionPlan {
@@ -18,9 +20,14 @@ export class ProductionPlan {
     private readonly machineRepository: IMachineRepository
   ) {}
 
-  async execute ({ machinesId, products }: ProductionPlanRequestDTO) {
+  async execute ({ machinesId, products, productiveDays, highRunner, lowRunner }: ProductionPlanRequestDTO) {
     const listOfProcessedProducts: ProcessedProducts[] = this
-      .processProduct(products)
+      .processProduct(
+        products,
+        productiveDays,
+        lowRunner,
+        highRunner
+      )
 
     const productsSortedByPriorityCoefficient = this
       .orderArrayOfObjects(
@@ -29,17 +36,17 @@ export class ProductionPlan {
         'asc'
       )
 
-    const productsSortedByQuantityToBeProduced = this
-      .sortProductsByQuantityToBeProduced(
-        productsSortedByPriorityCoefficient
-      )
+    // const productsSortedByQuantityToBeProduced = this
+    //   .sortProductsByQuantityToBeProduced(
+    //     productsSortedByPriorityCoefficient
+    //   )
 
     const porcessedMachines: ProcessedMachine[] = await this
       .getMachineInfo(machinesId)
 
     const productionScript: ProductionPlanResponseDTO = this
       .createProductionScript(
-        productsSortedByQuantityToBeProduced,
+        productsSortedByPriorityCoefficient,
         porcessedMachines
       )
 
@@ -47,11 +54,11 @@ export class ProductionPlan {
   }
 
   private createProductionScript (products: ProcessedProducts[], machines: ProcessedMachine[]) {
-    const productionScript: ProductionPlanResponseDTO = {}
+    const productionScript: ProductionPlanResponseDTO = []
     let machinesOrderByCapacityAndActionsDuration = machines
 
     products
-      .forEach(({ partNumber, quantityToBeProduced, piorityCoefficient }) => {
+      .forEach(({ partNumber, quantityToBeProduced, piorityCoefficient, dailyDemand, initialStock }) => {
         machinesOrderByCapacityAndActionsDuration = this
           .orderArrayOfObjects(
             (this.orderArrayOfObjects(
@@ -67,16 +74,15 @@ export class ProductionPlan {
         const durationInMilliseconds = (quantityToBeProduced / machine.capacity) * 60 * 60 * 1000
         machine.totalDurationOfActions += durationInMilliseconds
 
-        const scriptData = {
+        productionScript.push({
+          machineSlug: machine.slug,
           partNumber,
-          durationInMilliseconds,
-          piorityCoefficient,
-          quantityToBeProduced
-        }
-
-        productionScript[machine.slug]
-          ? productionScript[machine.slug].push(scriptData)
-          : productionScript[machine.slug] = [scriptData]
+          initialStock,
+          dailyDemand,
+          finalStock: piorityCoefficient,
+          minLot: quantityToBeProduced,
+          minProductionTime: durationInMilliseconds
+        })
       })
 
     return productionScript
@@ -105,7 +111,7 @@ export class ProductionPlan {
       })
   }
 
-  async getMachineInfo (machinesId: ProductionPlanRequestDTO['machinesId']) {
+  private async getMachineInfo (machinesId: ProductionPlanRequestDTO['machinesId']) {
     const machines: ProcessedMachine[] = []
 
     for await (const id of machinesId) {
@@ -122,15 +128,27 @@ export class ProductionPlan {
     return machines
   }
 
-  processProduct (products: ProductionPlanRequestDTO['products']): ProcessedProducts[] {
-    return products.map(product => ({
-      partNumber: product.partNumber,
-      quantityToBeProduced: product.demand - product.stock,
-      piorityCoefficient: product.stock / product.demand
-    }))
+  private processProduct (
+    products: ProductionPlanRequestDTO['products'],
+    productiveDays: ProductionPlanRequestDTO['productiveDays'],
+    lowRunner: ProductionPlanRequestDTO['lowRunner'],
+    highRunner: ProductionPlanRequestDTO['highRunner']
+  ): ProcessedProducts[] {
+    return products.map(product => {
+      const dailyDemand = product.demand / productiveDays
+      const coverage = (product.stock - dailyDemand) / dailyDemand
+      const minLot = dailyDemand * (dailyDemand <= 30 ? lowRunner : highRunner)
+      return {
+        partNumber: product.partNumber,
+        quantityToBeProduced: minLot,
+        piorityCoefficient: coverage,
+        dailyDemand,
+        initialStock: product.stock / dailyDemand
+      }
+    })
   }
 
-  orderArrayOfObjects <T>(
+  private orderArrayOfObjects <T>(
     objects: T[],
     referenceKey: keyof typeof objects[number],
     order: 'asc' | 'desc'
