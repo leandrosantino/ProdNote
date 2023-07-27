@@ -8,8 +8,6 @@ import fastifyCors from '@fastify/cors'
 import { createContext } from './context'
 import { logger } from './utils/logger'
 
-import './utils/reactTest'
-
 (async () => {
   const server = fastify()
 
