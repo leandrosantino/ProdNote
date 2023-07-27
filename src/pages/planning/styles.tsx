@@ -1,164 +1,55 @@
 import styled from 'styled-components'
+import { Table } from '../../components/Table'
 
 export const Container = styled.div`
-
   width: 100%;
   height: 100%;
-
   display: flex;
-  justify-content: center;
   align-items: center;
-  gap: 1.6rem;
+  flex-direction: column;
+  gap: 1.2rem;
+`
+export const ScriptTable = styled(Table.Root)`
+  max-width: 800px;
+  font-size: 1.2rem;
+  max-height: 37%;
 
-  flex-direction: row;
-
-  &>div{
-    width: 45rem;
-    height: fit-content;
-    min-height: 60rem;
-    box-shadow: var(--shadow);
-    border-radius: 1.2rem;
-    background-color: ${p => p.theme.colors.light.gray3};
-    display: flex;
-    flex-direction: column;
-    justify-content: start;
-    align-items: center;
-    gap: .8rem;
-    padding: 2rem;
-
-    &>h1{
-    font-size: 2rem;
-    font-weight: 500;
-    width: 100%;
-    align-items: start;
+  @media (max-width: 600px){
+    font-size: .8rem
   }
 
-  }
-
-  @media (max-width: 1200px ) {
-    flex-direction: column;
-    &>div{
-      width: 90%;
-    }
-  }
 
 `
 
 export const FormCase = styled.div`
+  width: 100%;
+  max-width: 800px;
+
+  h2{
+    width: 100%;
+    margin-bottom: 1.2rem;
+  }
 
   form{
-    width: 100%;
-    margin-top: 2rem;
-    gap: 1.2rem;
-    display: flex;
-    flex-direction: column;
-    justify-content: start;
-
-    &>span{
-      font-size: 1.2rem;
-      color: ${p => p.theme.colors.light.red11}
+   .machine{
+      margin-bottom: .8rem;
     }
+    &>div{
+      /* font-size: 1.2rem; */
+      display: flex;
+      justify-content: start;
+      align-items: center;
+      gap: .8rem;
+      /* max-width: 42rem; */
 
-  }
-
-  header{
-    width: 100%;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    border-bottom: 1px solid ${p => p.theme.colors.light.gray8};
-
-    button{
-      color: ${p => p.theme.colors.dark.blue7};
-      font-weight: 500;
-    }
-
-  }
-
-`
-
-export const ProductInputsList = styled.div`
-
-  height: 100%;
-
-  display: flex;
-  flex-direction: column;
-  justify-content: start;
-  gap: .4rem;
-
-  overflow: auto;
-  height: 20rem;;
-
-  div{
-    display: flex;
-    gap: .4rem;
-  }
-
-  button{
-    width: 2.8rem;
-    &:hover{
-      color: ${p => p.theme.colors.light.red11}
-    }
-  }
-
-
-`
-export const MachinesInputsList = styled.div`
-
-  display: flex;
-  flex-direction: column;
-  justify-content: start;
-  gap: .4rem;
-  div{
-    display: flex;
-    width: 100%;
-    button{
-      width: 2.8rem;
-      margin-left: .4rem;
-      &:hover{
-      color: ${p => p.theme.colors.light.red11}
-    }
-    }
-  }
-
-`
-export const ProductsLabels = styled.div`
-  display: flex;
-  gap: .4rem;
-  span{
-    flex: 1;
-    font-size: 1.2rem;
-    text-align: center;
-    &:last-child{
-      flex: none;
-      width: 2.8rem;
-    }
-
-  }
-`
-
-export const ScriptCase = styled.div`
-  article{
-    width: 100%;
-    overflow-y: auto;
-    height: 50rem;
-    font-size: 1.4rem;
-
-    ul{
-      margin: .8rem 0;
-      li{
-        margin: .4rem 0;
+      .productCase{
+        border: 1px solid black;
+        padding: .4rem;
+        border-radius: .4rem;
       }
+
     }
-
   }
-`
 
-export const MachineInfo = styled.li`
-  text-indent: 1.2rem;
-  font-weight: 600;
-  `
 
-export const ProductInfo = styled.li`
-  font-weight: 500;
 `

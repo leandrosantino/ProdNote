@@ -1,209 +1,143 @@
 import { z } from 'zod'
 import { Field } from '../../components/Form/Field'
-import { Container, FormCase, MachineInfo, MachinesInputsList, ProductInfo, ProductInputsList, ProductsLabels, ScriptCase } from './styles'
-import { FormProvider, useForm, useFieldArray } from 'react-hook-form'
+import { Table } from '../../components/Table'
+import { Container, FormCase, ScriptTable } from './styles'
 import { zodResolver } from '@hookform/resolvers/zod'
-import { trpc } from '../../utils/api'
-import { TrashIcon } from '@radix-ui/react-icons'
+import { useForm, FormProvider } from 'react-hook-form'
 import { Button } from '../../components/Form/Botton'
+import { trpc } from '../../utils/api'
+import { useEffect } from 'react'
+
+const productionPlanFormSchema = z.object({
+  productiveDays: z.coerce.number().min(1, '>=1'),
+  lowRunner: z.coerce.number().min(1, '>=1'),
+  highRunner: z.coerce.number().min(1, '>=1'),
+  products: z.array(z.object({
+    stock: z.coerce.number().min(1, '>=1'),
+    demand: z.coerce.number().min(1, '>=1')
+  }))
+    .min(2, 'Adicione no mínimo 2 produto')
+})
+
+type ProductionPlanForm = z.infer<typeof productionPlanFormSchema>
 
 export function Planning () {
-  const productionPlanFormSchema = z.object({
-    products: z.array(z.object({
-      partNumber: z.string().nonempty('campo vazio'),
-      stock: z.coerce.number().min(1, '>=1'),
-      demand: z.coerce.number().min(1, '>=1')
-    }))
-      .min(2, 'Adicione no mínimo 2 produto')
-      .superRefine((val, ctx) => {
-        const partNumbers = val.map(entry => entry.partNumber)
-        if (partNumbers.length !== new Set(partNumbers).size) {
-          ctx.addIssue({
-            code: z.ZodIssueCode.custom,
-            message: 'Não pode existir partNumbers repetidos'
-          })
-        }
-      }),
-    machines: z.array(z.object({ value: z.string().nonempty('selecione uma máquina') }))
-      .min(1, 'Adicione no mínimo 1 máquina')
-      .superRefine((val, ctx) => {
-        const machines = val.map(entry => entry.value)
-        if (machines.length !== new Set(machines).size) {
-          ctx.addIssue({
-            code: z.ZodIssueCode.custom,
-            message: 'Selecione máquinas diferentes '
-          })
-        }
-      })
-  })
-
-  type ProductionPlanForm = z.infer<typeof productionPlanFormSchema>
-
   const productionPlanForm = useForm<ProductionPlanForm>({
     resolver: zodResolver(productionPlanFormSchema)
   })
 
-  const { handleSubmit, formState: { errors } } = productionPlanForm
-
-  const productsFieldArray = useFieldArray({
-    control: productionPlanForm.control,
-    name: 'products'
-  })
-
-  const machinesFieldArray = useFieldArray({
-    control: productionPlanForm.control,
-    name: 'machines'
-  })
-
-  const machines = trpc.machine.getAll.useQuery()
-  const productionScript = trpc.productionPlan.execute.useMutation()
+  const { handleSubmit, setValue } = productionPlanForm
 
   function timeInMillisecondsToString (milliseconds: number) {
-    console.log(milliseconds)
     const timeInFloatHours = milliseconds / 1000 / 60 / 60
     const hours = parseInt(timeInFloatHours.toString())
     const minutes = parseInt(((timeInFloatHours * 60) % 60).toString())
     return `${hours}:${minutes}h`
   }
 
+  useEffect(() => {
+    setValue('products', [
+      { stock: 100, demand: 500 },
+      { stock: 260, demand: 600 },
+      { stock: 200, demand: 450 },
+      { stock: 300, demand: 500 },
+      { stock: 300, demand: 500 },
+      { stock: 300, demand: 500 },
+      { stock: 300, demand: 500 }
+    ])
+    setValue('productiveDays', 6)
+    setValue('lowRunner', 6)
+    setValue('highRunner', 3)
+  }, [])
+
+  const productionScript = trpc.productionPlan.execute.useMutation()
+
   function calculate (data: ProductionPlanForm) {
     console.log(data)
     productionScript.mutate({
-      machinesId: data.machines.map(machine => machine.value),
-      products: data.products
+      machinesId: ['1', '2'],
+      products: data.products.map(({ demand, stock }, index) => ({
+        demand, stock, partNumber: `Produto ${index + 1}`
+      })),
+      highRunner: data.highRunner,
+      lowRunner: data.lowRunner,
+      productiveDays: data.productiveDays
     })
-    const key = 'M15'
-    console.log(productionScript.data?.[key].map(a => a.partNumber))
   }
 
   return (
     <Container>
 
       <FormCase>
-
-        <h1>Formulário</h1>
+        <h2>Planejamento de Produção Semanal</h2>
 
         <FormProvider {...productionPlanForm}>
           <form onSubmit={handleSubmit(calculate)}>
+            <div>
+              <Field.Root>
+                <Field.Label>Dias Produtivos:</Field.Label>
+                <Field.Input name='productiveDays' type='number'/>
+                <Field.ErrorMessage field='teste' />
+              </Field.Root>
+              <Field.Root>
+                <Field.Label>Lote mínimo (LR):</Field.Label>
+                <Field.Input name='lowRunner' type='number'/>
+                <Field.ErrorMessage field='teste' />
+              </Field.Root>
+              <Field.Root>
+                <Field.Label>Lote máximo (HR):</Field.Label>
+                <Field.Input name='highRunner' type='number'/>
+                <Field.ErrorMessage field='teste' />
+              </Field.Root>
+              <Button>Calcular</Button>
+            </div>
 
-            <header>
-              <span>Máquinas</span>
-              <button type='button'
-                onClick={() => {
-                  if (machinesFieldArray.fields.length < 2) {
-                    machinesFieldArray.append({ value: '' })
-                  }
-                }}
-              >Adicionar</button>
-            </header>
+            <span>M15 - 27jph / M16-15jph</span>
 
-            <MachinesInputsList>
-              {machinesFieldArray.fields.map((field, index) => (
-                <div key={field.id} >
+            <div>
+              {Array(7).fill(1).map((_, index) => (
+                <div className='productCase' key={index}>
+                  <span>Produto {index + 1}</span>
                   <Field.Root>
-                    <Field.Select
-                      name={`machines.${index}.value`}
-                      >
-                      {machines.data?.map(({ id, slug }) => (
-                        <option key={id} value={id}>{slug}</option>
-                      ))}
-                    </Field.Select>
-                    <Field.ErrorMessage field={`machines.${index}.value`}/>
-                  </Field.Root>
-                  <button type='button' onClick={() => { machinesFieldArray.remove(index) }}>
-                    <TrashIcon/>
-                  </button>
-                </div>
-              ))}
-
-            </MachinesInputsList>
-
-            <span>{errors.machines?.message}</span>
-
-            <header>
-              <span>Produtos</span>
-              <button type='button' onClick={() => {
-                productsFieldArray.append({
-                  demand: 0, partNumber: '', stock: 0
-                })
-              }}>Adicionar</button>
-            </header>
-
-            <ProductsLabels>
-              <span>PartNumber</span>
-              <span>Estoque</span>
-              <span>Demanda</span>
-              <span> - </span>
-            </ProductsLabels>
-
-            <ProductInputsList>
-
-              {productsFieldArray.fields.map((field, index) => (
-                <div key={field.id}>
-
-                  <Field.Root>
-                    <Field.Input name={`products.${index}.partNumber`}/>
-                    <Field.ErrorMessage field={`products.${index}.partNumber`}/>
-                  </Field.Root>
-
-                  <Field.Root>
+                    <Field.Label>Estoque:</Field.Label>
                     <Field.Input name={`products.${index}.stock`} type='number'/>
-                    <Field.ErrorMessage field={`products.${index}.stock`}/>
                   </Field.Root>
-
                   <Field.Root>
+                    <Field.Label>Demanda:</Field.Label>
                     <Field.Input name={`products.${index}.demand`} type='number'/>
-                    <Field.ErrorMessage field={`products.${index}.demand`}/>
                   </Field.Root>
-
-                  <div>
-                    <button type='button' onClick={() => { productsFieldArray.remove(index) }}>
-                      <TrashIcon/>
-                    </button>
-                  </div>
-
                 </div>
               ))}
-
-            </ProductInputsList>
-
-            <span>{errors.products?.message}</span>
-
-            <Button>Calcular</Button>
-
+            </div>
           </form>
         </FormProvider>
 
       </FormCase>
 
-      <ScriptCase>
-        <h1>Planejamento</h1>
-
-        <article>
-          <ul>
-            {Object.keys(productionScript.data ? productionScript.data : {}).map((key) => (
-              <MachineInfo key={key} >
-
-                {key} - capacidade: {machines.data?.filter(entry => entry.slug === key)[0].capacity}jph
-                <ul>
-                  {productionScript?.data?.[key].map((info) => (
-                    <ProductInfo key={info?.partNumber}>
-                      {`
-                        PN: ${info?.partNumber} =>
-                        (${info?.quantityToBeProduced} Peças) -
-                        tempo: ${timeInMillisecondsToString(info?.durationInMilliseconds)} -
-                        prioridade: ${info?.piorityCoefficient.toFixed(2)}
-                      `}
-                    </ProductInfo>
-                  ))}
-                </ul>
-
-              </MachineInfo>
-            ))}
-          </ul>
-        </article>
-
-      </ScriptCase>
+      <ScriptTable>
+          <Table.Head>
+            <th>Máquina</th>
+            <th>Produto</th>
+            <th>Estoque Inicial</th>
+            <th>Demanda Diária</th>
+            <th>Estoque Final</th>
+            <th>Lote Mínimo</th>
+            <th>Tempo Min. de Produção</th>
+          </Table.Head>
+          <Table.Body>
+              {productionScript.data?.map(entry => (
+                <tr key={entry.partNumber} >
+                  <td>{entry.machineSlug}</td>
+                  <td>{entry.partNumber}</td>
+                  <td>{entry.initialStock.toFixed(2)} d</td>
+                  <td>{entry.dailyDemand.toFixed(0)} p</td>
+                  <td>{entry.finalStock.toFixed(2)} d</td>
+                  <td>{entry.minLot.toFixed(0)} p</td>
+                  <td>{timeInMillisecondsToString(entry.minProductionTime)}</td>
+                </tr>
+              ))}
+          </Table.Body>
+      </ScriptTable>
 
     </Container>
   )

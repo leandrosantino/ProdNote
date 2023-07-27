@@ -8,7 +8,7 @@ export const productionPlan = new ProductionPlan(
 );
 
 (async () => {
-  console.table(await productionPlan.execute({
+  console.log(await productionPlan.execute({
     productiveDays: 6,
     lowRunner: 6,
     highRunner: 3,

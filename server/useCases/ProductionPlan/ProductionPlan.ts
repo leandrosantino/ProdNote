@@ -36,17 +36,17 @@ export class ProductionPlan {
         'asc'
       )
 
-    // const productsSortedByQuantityToBeProduced = this
-    //   .sortProductsByQuantityToBeProduced(
-    //     productsSortedByPriorityCoefficient
-    //   )
+    const productsSortedByQuantityToBeProduced = this
+      .sortProductsByQuantityToBeProduced(
+        productsSortedByPriorityCoefficient
+      )
 
     const porcessedMachines: ProcessedMachine[] = await this
       .getMachineInfo(machinesId)
 
     const productionScript: ProductionPlanResponseDTO = this
       .createProductionScript(
-        productsSortedByPriorityCoefficient,
+        productsSortedByQuantityToBeProduced,
         porcessedMachines
       )
 
@@ -96,13 +96,13 @@ export class ProductionPlan {
         const differenceBetweenQuantityToBeProduced =
           laterObject.quantityToBeProduced - currentObject.quantityToBeProduced
         if (
-          differenceBetweenPriorityCoefficient <= 10 &&
+          differenceBetweenPriorityCoefficient <= 0.5 &&
         differenceBetweenQuantityToBeProduced >= 100
         ) {
           return -1
         }
         if (
-          differenceBetweenPriorityCoefficient > 10 &&
+          differenceBetweenPriorityCoefficient > 0.5 &&
         differenceBetweenQuantityToBeProduced < 100
         ) {
           return 1
