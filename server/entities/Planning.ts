@@ -1,11 +1,17 @@
 import { z } from 'zod'
-import { planningReportSchema } from './PlanningReport'
+import { type PlanningReport } from './PlanningReport'
+import { type ProductionGroup } from './ProductionGroup'
 
-export const planningSchema = z.object({
-  id: z.string().optional(),
-  startsAt: z.date(),
-  endsAt: z.date(),
-  planningReport: z.array(planningReportSchema)
-})
+export class Planning {
+  constructor (
+    public startsAt: Date,
+    public endsAt: Date,
+    public lowRunner: number,
+    public HighRunner: number,
+    public productionGroups: ProductionGroup[],
+    public planningReports: PlanningReport[],
+    public id?: string
+  ) {}
+}
 
-export type Planning = z.infer<typeof planningSchema>
+export const planningSchema = z.instanceof(Planning)

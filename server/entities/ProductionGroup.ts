@@ -1,12 +1,18 @@
 import { z } from 'zod'
-import { productSchema } from './Product'
-import { machineSchema } from './Machine'
+import { type Product } from './Product'
+import { type Machine } from './Machine'
+import { type Planning } from './Planning'
+import { type PlanningReport } from './PlanningReport'
 
-export const productionGroupSchema = z.object({
-  id: z.string().optional(),
-  name: z.string(),
-  products: z.array(productSchema),
-  machines: z.array(machineSchema)
-})
+export class ProductionGroup {
+  constructor (
+    public name: string,
+    public products: Product[],
+    public machines: Machine[],
+    public plannings: Planning[],
+    public planningReport: PlanningReport[],
+    public id?: string
+  ) {}
+}
 
-export type ProductionGroup = z.infer<typeof productionGroupSchema>
+export const productionGroupSchema = z.instanceof(ProductionGroup)

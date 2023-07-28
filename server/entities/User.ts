@@ -1,12 +1,14 @@
 import { z } from 'zod'
-import { systemPermissionsSchema } from './SystemPermission'
+import { type SystemPermission } from './SystemPermission'
 
-export const userSchema = z.object({
-  id: z.string().optional(),
-  name: z.string(),
-  password: z.string(),
-  email: z.string(),
-  permissions: z.array(systemPermissionsSchema)
-})
+export class User {
+  constructor (
+    public name: string,
+    public password: string,
+    public email: string,
+    public permissions: SystemPermission[],
+    public id?: string
+  ) {}
+}
 
-export type User = z.infer<typeof userSchema>
+export const userSchema = z.instanceof(User)

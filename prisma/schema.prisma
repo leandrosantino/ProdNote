@@ -17,7 +17,7 @@ generator erd {
 }
 
 model Product {
-  id                   String  @id @default(cuid())
+  id                   String    @id @default(cuid())
   description          String
   technicalDescription String
   ute                  String
@@ -27,16 +27,18 @@ model Product {
   projectNumber        String
   amount               Int
   productionGroupId    String?
+  machines             Machine[]
 
   ProductionGroup ProductionGroup? @relation(fields: [productionGroupId], references: [id])
 }
 
 model Machine {
-  id                String  @id @default(cuid())
+  id                String    @id @default(cuid())
   slug              String
   ute               String
   capacity          Int
   productionGroupId String?
+  products          Product[]
 
   ProductionGroup ProductionGroup? @relation(fields: [productionGroupId], references: [id])
 }
@@ -47,23 +49,32 @@ model ProductionGroup {
   products       Product[]
   machines       Machine[]
   plannings      Planning[]
-  PlanningReport PlanningReport[]
+  planningReport PlanningReport[]
 }
 
 model PlanningReport {
-  id                String  @id @default(cuid())
-  index             Int
+  id           String @id @default(cuid())
+  index        Int
+  weeklyDemand Int
+  dailyDemand  Int
+  initialStock Float
+  currentStock Float
+  coverage     Float
+  minLot       Float
+
   productionGroupId String
   planningId        String?
-
-  Planning        Planning?       @relation(fields: [planningId], references: [id])
-  productionGroup ProductionGroup @relation(fields: [productionGroupId], references: [id])
+  Planning          Planning?       @relation(fields: [planningId], references: [id])
+  productionGroup   ProductionGroup @relation(fields: [productionGroupId], references: [id])
 }
 
 model Planning {
   id               String            @id @default(cuid())
   startsAt         DateTime
   endsAt           DateTime
+  lowRunner        Int
+  HighRunner       Int
+  productiveDays   Int
   productionGroups ProductionGroup[]
   planningReport   PlanningReport[]
 }

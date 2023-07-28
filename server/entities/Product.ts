@@ -1,15 +1,20 @@
 import { z } from 'zod'
+import { type Machine } from './Machine'
 
-export const productSchema = z.object({
-  id: z.string().optional(),
-  description: z.string(),
-  technicalDescription: z.string(),
-  ute: z.string(),
-  classification: z.string(),
-  partNumber: z.string(),
-  sapCode: z.string(),
-  projectNumber: z.string(),
-  amount: z.number()
-})
+export class Product {
+  constructor (
+    public description: string,
+    public technicalDescription: string,
+    public ute: string,
+    public classification: string,
+    public partNumber: string,
+    public sapCode: string,
+    public projectNumber: string,
+    public amount: number,
+    public machines: Machine[],
+    public id?: string,
+    public productionGroupId?: string
+  ) {}
+}
 
-export type Product = z.infer<typeof productSchema>
+export const productSchema = z.instanceof(Product)

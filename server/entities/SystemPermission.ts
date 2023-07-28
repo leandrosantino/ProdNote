@@ -1,16 +1,19 @@
 import { z } from 'zod'
 
-export const systemPermissionKeysShema = z
-  .literal('GENERATE_TAGS')
-  .or(z.literal('READ_TAGS'))
-  .or(z.literal('PLANNING'))
-  .or(z.literal('CREATE_USERS'))
+export const systemPermissionList = [
+  'GENERATE_TAGS',
+  'READ_TAGS',
+  'PLANNING',
+  'CREATE_USERS'
+] as const
 
-export const systemPermissionsSchema = z.object({
-  id: z.number(),
-  description: systemPermissionKeysShema
-})
+export type SystemPermissionKeys = typeof systemPermissionList[number]
 
-export type SystemPermissionKeys = z.infer<typeof systemPermissionKeysShema>
+export class SystemPermission {
+  constructor (
+    public id: string,
+    public description: SystemPermissionKeys
+  ) {}
+}
 
-export type SystemPermission = z.infer<typeof systemPermissionsSchema>
+export const systemPermissionsSchema = z.instanceof(SystemPermission)
