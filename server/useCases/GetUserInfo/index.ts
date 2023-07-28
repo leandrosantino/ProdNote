@@ -1,7 +1,7 @@
 import { GetUserInfo } from './GetUserInfo'
-import { UsersRepository } from '../../repositories/implementations/prisma/UsersRepository'
+import { Repositories } from '../../repositories/implementations'
 
-const usersRepository = new UsersRepository()
+const usersRepository = new Repositories.Users()
 
 export const getUserInfo = new GetUserInfo(
   usersRepository

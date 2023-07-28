@@ -1,7 +1,7 @@
 import { ProductionPlan } from './ProductionPlan'
-import { MachineRepository } from '../../repositories/implementations/prisma/MachineRepository'
+import { Repositories } from '../../repositories/implementations'
 
-const machineRepository = new MachineRepository()
+const machineRepository = new Repositories.Machine()
 
 export const productionPlan = new ProductionPlan(
   machineRepository

@@ -1,9 +1,9 @@
 import { UserAuth } from './UserAuth'
-import { UsersRepository } from '../../repositories/implementations/prisma/UsersRepository'
 import { JwtProvider } from '../../providers/implementations/JwtProvider'
 import { PassProvider } from '../../providers/implementations/PassProvider'
+import { Repositories } from '../../repositories/implementations'
 
-const userRepository = new UsersRepository()
+const userRepository = new Repositories.Users()
 const jwt = new JwtProvider()
 const pass = new PassProvider()
 

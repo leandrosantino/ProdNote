@@ -10,42 +10,74 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
+generator erd {
+  provider = "prisma-erd-generator"
+  output   = "../ERD.svg.pdf"
+  theme    = "dark"
+}
+
 model Product {
-  id                String  @id @default(uuid())
-  name              String
-  productionGroupId String?
+  id                   String  @id @default(cuid())
+  description          String
+  technicalDescription String
+  ute                  String
+  classification       String
+  partNumber           String
+  sapCode              String
+  projectNumber        String
+  amount               Int
+  productionGroupId    String?
 
   ProductionGroup ProductionGroup? @relation(fields: [productionGroupId], references: [id])
 }
 
 model Machine {
-  id                String  @id @default(uuid())
+  id                String  @id @default(cuid())
   slug              String
+  ute               String
+  capacity          Int
   productionGroupId String?
 
   ProductionGroup ProductionGroup? @relation(fields: [productionGroupId], references: [id])
 }
 
 model ProductionGroup {
-  id              String           @id @default(uuid())
-  name            String
-  plans           Planning[]
-  products        Product[]
-  machines        Machine[]
-  planningReports PlanningReport[]
+  id             String           @id @default(cuid())
+  name           String
+  products       Product[]
+  machines       Machine[]
+  plannings      Planning[]
+  PlanningReport PlanningReport[]
 }
 
 model PlanningReport {
-  id                String  @id @default(uuid())
+  id                String  @id @default(cuid())
   index             Int
-  productionGroupId String?
+  productionGroupId String
+  planningId        String?
 
-  ProductionGroup ProductionGroup? @relation(fields: [productionGroupId], references: [id])
+  Planning        Planning?       @relation(fields: [planningId], references: [id])
+  productionGroup ProductionGroup @relation(fields: [productionGroupId], references: [id])
 }
 
 model Planning {
-  id                String           @id @default(uuid())
-  week              String
-  productionGroupId String?
-  ProductionGroup   ProductionGroup? @relation(fields: [productionGroupId], references: [id])
+  id               String            @id @default(cuid())
+  startsAt         DateTime
+  endsAt           DateTime
+  productionGroups ProductionGroup[]
+  planningReport   PlanningReport[]
+}
+
+model SystemPermission {
+  id          String @id @default(cuid())
+  description String
+  users       User[]
+}
+
+model User {
+  id          String             @id @default(cuid())
+  name        String
+  password    String
+  email       String
+  permissions SystemPermission[]
 }

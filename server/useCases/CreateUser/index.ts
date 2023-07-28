@@ -1,9 +1,8 @@
-import { UsersRepository } from '../../repositories/implementations/prisma/UsersRepository'
-import { SystemPermissionRepository } from '../../repositories/implementations/prisma/SystemPermissionsRepository'
+import { Repositories } from '../../repositories/implementations'
 import { CreateUser } from './CreateUser'
 
-const usersRepository = new UsersRepository()
-const systemPermissionRepository = new SystemPermissionRepository()
+const usersRepository = new Repositories.Users()
+const systemPermissionRepository = new Repositories.SystemPermission()
 
 export const createUser = new CreateUser(
   usersRepository,
