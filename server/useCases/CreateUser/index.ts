@@ -1,4 +1,4 @@
-import { Repositories } from '../../repositories/implementations'
+import { Repositories } from '../../infra/repositories'
 import { CreateUser } from './CreateUser'
 
 const usersRepository = new Repositories.Users()

@@ -1,4 +1,3 @@
-import { z } from 'zod'
 import { type PlanningReport } from './PlanningReport'
 import { type ProductionGroup } from './ProductionGroup'
 
@@ -8,10 +7,8 @@ export class Planning {
     public endsAt: Date,
     public lowRunner: number,
     public HighRunner: number,
-    public productionGroups: ProductionGroup[],
-    public planningReports: PlanningReport[],
+    public productionGroups?: ProductionGroup[],
+    public planningReports?: PlanningReport[],
     public id?: string
   ) {}
 }
-
-export const planningSchema = z.instanceof(Planning)

@@ -1,11 +1,5 @@
-
-export interface IJwtUserData {
-  name: string
-  id: string
-}
-
 export interface IJwtProvider {
   secret: string
-  sign: (data: IJwtUserData, options: object) => string
-  verify: (token: string, options?: object) => IJwtUserData
+  sign: (data: object, options: object) => string
+  verify: <T>(token: string, options?: object) => Promise<T | undefined>
 }

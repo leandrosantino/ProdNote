@@ -1,8 +1,12 @@
 import chalk from 'chalk'
 
 class Logger {
-  info (msg: string) {
+  success (msg: string) {
     console.log(chalk.greenBright(msg))
+  }
+
+  info (msg: string) {
+    console.log(chalk.blueBright(msg))
   }
 
   error (msg: string) {

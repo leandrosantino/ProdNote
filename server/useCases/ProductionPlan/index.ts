@@ -1,5 +1,5 @@
 import { ProductionPlan } from './ProductionPlan'
-import { Repositories } from '../../repositories/implementations'
+import { Repositories } from '../../infra/repositories'
 
 const machineRepository = new Repositories.Machine()
 

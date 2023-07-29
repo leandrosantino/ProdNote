@@ -1,6 +1,4 @@
-import { z } from 'zod'
-
-export const systemPermissionList = [
+const systemPermissionList = [
   'GENERATE_TAGS',
   'READ_TAGS',
   'PLANNING',
@@ -11,9 +9,7 @@ export type SystemPermissionKeys = typeof systemPermissionList[number]
 
 export class SystemPermission {
   constructor (
-    public id: string,
+    public id: number,
     public description: SystemPermissionKeys
   ) {}
 }
-
-export const systemPermissionsSchema = z.instanceof(SystemPermission)

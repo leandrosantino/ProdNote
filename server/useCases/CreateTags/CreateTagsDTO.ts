@@ -1,9 +1,7 @@
-import { z } from 'zod'
-
-export const createTagsRequestDTOSchema = z.array(z.object({
-  id: z.string(),
-  isFractional: z.boolean(),
-  amount: z.number()
-}))
-
-export type CreateTagsRequestDTO = z.infer<typeof createTagsRequestDTOSchema>
+export class CreateTagsRequestDTO {
+  constructor (
+    public id: string,
+    public isFractional: boolean,
+    public amount: number
+  ) {}
+}

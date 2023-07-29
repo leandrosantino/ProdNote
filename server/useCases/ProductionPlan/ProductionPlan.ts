@@ -1,4 +1,4 @@
-import { type IMachineRepository } from '../../repositories/interfaces/IMachineRepository'
+import { type IMachineRepository } from '../../interfaces/IMachineRepository'
 import { type ProductionPlanRequestDTO, type ProductionPlanResponseDTO } from './ProductionPlanDTO'
 
 export interface ProcessedMachine {

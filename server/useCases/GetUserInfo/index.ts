@@ -1,5 +1,5 @@
 import { GetUserInfo } from './GetUserInfo'
-import { Repositories } from '../../repositories/implementations'
+import { Repositories } from '../../infra/repositories'
 
 const usersRepository = new Repositories.Users()
 

@@ -1,4 +1,3 @@
-import { z } from 'zod'
 import { type Product } from './Product'
 import { type Machine } from './Machine'
 import { type Planning } from './Planning'
@@ -14,5 +13,3 @@ export class ProductionGroup {
     public id?: string
   ) {}
 }
-
-export const productionGroupSchema = z.instanceof(ProductionGroup)

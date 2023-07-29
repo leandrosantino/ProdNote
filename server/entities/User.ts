@@ -1,4 +1,3 @@
-import { z } from 'zod'
 import { type SystemPermission } from './SystemPermission'
 
 export class User {
@@ -10,5 +9,3 @@ export class User {
     public id?: string
   ) {}
 }
-
-export const userSchema = z.instanceof(User)

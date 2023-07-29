@@ -1,4 +1,4 @@
-import { type IMachineRepository } from '../../repositories/interfaces/IMachineRepository'
+import { type IMachineRepository } from '../../interfaces/IMachineRepository'
 import { ProductionPlan } from './ProductionPlan'
 import { type Machine } from '../../entities/Machine'
 import { type ProductionPlanResponseDTO } from './ProductionPlanDTO'

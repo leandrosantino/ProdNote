@@ -1,6 +1,6 @@
-import { type IUsersRepository } from '../../repositories/interfaces/IUsersRepository'
-import { type ICreateUserRequestDTO, type ICreateUserResponseDTO } from './CreateUserDTO'
-import { type ISystemPermissionsRepository } from '../../repositories/interfaces/ISystemPermissionsRepository'
+import { type IUsersRepository } from '../../interfaces/IUsersRepository'
+import { type CreateUserRequestDTO, type CreateUserResponseDTO } from './CreateUserDTO'
+import { type ISystemPermissionsRepository } from '../../interfaces/ISystemPermissionsRepository'
 
 export class CreateUser {
   constructor (
@@ -8,7 +8,7 @@ export class CreateUser {
     private readonly systemPermissionsRepository: ISystemPermissionsRepository
   ) { }
 
-  async execute (data: ICreateUserRequestDTO): Promise<ICreateUserResponseDTO> {
+  async execute (data: CreateUserRequestDTO): Promise<CreateUserResponseDTO> {
     const { name, permissions, email, password } = data
 
     const user = await this.usersRepository.findByName(name)

@@ -1,4 +1,4 @@
-import { Repositories } from '../../repositories/implementations/'
+import { Repositories } from '../../infra/repositories'
 import { PDFProvider } from '../../providers/implementations/PDFProvider'
 import { SSRProvider } from '../../providers/implementations/SSRProvider'
 import { CreateTags } from './CreateTags'

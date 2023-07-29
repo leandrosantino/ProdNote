@@ -1,5 +1,5 @@
-import { type IUsersRepository } from '../../repositories/interfaces/IUsersRepository'
-import { type ISystemPermissionsRepository } from '../../repositories/interfaces/ISystemPermissionsRepository'
+import { type IUsersRepository } from '../../interfaces/IUsersRepository'
+import { type ISystemPermissionsRepository } from '../../interfaces/ISystemPermissionsRepository'
 import { type SystemPermission } from '../../entities/SystemPermission'
 import { CreateUser } from './CreateUser'
 

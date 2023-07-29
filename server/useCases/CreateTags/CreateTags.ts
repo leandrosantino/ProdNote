@@ -1,4 +1,4 @@
-import { type IProductRepository } from '../../repositories/interfaces/IProductRepository'
+import { type IProductRepository } from '../../interfaces/IProductRepository'
 import { type IPDFProvider } from '../../providers/interfaces/IPDFProvider'
 import { type ISSRProvider } from '../../providers/interfaces/ISSRProvider'
 import { type CreateTagsRequestDTO } from './CreateTagsDTO'
@@ -14,7 +14,7 @@ export class CreateTags {
     private readonly idProvider: IIdProvider
   ) {}
 
-  async execute (productList: CreateTagsRequestDTO) {
+  async execute (productList: CreateTagsRequestDTO[]) {
     const products = await this.createTagsData(productList)
 
     if (products === null) {
@@ -28,7 +28,7 @@ export class CreateTags {
     return await this.pdfProvider.createFromHtml(html)
   }
 
-  async createTagsData (productList: CreateTagsRequestDTO) {
+  async createTagsData (productList: CreateTagsRequestDTO[]) {
     const data: ITagsProps[] = []
 
     for await (const { amount, id, isFractional } of productList) {
