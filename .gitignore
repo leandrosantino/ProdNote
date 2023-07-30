@@ -11,7 +11,7 @@ node_modules
 dist
 dist-ssr
 *.local
-
+# /coverage
 temp
 
 # Editor directories and files
@@ -25,4 +25,4 @@ temp
 *.sln
 *.sw?
 
-coverage
+
