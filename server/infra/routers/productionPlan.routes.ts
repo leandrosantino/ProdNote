@@ -1,7 +1,6 @@
 import { initTRPC } from '@trpc/server'
 import { type Context } from '../context'
 import { authenticattionMiddleware } from '../middlewares/authenticattionMiddleware'
-import { ClassProductionPlanResponseDTO, ProductionPlanRequestDTO } from '../../useCases/ProductionPlan/ProductionPlanDTO'
 import { productionPlan } from '../../useCases/ProductionPlan/index'
 import { HttpError } from '../../utils/HttpError'
 import { z } from 'zod'
@@ -12,8 +11,19 @@ const procedure = t.procedure.use(authenticattionMiddleware('PLANNING'))
 
 export const ProductionPlanRoutes = t.router({
   execute: procedure
-    .input(z.instanceof(ProductionPlanRequestDTO))
-    .output(z.array(z.instanceof(ClassProductionPlanResponseDTO)))
+    .input(z.object({
+      productiveDays: z.number(),
+      lowRunner: z.number(),
+      highRunner: z.number(),
+      machinesId: z.array(z.string()),
+      products: z.array(
+        z.object({
+          partNumber: z.string(),
+          stock: z.number(),
+          demand: z.number()
+        })
+      )
+    }))
     .mutation(async ({ input }) => {
       try {
         return await productionPlan.execute(input)

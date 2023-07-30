@@ -1,7 +1,6 @@
 import { initTRPC } from '@trpc/server'
 import { type Context } from '../context'
 import { authentication } from '../../useCases/Authentication'
-// import { AuthenticationRequestDTO } from '../../useCases/Authentication/AuthenticationDTO'
 import { HttpError } from '../../utils/HttpError'
 import { z } from 'zod'
 
