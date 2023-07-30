@@ -1,4 +1,3 @@
-import { z } from 'zod'
 import { type Machine } from './Machine'
 
 export class Product {
@@ -11,10 +10,8 @@ export class Product {
     public sapCode: string,
     public projectNumber: string,
     public amount: number,
-    public machines: Machine[],
+    public machines?: Machine[],
     public id?: string,
     public productionGroupId?: string
   ) {}
 }
-
-export const productSchema = z.instanceof(Product)

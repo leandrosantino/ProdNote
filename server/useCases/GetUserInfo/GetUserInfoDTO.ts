@@ -1,13 +1,11 @@
-import { z } from 'zod'
-import { systemPermissionKeysShema } from '../../entities/SystemPermission'
+import { type SystemPermissionKeys } from '../../entities/SystemPermission'
 
-export const getUserInfoResponseDTOschema = z.object({
-  name: z.string(),
-  email: z.string(),
-  permissions: z.array(systemPermissionKeysShema)
-})
+export type GetUserInfoRequestDTO = string
 
-export const getUserInfoRequestDTOschema = z.string()
-
-export type GetUserInfoRequestDTO = z.infer<typeof getUserInfoRequestDTOschema>
-export type GetUserInfoResponseDTO = z.infer<typeof getUserInfoResponseDTOschema>
+export class GetUserInfoResponseDTO {
+  constructor (
+    public name: string,
+    public email: string,
+    public permissions: SystemPermissionKeys[]
+  ) {}
+}

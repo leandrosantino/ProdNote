@@ -1,5 +1,5 @@
 import { createTRPCProxyClient, createTRPCReact, httpBatchLink } from '@trpc/react-query'
-import type { AppRouter } from '../../server/routers'
+import type { AppRouter } from '../../server/infra/routers'
 
 let token: string = ''
 

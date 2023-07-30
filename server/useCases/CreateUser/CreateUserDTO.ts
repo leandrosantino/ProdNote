@@ -1,16 +1,14 @@
-import { z } from 'zod'
+export class CreateUserRequestDTO {
+  constructor (
+    public name: string,
+    public email: string,
+    public password: string,
+    public permissions: number[]
+  ) {}
+}
 
-export const createUserRequestDTOSchema = z.object({
-  name: z.string(),
-  email: z.string().email(),
-  password: z.string(),
-  permissions: z.array(z.number())
-})
-
-export const createUserResponseDTOschema = z.object({
-  message: z.string()
-})
-
-export type ICreateUserResponseDTO = z.infer<typeof createUserResponseDTOschema>
-
-export type ICreateUserRequestDTO = z.infer<typeof createUserRequestDTOSchema>
+export class CreateUserResponseDTO {
+  constructor (
+    public message: string
+  ) {}
+}

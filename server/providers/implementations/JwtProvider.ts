@@ -1,5 +1,5 @@
 import jwt, { type SignOptions, type VerifyOptions } from 'jsonwebtoken'
-import { type IJwtProvider, type IJwtUserData } from '../interfaces/IJwtProvider'
+import { type IJwtProvider } from '../interfaces/IJwtProvider'
 
 export class JwtProvider implements IJwtProvider {
   secret: string
@@ -8,11 +8,16 @@ export class JwtProvider implements IJwtProvider {
     this.secret = 'LEANDROSANTINOF'
   }
 
-  sign (data: IJwtUserData, options: SignOptions) {
+  sign (data: object, options: SignOptions) {
     return jwt.sign(data, this.secret, options)
   }
 
-  verify (token: string, options?: VerifyOptions) {
-    return jwt.verify(token, this.secret, options) as IJwtUserData
+  async verify <T>(token: string, options?: VerifyOptions) {
+    return await new Promise<T>((resolve, reject) => {
+      jwt.verify(token, this.secret, options, (err, data) => {
+        if (err) reject(err)
+        resolve(data as T)
+      })
+    })
   }
 }

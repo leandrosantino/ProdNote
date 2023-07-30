@@ -1,5 +1,3 @@
-import { z } from 'zod'
-
 export class PlanningReport {
   constructor (
     public index: string,
@@ -14,5 +12,3 @@ export class PlanningReport {
     public id?: string
   ) {}
 }
-
-export const planningReportSchema = z.instanceof(PlanningReport)

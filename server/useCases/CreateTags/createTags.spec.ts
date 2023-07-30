@@ -1,5 +1,5 @@
 import { CreateTags } from './CreateTags'
-import { type IProductRepository } from '../../repositories/interfaces/IProductRepository'
+import { type IProductRepository } from '../../interfaces/IProductRepository'
 import { type IPDFProvider } from '../../providers/interfaces/IPDFProvider'
 import { type ISSRProvider } from '../../providers/interfaces/ISSRProvider'
 import { type ITagsProps, type ITagsPDFContainerComponent } from '../../interfaces/ITagsPDFContainerComponent'
@@ -63,7 +63,7 @@ describe('tests create tags', () => {
         id: '1',
         isFractional: false
       }
-    ] as CreateTagsRequestDTO)).resolves.toBeInstanceOf(Buffer)
+    ] as CreateTagsRequestDTO[])).resolves.toBeInstanceOf(Buffer)
   })
 
   test('should exception throw if product not found', async () => {
@@ -73,7 +73,7 @@ describe('tests create tags', () => {
         id: '2',
         isFractional: false
       }
-    ] as CreateTagsRequestDTO)).rejects.toEqual(new Error('product not found'))
+    ] as CreateTagsRequestDTO[])).rejects.toEqual(new Error('product not found'))
   })
 
   test('should return a tag data list', async () => {
@@ -83,7 +83,7 @@ describe('tests create tags', () => {
         id: '1',
         isFractional: false
       }
-    ] as CreateTagsRequestDTO)).resolves.toEqual([{
+    ] as CreateTagsRequestDTO[])).resolves.toEqual([{
       data: product,
       isFractional: false,
       tagId: '1234'
