@@ -14,11 +14,6 @@ import { ImSpinner6 } from 'react-icons/im'
 import { TagSheet } from '../../components/TagSheet'
 import { type Product } from '../../../server/entities/Product'
 
-interface Options {
-  description: string
-  id: string
-}
-
 interface SelectedProducts {
   name: string
   id: string
@@ -26,46 +21,46 @@ interface SelectedProducts {
   isFractional: boolean
 }
 
-const products: Options[] = [
-  { description: 'Carpete moldado esquedo', id: '1' },
-  { description: 'Bloco Hood 552', id: '2' }
-]
-
 const PAGE_AMOUNT_LIMIT = 100
 
-const addProductsFormSchema = z.object({
-  product: z.string()
-    .nonempty('O campo é obrigatório')
-    .refine(value => {
-      return products
-        .filter(entry => entry.description === value)
-        .map(entry => entry.description)
-        .includes(value)
-    }, 'Produto desconhecido'),
-
-  amount: z.coerce.number()
-    .min(1, `1 - ${PAGE_AMOUNT_LIMIT}`)
-    .max(PAGE_AMOUNT_LIMIT, `1 - ${PAGE_AMOUNT_LIMIT}`),
-
-  fractional: z.coerce.boolean(),
-  id: z.string()
-
-}).transform(form => {
-  form.id = products.filter(entry => entry.description === form.product)[0].id
-  return form
-})
-
-type AddProductsFormData = z.infer<typeof addProductsFormSchema>
-
 export function TagGenerator () {
+  const { data: products, isLoading: productsLoading } = trpc.product.getAll.useQuery()
+
+  const addProductsFormSchema = z.object({
+    product: z.string()
+      .nonempty('O campo é obrigatório')
+      .refine(value => {
+        if (products) {
+          return products
+            .filter(entry => entry.description === value)
+            .map(entry => entry.description)
+            .includes(value)
+        }
+        return false
+      }, 'Produto desconhecido'),
+
+    amount: z.coerce.number()
+      .min(1, `1 - ${PAGE_AMOUNT_LIMIT}`)
+      .max(PAGE_AMOUNT_LIMIT, `1 - ${PAGE_AMOUNT_LIMIT}`),
+
+    fractional: z.coerce.boolean(),
+    id: z.string()
+
+  }).transform(form => {
+    if (products) {
+      form.id = products.filter(entry => entry.description === form.product)[0].id as string
+    }
+    return form
+  })
+
+  type AddProductsFormData = z.infer<typeof addProductsFormSchema>
+
   const [selectedProducts, setSelectedProducts] = useState<SelectedProducts[]>([])
   const [pagesAmount, setPagesAmount] = useState(0)
   const [downloadStatus, setDownloadStatus] = useState({
     error: false,
     msg: ''
   })
-
-  const { data: products, isLoading: productsLoading } = trpc.product.getAll.useQuery()
 
   const [viewProduct, setViewProduct] = useState<{
     data: Product

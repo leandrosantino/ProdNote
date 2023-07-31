@@ -1,5 +1,6 @@
 import { type IProductRepository } from '../../../interfaces/IProductRepository'
 import { type Product } from '../../../entities/Product'
+import { prisma } from './connection'
 
 const products: Product[] = [
   {
@@ -36,6 +37,11 @@ export class ProductRepository implements IProductRepository {
   }
 
   async findMany () {
-    return products
+    return await prisma.product.findMany() as Product[]
+  }
+
+  async create (data: Product) {
+    const product = await prisma.product.create({ data })
+    return product as Product
   }
 }

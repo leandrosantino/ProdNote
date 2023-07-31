@@ -7,9 +7,7 @@ const systemPermissionList = [
 
 export type SystemPermissionKeys = typeof systemPermissionList[number]
 
-export class SystemPermission {
-  constructor (
-    public id: number,
-    public description: SystemPermissionKeys
-  ) {}
+export interface SystemPermission {
+  id: number
+  description: SystemPermissionKeys
 }
