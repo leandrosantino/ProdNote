@@ -2,36 +2,13 @@ import { type IProductRepository } from '../../../interfaces/IProductRepository'
 import { type Product } from '../../../entities/Product'
 import { prisma } from './connection'
 
-const products: Product[] = [
-  {
-    amount: 1,
-    classification: 'acabado',
-    description: 'Carpete moldado esquedo',
-    partNumber: '6187481',
-    projectNumber: '592',
-    sapCode: '112847718.01',
-    technicalDescription: 'carpete font fender esquedo',
-    ute: 'ute-5',
-    id: '1'
-  },
-  {
-    amount: 2,
-    classification: 'acabado',
-    description: 'Bloco Hood 552',
-    partNumber: '6187481',
-    projectNumber: '592',
-    sapCode: '112847718.01',
-    technicalDescription: 'carpete font fender esquedo',
-    ute: 'ute-5',
-    id: '2'
-  }
-]
-
 export class ProductRepository implements IProductRepository {
   async findById (id: string) {
-    const resp = products.filter(entry => entry.id === id)
-    if (resp.length === 1) {
-      return resp[0]
+    const resp = await prisma.product.findUnique({
+      where: { id }
+    })
+    if (resp) {
+      return resp as Product
     }
     return null
   }
@@ -40,7 +17,7 @@ export class ProductRepository implements IProductRepository {
     return await prisma.product.findMany() as Product[]
   }
 
-  async create (data: Product) {
+  async create (data: Omit<Product, 'machines'>) {
     const product = await prisma.product.create({ data })
     return product as Product
   }
