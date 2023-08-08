@@ -9,5 +9,5 @@ export function parseQrCodeData (_: string) {
   //   .replaceAll('î', '"i')
   //   .replaceAll('ô', '"o')
   //   .replaceAll('û', '"u')
-  return '{"productId":"cli1se9pc0034m5vc8bdu4pyj","tagId":"000000000000000000000000","amount":1}'
+  return '{"productId":"cli1se9pc0034m5vc8bdu4pyj","tagId":"000000000000000000000000","isFractional":false}'
 }

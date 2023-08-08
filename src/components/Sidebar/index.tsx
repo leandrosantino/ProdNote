@@ -44,14 +44,14 @@ export function Sidebar () {
       </ToggleGroupRoot>
     </Aside >
     {
-      window.innerWidth < 800 && showSideBar &&
+      window.innerWidth < 1000 && showSideBar &&
       <AbsoluteContainer
         onClick={() => {
-          if (window.innerWidth < 800) {
+          if (window.innerWidth < 1000) {
             setShowSideBar(false)
           }
         }}
-    />
+      />
     }
     </>
   )

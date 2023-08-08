@@ -4,28 +4,40 @@ import { InfoGrid } from './InfoGrid'
 import { RecentTable } from './RecentTable'
 import { z } from 'zod'
 import { parseQrCodeData } from '../../utils/parseQrCodeData'
+import { useLocalState } from '../../hooks/useLocalState'
+import { useAuth } from '../../hooks/useAuth'
+import { trpc } from '../../utils/api'
+import { type Product } from '../../../server/entities/Product'
 
 const codeDataSchema = z.object({
   productId: z.string(),
   tagId: z.string(),
-  amount: z.number()
+  isFractional: z.boolean()
 })
 
-type CodeData = z.infer<typeof codeDataSchema>
+type QrCodeData = z.infer<typeof codeDataSchema>
+
+export interface Recents {
+  description: string
+  isFractional: boolean
+  tagId: string
+  date: Date
+}
 
 export function RegisterTag () {
-  const [code, setCode] = useState<CodeData>()
+  const { user } = useAuth()
+  const [qrCodeData, setQrCodeData] = useState<QrCodeData>()
+  const [recents, setRecents] = useLocalState<Recents[]>(user?.name as string)
+  const { data: product } = trpc.product.getById.useQuery({ id: qrCodeData?.productId ?? '' })
 
   useEffect(() => {
     let temp: string[] = []
     window.addEventListener('keypress', ({ key }) => {
-      console.log(key)
       if (key !== 'Enter') { temp.push(key) }
       if (key === 'Enter') {
-        const qrCodeData = parseQrCodeData(temp.join())
+        const qrCodeDataString = parseQrCodeData(temp.join())
         try {
-          setCode(codeDataSchema
-            .parse(JSON.parse(qrCodeData)))
+          setQrCodeData(codeDataSchema.parse(JSON.parse(qrCodeDataString)))
         } catch {}
         temp = []
       }
@@ -33,8 +45,22 @@ export function RegisterTag () {
   }, [])
 
   useEffect(() => {
-    console.log(code)
-  }, [code])
+    console.log(qrCodeData)
+  }, [qrCodeData])
+
+  function handleRegister () {
+    if (product && qrCodeData) {
+      setRecents(oldState => oldState
+        ? [...oldState, {
+            date: new Date(),
+            description: product.description,
+            isFractional: qrCodeData.isFractional,
+            tagId: qrCodeData.tagId
+          }]
+        : [])
+    }
+    console.log()
+  }
 
   return (
     <Container>
@@ -44,17 +70,20 @@ export function RegisterTag () {
         <MessageContainer>
           teste
         </MessageContainer>
-        <InfoGrid info={{
-          productId: code?.productId ?? '',
-          isFractional: false,
-          tagId: code?.tagId ?? ''
-        }} />
+        <InfoGrid
+          onRegister={handleRegister}
+          info={{
+            product: product as Product,
+            isFractional: false,
+            tagId: qrCodeData?.tagId ?? ''
+          }}
+        />
       </section>
 
       <h3>Recentes</h3>
 
       <section>
-        <RecentTable/>
+        <RecentTable data={recents} />
       </section>
 
     </Container>

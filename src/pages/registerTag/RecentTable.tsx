@@ -1,8 +1,9 @@
 import { TrashIcon } from '@radix-ui/react-icons'
 import { Table } from '../../components/Table'
 import { RecentTagsTable } from './styles'
+import { type Recents } from './index'
 
-export function RecentTable () {
+export function RecentTable ({ data }: { data: Recents[] | null }) {
   return (
     <RecentTagsTable>
       <Table.Head>
@@ -13,15 +14,17 @@ export function RecentTable () {
         <th></th>
       </Table.Head>
       <Table.Body>
-        {Array(4).fill('').map((_, index) => (
-          <tr key={index}>
-            <td>Carpete moldado fkfiwuegfqiwpuegfo qwefoqiuwef</td>
-            <td>{'0'.repeat(24)}</td>
-            <td>21/02/2022</td>
-            <td>True</td>
+        {data
+          ? data.map(entry => (
+          <tr key={entry.tagId}>
+            <td>{entry.description}</td>
+            <td>{entry.tagId}</td>
+            <td>{new Date(entry.date).toLocaleDateString()}</td>
+            <td>{entry.isFractional ? 'sim' : 'não'}</td>
             <td><button><TrashIcon/></button></td>
           </tr>
-        ))}
+          ))
+          : <></>}
       </Table.Body>
     </RecentTagsTable>
   )

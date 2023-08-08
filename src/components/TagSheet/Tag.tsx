@@ -21,7 +21,7 @@ export function Tag ({ id, productInfo, qrcode, scale }: TagProps) {
         value={JSON.stringify({
           productId: productInfo?.data?.id,
           tagId: id,
-          amount: productInfo?.isFractional ? 0 : productInfo?.data?.amount
+          isFractional: productInfo.isFractional
         })}
         size={scale === 'reduce' ? 150 : 256}
         fgColor='#002060'

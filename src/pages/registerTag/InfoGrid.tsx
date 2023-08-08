@@ -1,18 +1,17 @@
 import { BsSaveFill } from 'react-icons/bs'
 import { InfoCase, InfoGroup, RegisterButton } from './styles'
-import { trpc } from '../../utils/api'
+import { type Product } from '../../../server/entities/Product'
 
 interface InfoGridProps {
   info: {
-    productId: string
+    product: Product
     tagId: string
     isFractional: boolean
   }
+  onRegister: () => void
 }
 
-export function InfoGrid ({ info: { tagId, productId } }: InfoGridProps) {
-  const { data: product } = trpc.product.getById.useQuery({ id: productId })
-
+export function InfoGrid ({ info: { tagId, product }, onRegister }: InfoGridProps) {
   return (
     <div>
       <InfoCase>
@@ -67,7 +66,12 @@ export function InfoGrid ({ info: { tagId, productId } }: InfoGridProps) {
           <span>Quant. Fracionada:</span>
           <div>30</div>
         </InfoCase> */}
-        <RegisterButton>Registrar <BsSaveFill size={15} /> </RegisterButton>
+        <RegisterButton
+          onClick={onRegister}
+        >
+          Registrar
+          <BsSaveFill size={15} />
+        </RegisterButton>
       </InfoGroup>
     </div>
   )
