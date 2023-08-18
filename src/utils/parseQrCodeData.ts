@@ -1,3 +1,5 @@
+let a = 1
+
 export function parseQrCodeData (_: string) {
   // const value = code
   //   .replaceAll('{', '}')
@@ -9,5 +11,12 @@ export function parseQrCodeData (_: string) {
   //   .replaceAll('î', '"i')
   //   .replaceAll('ô', '"o')
   //   .replaceAll('û', '"u')
-  return '{"productId":"cli1se9pc0034m5vc8bdu4pyj","tagId":"000000000000000000000000","isFractional":false}'
+  a++
+  const data = {
+    productId: 'cli1se9pc0034m5vc8bdu4pyj',
+    tagId: `0000000000000000000${a}`,
+    isFractional: false
+  }
+
+  return JSON.stringify(data)
 }

@@ -39,13 +39,13 @@ export function InfoGrid ({ info: { tagId, product }, onRegister }: InfoGridProp
           <span>Ute:</span>
           <div>{product?.ute}</div>
         </InfoCase>
-        <InfoCase>
-          <span>Part Number:</span>
-          <div>{product?.partNumber}</div>
+        <InfoCase id="project" >
+          <span>Projeto:</span>
+          <div>{product?.projectNumber}</div>
         </InfoCase>
-        <InfoCase>
+        <InfoCase >
           <span>Código SAP:</span>
-          <div> {product?.sapCode}</div>
+          <div id="sapCode"> {product?.sapCode}</div>
         </InfoCase>
         <InfoCase>
           <span>Classificação:</span>
@@ -55,8 +55,8 @@ export function InfoGrid ({ info: { tagId, product }, onRegister }: InfoGridProp
 
       <InfoGroup>
         <InfoCase>
-          <span>Projeto:</span>
-          <div>{product?.projectNumber}</div>
+          <span>PartNumber:</span>
+          <div>{product?.partNumber}</div>
         </InfoCase>
         <InfoCase>
           <span>Quant. Embalagem:</span>

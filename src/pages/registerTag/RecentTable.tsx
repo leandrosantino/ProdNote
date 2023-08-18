@@ -3,7 +3,12 @@ import { Table } from '../../components/Table'
 import { RecentTagsTable } from './styles'
 import { type Recents } from './index'
 
-export function RecentTable ({ data }: { data: Recents[] | null }) {
+interface RecentTableProps {
+  data: Recents[] | null
+  handleDelete: (id: string) => void
+}
+
+export function RecentTable ({ data, handleDelete }: RecentTableProps) {
   return (
     <RecentTagsTable>
       <Table.Head>
@@ -21,7 +26,7 @@ export function RecentTable ({ data }: { data: Recents[] | null }) {
             <td>{entry.tagId}</td>
             <td>{new Date(entry.date).toLocaleDateString()}</td>
             <td>{entry.isFractional ? 'sim' : 'não'}</td>
-            <td><button><TrashIcon/></button></td>
+            <td><button onClick={() => { handleDelete(entry.tagId) } } ><TrashIcon/></button></td>
           </tr>
           ))
           : <></>}

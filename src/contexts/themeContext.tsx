@@ -8,7 +8,9 @@ import {
   grayDark,
   blueDark,
   redDark,
-  greenDark
+  greenDark,
+  yellow,
+  yellowDark
 } from '@radix-ui/colors'
 
 type Mode = 'dark' | 'light'
@@ -23,13 +25,15 @@ const colors = {
     ...gray,
     ...blue,
     ...red,
-    ...green
+    ...green,
+    ...yellow
   },
   dark: {
     ...grayDark,
     ...blueDark,
     ...redDark,
-    ...greenDark
+    ...greenDark,
+    ...yellowDark
   }
 }
 

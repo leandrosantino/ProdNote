@@ -9,6 +9,8 @@ import { useAuth } from '../../hooks/useAuth'
 import { trpc } from '../../utils/api'
 import { type Product } from '../../../server/entities/Product'
 
+import { ShieldAlert, ShieldCheck, ShieldClose, SaveAll, type LucideIcon } from 'lucide-react'
+
 const codeDataSchema = z.object({
   productId: z.string(),
   tagId: z.string(),
@@ -24,11 +26,29 @@ export interface Recents {
   date: Date
 }
 
+const tagStatekeys = [
+  'valid',
+  'already_register',
+  'invalid',
+  'success_save'
+] as const
+
+export type TagStateKeys = typeof tagStatekeys[number]
+
+const TagStateIcon: Record<TagStateKeys, { Icon: LucideIcon, msg: string }> = {
+  already_register: { Icon: ShieldAlert, msg: 'A etiqueta já foi registrada enteriormente!' },
+  invalid: { Icon: ShieldClose, msg: 'Etiqueta inválida!!' },
+  success_save: { Icon: SaveAll, msg: 'Registrado com sucesso!!!!' },
+  valid: { Icon: ShieldCheck, msg: 'Etiqueta válida, Click em registar' }
+}
+
 export function RegisterTag () {
   const { user } = useAuth()
   const [qrCodeData, setQrCodeData] = useState<QrCodeData>()
   const [recents, setRecents] = useLocalState<Recents[]>(user?.name as string)
   const { data: product } = trpc.product.getById.useQuery({ id: qrCodeData?.productId ?? '' })
+
+  const [tagState] = useState<TagStateKeys>()
 
   useEffect(() => {
     let temp: string[] = []
@@ -44,10 +64,6 @@ export function RegisterTag () {
     })
   }, [])
 
-  useEffect(() => {
-    console.log(qrCodeData)
-  }, [qrCodeData])
-
   function handleRegister () {
     if (product && qrCodeData) {
       setRecents(oldState => oldState
@@ -62,13 +78,24 @@ export function RegisterTag () {
     console.log()
   }
 
+  function handleDeleteRecents (id: string) {
+    setRecents(old => old ? old?.filter(entry => entry.tagId !== id) : old)
+  }
+
   return (
     <Container>
       <h2>Registar Etiqueta</h2>
 
       <section>
-        <MessageContainer>
-          teste
+        <MessageContainer state={tagState} >
+          {tagState && (() => {
+            const { Icon, msg } = TagStateIcon[tagState]
+            return (<>
+              <Icon size={80}/>
+              <span dangerouslySetInnerHTML={{ __html: msg }} ></span>
+            </>)
+          })()}
+
         </MessageContainer>
         <InfoGrid
           onRegister={handleRegister}
@@ -83,7 +110,7 @@ export function RegisterTag () {
       <h3>Recentes</h3>
 
       <section>
-        <RecentTable data={recents} />
+        <RecentTable data={recents} handleDelete={handleDeleteRecents} />
       </section>
 
     </Container>

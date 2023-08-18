@@ -1,6 +1,7 @@
 import styled from 'styled-components'
 import { Button } from '../../components/Form/Botton'
 import { Table } from '../../components/Table'
+import { type TagStateKeys } from '.'
 
 const maxWidth = '800px'
 
@@ -45,14 +46,39 @@ export const Container = styled.div`
 
 `
 
-export const MessageContainer = styled.div`
+export const MessageContainer = styled.div<{ state?: TagStateKeys }>`
   width: 22rem;
   height: 100%;
   border-radius: 1.2rem;
   border: 2px solid ${p => p.theme.colors.dark.gray5};
   display: flex;
+  flex-direction: column;
   justify-content: center;
   align-items: center;
+  padding: 1.2rem;
+  gap: 1.2rem;
+
+  ${p => {
+    if (p.state) {
+      const stateColors: Record<TagStateKeys, string> = {
+        already_register: p.theme.colors.light.yellow10,
+        invalid: p.theme.colors.light.red10,
+        success_save: p.theme.colors.light.green10,
+        valid: p.theme.colors.light.green11
+      }
+      return `
+      svg{color: ${stateColors[p.state]};}
+      border-color: ${stateColors[p.state]};
+      `
+    }
+  }}
+
+
+  span{
+    width: 100%;
+    text-align: center;
+  }
+
   @media(max-width: 600px){
     width: 100%;
     height: min-content;
@@ -61,7 +87,7 @@ export const MessageContainer = styled.div`
 `
 
 export const InfoCase = styled.div`
-  flex: 1;
+  width: 100%;
   font-size: 1.2rem;
   span{
     font-weight: 600;
@@ -79,18 +105,29 @@ export const InfoCase = styled.div`
     display: flex;
     align-items: center;
   }
+
+  #sapCode{
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    direction: ltr;
+  }
+
   button{
     height: 100%;
   }
 
-
 `
 export const InfoGroup = styled.div`
   display: flex;
-  /* justify-content: end; */
   align-items: end;
   flex: 1;
   gap: .4rem;
+
+  #project{
+    width: 20rem;
+  }
+
 `
 export const RegisterButton = styled(Button)`
   font-size: 1.4rem;
@@ -98,6 +135,7 @@ export const RegisterButton = styled(Button)`
 `
 
 export const RecentTagsTable = styled(Table.Root)`
+  max-height: 25rem;
   thead, tbody{
     tr{
       td:first-child, th:first-child{
