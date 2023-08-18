@@ -14,6 +14,7 @@ export class GetUserInfo {
     }
 
     return {
+      id: user.id,
       name: user.name,
       email: user.email,
       permissions: user.permissions.map(permission => permission.description)

@@ -6,7 +6,7 @@ import { z } from 'zod'
 import { parseQrCodeData } from '../../utils/parseQrCodeData'
 import { useLocalState } from '../../hooks/useLocalState'
 import { useAuth } from '../../hooks/useAuth'
-import { trpc } from '../../utils/api'
+import { trpc, fetch } from '../../utils/api'
 import { type Product } from '../../../server/entities/Product'
 
 import { ShieldAlert, ShieldCheck, ShieldClose, SaveAll, type LucideIcon } from 'lucide-react'
@@ -37,7 +37,7 @@ export type TagStateKeys = typeof tagStatekeys[number]
 
 const TagStateIcon: Record<TagStateKeys, { Icon: LucideIcon, msg: string }> = {
   already_register: { Icon: ShieldAlert, msg: 'A etiqueta já foi registrada enteriormente!' },
-  invalid: { Icon: ShieldClose, msg: 'Etiqueta inválida!!' },
+  invalid: { Icon: ShieldClose, msg: 'Falha ao registrar, alguma informação está incorreta!' },
   success_save: { Icon: SaveAll, msg: 'Registrado com sucesso!!!!' },
   valid: { Icon: ShieldCheck, msg: 'Etiqueta válida, Click em registar' }
 }
@@ -45,10 +45,12 @@ const TagStateIcon: Record<TagStateKeys, { Icon: LucideIcon, msg: string }> = {
 export function RegisterTag () {
   const { user } = useAuth()
   const [qrCodeData, setQrCodeData] = useState<QrCodeData>()
-  const [recents, setRecents] = useLocalState<Recents[]>(user?.name as string)
+  const [recents, setRecents] = useLocalState<Recents[]>(user?.id as string)
   const { data: product } = trpc.product.getById.useQuery({ id: qrCodeData?.productId ?? '' })
 
-  const [tagState] = useState<TagStateKeys>()
+  const regiserTag = trpc.tag.registerTag.useMutation({})
+
+  const [tagState, setTagState] = useState<TagStateKeys>()
 
   useEffect(() => {
     let temp: string[] = []
@@ -57,25 +59,55 @@ export function RegisterTag () {
       if (key === 'Enter') {
         const qrCodeDataString = parseQrCodeData(temp.join())
         try {
-          setQrCodeData(codeDataSchema.parse(JSON.parse(qrCodeDataString)))
+          onReadQrCode(qrCodeDataString)
         } catch {}
         temp = []
       }
     })
   }, [])
 
+  function onReadQrCode (code: string) {
+    try {
+      const qrcodedata = codeDataSchema.parse(JSON.parse(code))
+      setQrCodeData(qrcodedata)
+      fetch.tag.verifyTagId.query(qrcodedata.tagId)
+        .then((data) => {
+          if (data) {
+            setTagState('valid')
+            return
+          }
+          setTagState('already_register')
+        })
+        .catch(console.log)
+    } catch {
+      setTagState('invalid')
+    }
+  }
+
   function handleRegister () {
     if (product && qrCodeData) {
-      setRecents(oldState => oldState
-        ? [...oldState, {
-            date: new Date(),
-            description: product.description,
-            isFractional: qrCodeData.isFractional,
-            tagId: qrCodeData.tagId
-          }]
-        : [])
+      regiserTag.mutateAsync({
+        amount: product.amount,
+        id: qrCodeData.tagId,
+        productId: `${(product.id as string)}`,
+        userId: user?.id as string
+      })
+        .then(() => {
+          setTagState('success_save')
+
+          setRecents(oldState => oldState
+            ? [...oldState, {
+                date: new Date(),
+                description: product.description,
+                isFractional: qrCodeData.isFractional,
+                tagId: qrCodeData.tagId
+              }]
+            : [])
+        })
+        .catch(() => {
+          setTagState('invalid')
+        })
     }
-    console.log()
   }
 
   function handleDeleteRecents (id: string) {

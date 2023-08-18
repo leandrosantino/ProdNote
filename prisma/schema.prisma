@@ -29,7 +29,8 @@ model Product {
   productionGroupId    String?
   machines             Machine[]
 
-  ProductionGroup ProductionGroup? @relation(fields: [productionGroupId], references: [id])
+  ProductionGroup  ProductionGroup?   @relation(fields: [productionGroupId], references: [id])
+  ProductionRecord ProductionRecord[]
 }
 
 model Machine {
@@ -86,9 +87,21 @@ model SystemPermission {
 }
 
 model User {
-  id          String             @id @default(cuid())
-  name        String
-  password    String
-  email       String
-  permissions SystemPermission[]
+  id               String             @id @default(cuid())
+  name             String
+  password         String
+  email            String
+  permissions      SystemPermission[]
+  ProductionRecord ProductionRecord[]
+}
+
+model ProductionRecord {
+  id        String   @id
+  userId    String
+  productId String
+  date      DateTime @default(now())
+  amount    Int
+
+  product Product @relation(fields: [productId], references: [id])
+  user    User    @relation(fields: [userId], references: [id])
 }

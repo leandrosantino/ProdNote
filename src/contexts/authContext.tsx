@@ -3,6 +3,7 @@ import { setToken, fetch } from '../utils/api'
 import type { SystemPermissionKeys } from '../../server/entities/SystemPermission'
 
 interface User {
+  id: string
   name: string
   email: string
   permissions: SystemPermissionKeys[]

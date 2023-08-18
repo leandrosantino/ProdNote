@@ -12,6 +12,6 @@ export class RegisterTags {
 
   async verifyTagId (id: string) {
     const record = await this.productionRecordRepository.findById(id)
-    return !!record
+    return !record
   }
 }

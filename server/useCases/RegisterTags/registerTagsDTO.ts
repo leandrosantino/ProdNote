@@ -1,3 +1,3 @@
 import { type ProductionRecord } from '../../entities/ProductionRecord'
 
-export interface ProductionRecordRequestDTO extends Omit<ProductionRecord, 'product' | 'user'> {}
+export interface ProductionRecordRequestDTO extends Omit<ProductionRecord, 'product' | 'user' | 'date'> {}

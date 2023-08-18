@@ -28,9 +28,8 @@ export const tagRoutes = t.router({
   registerTag: readTagsProcedure
     .input(z.object({
       id: z.string(),
-      product_id: z.string(),
-      user_id: z.string(),
-      date: z.coerce.date(),
+      productId: z.string(),
+      userId: z.string(),
       amount: z.number()
     }))
     .mutation(async ({ input }) => {

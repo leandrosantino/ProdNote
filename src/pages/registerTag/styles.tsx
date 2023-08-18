@@ -49,6 +49,7 @@ export const Container = styled.div`
 export const MessageContainer = styled.div<{ state?: TagStateKeys }>`
   width: 22rem;
   height: 100%;
+  min-height: 18rem;
   border-radius: 1.2rem;
   border: 2px solid ${p => p.theme.colors.dark.gray5};
   display: flex;
