@@ -37,7 +37,12 @@ export class CreateTags {
         return null
       }
       for (let i = 1; i <= amount; i++) {
-        data.push({ data: product, isFractional, tagId: this.idProvider.generateCUID() })
+        data.push({
+          data: product,
+          isFractional,
+          tagId: this.idProvider.generateCUID(),
+          printDate: new Date().toLocaleString()
+        })
       }
     }
 

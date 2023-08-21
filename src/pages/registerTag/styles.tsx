@@ -1,5 +1,5 @@
 import styled from 'styled-components'
-import { Button } from '../../components/Form/Botton'
+import { Button } from '../../components/Form/Button'
 import { Table } from '../../components/Table'
 import { type TagStateKeys } from '.'
 

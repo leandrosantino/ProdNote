@@ -5,7 +5,7 @@ import { FormProvider, useForm, useFieldArray } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { trpc } from '../../utils/api'
 import { TrashIcon } from '@radix-ui/react-icons'
-import { Button } from '../../components/Form/Botton'
+import { Button } from '../../components/Form/Button'
 
 export function Planning () {
   const productionPlanFormSchema = z.object({

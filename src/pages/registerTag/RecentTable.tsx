@@ -15,6 +15,7 @@ export function RecentTable ({ data, handleDelete }: RecentTableProps) {
         <th>Descrição</th>
         <th>TagId</th>
         <th>Data</th>
+        <th>Qtd.</th>
         <th>Frac.</th>
         <th></th>
       </Table.Head>
@@ -25,6 +26,7 @@ export function RecentTable ({ data, handleDelete }: RecentTableProps) {
             <td>{entry.description}</td>
             <td>{entry.tagId}</td>
             <td>{new Date(entry.date).toLocaleDateString()}</td>
+            <td>{entry.amount}</td>
             <td>{entry.isFractional ? 'sim' : 'não'}</td>
             <td><button onClick={() => { handleDelete(entry.tagId) } } ><TrashIcon/></button></td>
           </tr>

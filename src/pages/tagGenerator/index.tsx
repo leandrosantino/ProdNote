@@ -1,6 +1,6 @@
 import { Container, Separator, Info, DownloadError, SpinnerCase, TagSection, SelectedProductsTable } from './styles'
 import { Field } from '../../components/Form/Field'
-import { Button } from '../../components/Form/Botton'
+import { Button } from '../../components/Form/Button'
 import { PlusCircledIcon, TrashIcon, DownloadIcon, CheckCircledIcon, CrossCircledIcon } from '@radix-ui/react-icons'
 import { useForm, FormProvider } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'

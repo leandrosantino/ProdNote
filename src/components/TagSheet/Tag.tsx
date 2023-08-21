@@ -5,6 +5,7 @@ import { TagContent } from './style'
 interface TagProps {
   qrcode?: boolean
   id: string
+  printDate: string
   productInfo: {
     data?: Product | null
     isFractional: boolean
@@ -12,7 +13,7 @@ interface TagProps {
   scale: 'full' | 'reduce'
 }
 
-export function Tag ({ id, productInfo, qrcode, scale }: TagProps) {
+export function Tag ({ id, productInfo, qrcode, scale, printDate }: TagProps) {
   const qrcodeElement = (
     <>
       {qrcode &&
@@ -43,6 +44,7 @@ export function Tag ({ id, productInfo, qrcode, scale }: TagProps) {
       <header>
         <span>ETIQUETA DE PRODUTO ACABADO</span>
         <span>ADLER PELZER PE</span>
+        <span id='date' >{printDate}</span>
       </header>
 
       <div className='idCase' >

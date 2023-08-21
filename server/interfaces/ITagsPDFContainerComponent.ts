@@ -4,6 +4,7 @@ export interface ITagsProps {
   data: Product
   isFractional: boolean
   tagId: string
+  printDate: string
 }
 
 export interface ITagsPDFContainerComponentProps {

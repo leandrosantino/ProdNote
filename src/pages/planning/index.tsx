@@ -4,7 +4,7 @@ import { Table } from '../../components/Table'
 import { Container, FormCase, ScriptTable } from './styles'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useForm, FormProvider } from 'react-hook-form'
-import { Button } from '../../components/Form/Botton'
+import { Button } from '../../components/Form/Button'
 import { trpc } from '../../utils/api'
 import { useEffect } from 'react'
 

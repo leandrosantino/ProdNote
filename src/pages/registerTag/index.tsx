@@ -10,6 +10,7 @@ import { trpc, fetch } from '../../utils/api'
 import { type Product } from '../../../server/entities/Product'
 
 import { ShieldAlert, ShieldCheck, ShieldClose, SaveAll, type LucideIcon } from 'lucide-react'
+import { useDialog } from '../../hooks/useDialog'
 
 const codeDataSchema = z.object({
   productId: z.string(),
@@ -24,6 +25,7 @@ export interface Recents {
   isFractional: boolean
   tagId: string
   date: Date
+  amount: number
 }
 
 const tagStatekeys = [
@@ -43,14 +45,15 @@ const TagStateIcon: Record<TagStateKeys, { Icon: LucideIcon, msg: string }> = {
 }
 
 export function RegisterTag () {
+  const dialog = useDialog()
+
   const { user } = useAuth()
   const [qrCodeData, setQrCodeData] = useState<QrCodeData>()
   const [recents, setRecents] = useLocalState<Recents[]>(user?.id as string)
-  const { data: product } = trpc.product.getById.useQuery({ id: qrCodeData?.productId ?? '' })
-
-  const regiserTag = trpc.tag.registerTag.useMutation({})
-
   const [tagState, setTagState] = useState<TagStateKeys>()
+
+  const { data: product } = trpc.product.getById.useQuery({ id: qrCodeData?.productId ?? '' })
+  const regiserTag = trpc.tag.registerTag.useMutation({})
 
   useEffect(() => {
     let temp: string[] = []
@@ -84,25 +87,32 @@ export function RegisterTag () {
     }
   }
 
-  function handleRegister () {
-    if (product && qrCodeData) {
+  function register (amount: number) {
+    if (product && qrCodeData && tagState === 'valid') {
       regiserTag.mutateAsync({
-        amount: product.amount,
+        amount,
         id: qrCodeData.tagId,
         productId: `${(product.id as string)}`,
         userId: user?.id as string
       })
         .then(() => {
           setTagState('success_save')
+          setRecents(oldState => {
+            const currentState = oldState
+              ? [{
+                  date: new Date(),
+                  description: product.description,
+                  isFractional: qrCodeData.isFractional,
+                  tagId: qrCodeData.tagId,
+                  amount
+                }, ...oldState]
+              : []
+            if (currentState.length > 50) {
+              currentState.pop()
+            }
 
-          setRecents(oldState => oldState
-            ? [...oldState, {
-                date: new Date(),
-                description: product.description,
-                isFractional: qrCodeData.isFractional,
-                tagId: qrCodeData.tagId
-              }]
-            : [])
+            return currentState
+          })
         })
         .catch(() => {
           setTagState('invalid')
@@ -110,8 +120,61 @@ export function RegisterTag () {
     }
   }
 
+  function handleRegister () {
+    if (tagState === 'already_register') {
+      setTagState('invalid')
+      return
+    }
+
+    if (tagState === 'success_save') {
+      setTagState('already_register')
+      return
+    }
+
+    if (product && qrCodeData && tagState === 'valid') {
+      if (qrCodeData.isFractional) {
+        dialog.prompt({
+          title: 'Etiqueta fracionada!',
+          message: 'informe a quantidade para continuar',
+          type: 'number',
+          refuse () {},
+          accept (value: number) {
+            if (Number(value) < 1) {
+              dialog.alert({
+                title: 'Erro!',
+                message: 'A quantidade não pode ser menor que 1',
+                error: true
+              })
+              return
+            }
+            register(Number(value))
+          }
+        })
+        return
+      }
+      register(product.amount)
+    }
+  }
+
   function handleDeleteRecents (id: string) {
-    setRecents(old => old ? old?.filter(entry => entry.tagId !== id) : old)
+    dialog.question({
+      title: 'Atenção!!',
+      message: 'Realmente deseja apgar este registro?',
+      accept () {
+        dialog.prompt({
+          title: 'Excluir registro!',
+          message: 'Insira sua senha para continuar',
+          type: 'password',
+          refuse () {},
+          accept (value) {
+            setRecents(old => old ? old?.filter(entry => entry.tagId !== id) : old)
+            console.log(value)
+            console.log(user?.id)
+          }
+        })
+      },
+      refuse: () => {}
+    })
   }
 
   return (

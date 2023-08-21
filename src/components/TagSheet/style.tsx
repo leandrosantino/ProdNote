@@ -37,9 +37,20 @@ export const TagContent = styled.div<{ scale: 'full' | 'reduce' }>`
     flex-direction: column;
     padding: var(--padding) ;
     border-bottom: var(--border-width) solid black;
+    position: relative;
     &>span{
       width: 100%;
       text-align: center;
+    }
+    #date{
+      font: 1.2rem;
+      font-weight: normal;
+      width: fit-content;
+      position: absolute;
+      right: 0;
+      margin-right: .4rem;
+      margin-top: .4rem;
+      top: 0;
     }
   }
 
@@ -163,6 +174,9 @@ export const TagContent = styled.div<{ scale: 'full' | 'reduce' }>`
       height: 100%;
     }
     .label{
+      font-size: 14px;
+    }
+    #date{
       font-size: 14px;
     }
   }
