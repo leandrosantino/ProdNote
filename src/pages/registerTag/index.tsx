@@ -59,9 +59,9 @@ export function RegisterTag () {
     let temp: string[] = []
     window.addEventListener('keypress', ({ key }) => {
       if (key !== 'Enter') { temp.push(key) }
-      if (key === 'Enter') {
-        const qrCodeDataString = parseQrCodeData(temp.join())
+      if (key === 'Enter' && temp.length > 0) {
         try {
+          const qrCodeDataString = parseQrCodeData(temp.join(''))
           onReadQrCode(qrCodeDataString)
         } catch {}
         temp = []
@@ -167,9 +167,25 @@ export function RegisterTag () {
           type: 'password',
           refuse () {},
           accept (value) {
-            setRecents(old => old ? old?.filter(entry => entry.tagId !== id) : old)
-            console.log(value)
-            console.log(user?.id)
+            fetch.tag.delete.mutate({
+              password: value,
+              productionRecordId: id,
+              userId: user?.id as string
+            })
+              .then(() => {
+                setRecents(old => old ? old?.filter(entry => entry.tagId !== id) : old)
+                dialog.alert({
+                  title: 'Concluído!',
+                  message: 'A etiqueta foi excluida do sistema'
+                })
+              })
+              .catch((err: Error) => {
+                dialog.alert({
+                  title: 'Erro!',
+                  message: `Falha ao excluir etiqueta. msg: ${err.message}`,
+                  error: true
+                })
+              })
           }
         })
       },
