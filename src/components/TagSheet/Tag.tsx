@@ -32,8 +32,6 @@ export function Tag ({ id, productInfo, qrcode, scale, printDate }: TagProps) {
     </>
   )
 
-  console.log(qrcodeElement)
-
   return (
     <TagContent
       data-qrcode={qrcode ? 'on' : 'off'}

@@ -1,35 +1,37 @@
-// import axios from 'axios'
+import axios from 'axios'
 import { Repositories } from './repositories'
 import { logger } from '../utils/logger'
 import { type Machine } from '../entities/Machine'
+import { type User } from '../entities/User'
+import { createUser } from '../useCases/CreateUser'
 
-// interface Product {
-//   id: string
-//   description: string
-//   technicalDescription: string
-//   ute: string
-//   classification: string
-//   partNumber: string
-//   sapCode: string
-//   projectNumber: string
-//   amount: number
-// }
+interface Product {
+  id: string
+  description: string
+  technicalDescription: string
+  ute: string
+  classification: string
+  partNumber: string
+  sapCode: string
+  projectNumber: string
+  amount: number
+}
 
-// const productRepository = new Repositories.Product();
-const machineRepository = new Repositories.Machine();
+const productRepository = new Repositories.Product()
+const machineRepository = new Repositories.Machine()
 
-// (async () => {
-//   try {
-//     const { data: products } = await axios.get<Product[]>('http://192.168.115.201:3333/api/products', {})
-//     for await (const product of products) {
-//       logger.info('   - add ' + product.description)
-//       await productRepository.create(product)
-//     }
-//   } catch (err) {
-//     logger.error(err)
-//   }
-// })()
-//   .catch(logger.error)
+(async () => {
+  try {
+    const { data: products } = await axios.get<Product[]>('http://192.168.115.201:3333/api/products', {})
+    for await (const product of products) {
+      logger.info('   - add ' + product.description)
+      await productRepository.create(product)
+    }
+  } catch (err) {
+    logger.error(err)
+  }
+})()
+  .catch(logger.error);
 
 (async () => {
   try {
@@ -56,4 +58,19 @@ const machineRepository = new Repositories.Machine();
     logger.error(err)
   }
 })()
-  .catch(logger.error)
+  .catch(logger.error);
+
+(async () => {
+  try {
+    const users: User[] = [
+      {
+        email: 'leandrosantino@gmail.com',
+        name: 'leandroSantino',
+        password: 'alpha45c',
+        permissions: []
+      }
+    ]
+  } catch (err) {
+    logger.error(err)
+  }
+})()

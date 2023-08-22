@@ -12,7 +12,11 @@
     "commit": "git add . && cz && git push",
     "test": "jest",
     "lint-fix": "npx eslint --fix ./",
-    "lint": "npx eslint ./"
+    "lint": "npx eslint ./",
+    "seed": "tsx ./server/infra/seed.ts"
+  },
+  "prisma": {
+    "seed": "npm run seed"
   },
   "dependencies": {
     "@fastify/cors": "^8.3.0",

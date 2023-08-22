@@ -8,6 +8,6 @@ const systemPermissionList = [
 export type SystemPermissionKeys = typeof systemPermissionList[number]
 
 export interface SystemPermission {
-  id: number
+  id: string
   description: SystemPermissionKeys
 }

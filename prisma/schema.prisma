@@ -10,12 +10,6 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-// generator erd {
-//   provider = "prisma-erd-generator"
-//   output   = "../ERD.svg.pdf"
-//   theme    = "dark"
-// }
-
 model Product {
   id                   String    @id @default(cuid())
   description          String
@@ -29,55 +23,19 @@ model Product {
   productionGroupId    String?
   machines             Machine[]
 
-  ProductionGroup  ProductionGroup?   @relation(fields: [productionGroupId], references: [id])
   ProductionRecord ProductionRecord[]
 }
 
 model Machine {
-  id                String    @id @default(cuid())
-  slug              String
-  ute               String
-  capacity          Int
-  productionGroupId String?
-  products          Product[]
+  id                  String    @id @default(cuid())
+  slug                String
+  ute                 String
+  capacity            Int
+  productionGroupId   String?
+  productionProcessId String?
+  products            Product[]
 
-  ProductionGroup ProductionGroup? @relation(fields: [productionGroupId], references: [id])
-}
-
-model ProductionGroup {
-  id             String           @id @default(cuid())
-  name           String
-  products       Product[]
-  machines       Machine[]
-  plannings      Planning[]
-  planningReport PlanningReport[]
-}
-
-model PlanningReport {
-  id           String @id @default(cuid())
-  index        Int
-  weeklyDemand Int
-  dailyDemand  Int
-  initialStock Float
-  currentStock Float
-  coverage     Float
-  minLot       Float
-
-  productionGroupId String
-  planningId        String?
-  Planning          Planning?       @relation(fields: [planningId], references: [id])
-  productionGroup   ProductionGroup @relation(fields: [productionGroupId], references: [id])
-}
-
-model Planning {
-  id               String            @id @default(cuid())
-  startsAt         DateTime
-  endsAt           DateTime
-  lowRunner        Int
-  HighRunner       Int
-  productiveDays   Int
-  productionGroups ProductionGroup[]
-  planningReport   PlanningReport[]
+  ProductionProcess ProductionProcess? @relation(fields: [productionProcessId], references: [id])
 }
 
 model SystemPermission {
@@ -104,4 +62,42 @@ model ProductionRecord {
 
   product Product @relation(fields: [productId], references: [id])
   user    User    @relation(fields: [userId], references: [id])
+}
+
+model ProductionProcess {
+  id          String    @id @default(cuid())
+  description String
+  machines    Machine[]
+
+  productionEfficiencyRecords ProductionEfficiencyRecord[]
+}
+
+model ReasonsLossEfficiency {
+  id                         String                     @id @default(cuid())
+  type                       String
+  description                String
+  productionEfficiencyLosses ProductionEfficiencyLoss[]
+}
+
+model ProductionEfficiencyLoss {
+  id                           String  @id @default(cuid())
+  productionEfficiencyRecordId String?
+  reasonsLossEfficiencyId      String?
+
+  ProductionEfficiencyRecord ProductionEfficiencyRecord? @relation(fields: [productionEfficiencyRecordId], references: [id])
+  ReasonsLossEfficiency      ReasonsLossEfficiency?      @relation(fields: [reasonsLossEfficiencyId], references: [id])
+}
+
+model ProductionEfficiencyRecord {
+  id                         String                     @id @default(cuid())
+  createdAt                  DateTime                   @default(now())
+  date                       DateTime
+  turn                       String
+  ute                        String
+  time                       Int
+  piecesQuantity             Int
+  productionProcessId        String?
+  productionEfficiencyLosses ProductionEfficiencyLoss[]
+
+  ProductionProcess ProductionProcess? @relation(fields: [productionProcessId], references: [id])
 }
