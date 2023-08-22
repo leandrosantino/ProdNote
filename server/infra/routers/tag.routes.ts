@@ -4,6 +4,7 @@ import { authenticattionMiddleware } from '../middlewares/authenticattionMiddlew
 import { createTags } from '../../useCases/CreateTags'
 import { z } from 'zod'
 import { registerTags } from '../../useCases/RegisterTags'
+import { deleteProductionRecord } from '../../useCases/DeleteProductionRecord'
 
 const t = initTRPC.context<Context>().create()
 const generateTagsProcedure = t.procedure.use(authenticattionMiddleware('GENERATE_TAGS'))
@@ -20,11 +21,13 @@ export const tagRoutes = t.router({
     .mutation(async ({ input }) => {
       return await createTags.execute(input)
     }),
+
   verifyTagId: readTagsProcedure
     .input(z.string())
     .query(async ({ input }) => {
       return await registerTags.verifyTagId(input)
     }),
+
   registerTag: readTagsProcedure
     .input(z.object({
       id: z.string(),
@@ -34,5 +37,16 @@ export const tagRoutes = t.router({
     }))
     .mutation(async ({ input }) => {
       return await registerTags.execute(input)
+    }),
+
+  delete: readTagsProcedure
+    .input(z.object({
+      productionRecordId: z.string(),
+      userId: z.string(),
+      password: z.string()
+    }))
+    .mutation(async ({ input }) => {
+      await deleteProductionRecord.execute(input)
     })
+
 })

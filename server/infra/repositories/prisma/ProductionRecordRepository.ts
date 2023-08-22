@@ -10,7 +10,7 @@ export class ProductionRecordRepository implements IProductionRecordRepository {
     return record as ProductionRecord
   }
 
-  async findById (id: string) {
+  async findById (id: ProductionRecord['id']) {
     const record = await prisma.productionRecord.findUnique({
       where: {
         id
@@ -20,5 +20,11 @@ export class ProductionRecordRepository implements IProductionRecordRepository {
       return record as ProductionRecord
     }
     return null
+  }
+
+  async delete (id: ProductionRecord['id']) {
+    await prisma.productionRecord.delete({
+      where: { id }
+    })
   }
 }
