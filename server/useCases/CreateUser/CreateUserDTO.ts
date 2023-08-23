@@ -1,9 +1,11 @@
+import { type SystemPermissionKeys } from '../../entities/SystemPermission'
+
 export class CreateUserRequestDTO {
   constructor (
     public name: string,
     public email: string,
     public password: string,
-    public permissions: number[]
+    public permissions: SystemPermissionKeys[]
   ) {}
 }
 

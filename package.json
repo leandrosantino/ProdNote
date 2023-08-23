@@ -13,7 +13,7 @@
     "test": "jest",
     "lint-fix": "npx eslint --fix ./",
     "lint": "npx eslint ./",
-    "seed": "tsx ./server/infra/seed.ts"
+    "seed": "tsx ./server/infra/seed/index.ts"
   },
   "prisma": {
     "seed": "npm run seed"
@@ -78,6 +78,7 @@
     "@vitejs/plugin-react": "^4.0.0",
     "commitizen": "^4.3.0",
     "copy-webpack-plugin": "^11.0.0",
+    "csv-reader": "^1.0.12",
     "cz-conventional-changelog": "^3.3.0",
     "eslint": "^8.43.0",
     "eslint-config-standard-with-typescript": "^35.0.0",

@@ -23,7 +23,7 @@ model Product {
   productionGroupId    String?
   machines             Machine[]
 
-  ProductionRecord ProductionRecord[]
+  productionRecords ProductionRecord[]
 }
 
 model Machine {
@@ -35,7 +35,7 @@ model Machine {
   productionProcessId String?
   products            Product[]
 
-  ProductionProcess ProductionProcess? @relation(fields: [productionProcessId], references: [id])
+  productionProcess ProductionProcess? @relation(fields: [productionProcessId], references: [id])
 }
 
 model SystemPermission {
@@ -45,12 +45,12 @@ model SystemPermission {
 }
 
 model User {
-  id               String             @id @default(cuid())
-  name             String
-  password         String
-  email            String
-  permissions      SystemPermission[]
-  ProductionRecord ProductionRecord[]
+  id                String             @id @default(cuid())
+  name              String             @unique
+  password          String
+  email             String             @unique
+  permissions       SystemPermission[]
+  productionRecords ProductionRecord[]
 }
 
 model ProductionRecord {
@@ -81,11 +81,12 @@ model ReasonsLossEfficiency {
 
 model ProductionEfficiencyLoss {
   id                           String  @id @default(cuid())
-  productionEfficiencyRecordId String?
+  lostTimeInMinutes            Int
   reasonsLossEfficiencyId      String?
+  productionEfficiencyRecordId String?
 
-  ProductionEfficiencyRecord ProductionEfficiencyRecord? @relation(fields: [productionEfficiencyRecordId], references: [id])
-  ReasonsLossEfficiency      ReasonsLossEfficiency?      @relation(fields: [reasonsLossEfficiencyId], references: [id])
+  productionEfficiencyRecord ProductionEfficiencyRecord? @relation(fields: [productionEfficiencyRecordId], references: [id])
+  reasonsLossEfficiency      ReasonsLossEfficiency?      @relation(fields: [reasonsLossEfficiencyId], references: [id])
 }
 
 model ProductionEfficiencyRecord {
@@ -94,10 +95,11 @@ model ProductionEfficiencyRecord {
   date                       DateTime
   turn                       String
   ute                        String
-  time                       Int
+  productionTimeInMinutes    Int
   piecesQuantity             Int
+  oeeValue                   Int
   productionProcessId        String?
   productionEfficiencyLosses ProductionEfficiencyLoss[]
 
-  ProductionProcess ProductionProcess? @relation(fields: [productionProcessId], references: [id])
+  productionProcess ProductionProcess? @relation(fields: [productionProcessId], references: [id])
 }

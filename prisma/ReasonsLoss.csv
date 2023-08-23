@@ -1,0 +1,54 @@
+description	;type
+Mal Curado  ;scrap
+Rugas / Dobras ;scrap
+Mold. Irregular ;scrap
+Rasgado ;scrap
+Descolado ;scrap
+Migração ;scrap
+Deformado ;scrap
+Corte Irregular ;scrap
+Furo Irregular ;scrap
+Raleira ;scrap
+Falta de Material ;scrap
+Falha na Injeção ;scrap
+Manchas ;scrap
+Teste ;scrap
+Queimado ;scrap
+Quebrado ;scrap
+Mal Curado 2	;rework
+Rugas / Dobras3	;rework
+Mold. Irregular4	;rework
+Rasgado5	;rework
+Desfiado	;rework
+Migração6	;rework
+Deformado7	;rework
+Corte Irregular8	;rework
+Furo Irregular9	;rework
+Raleira10	;rework
+Falta de Material11	;rework
+Falha na Injeção12	;rework
+Manchas15	;rework
+Retrabalho com aluminio 	;rework
+Queimado13	;rework
+Quebrado14	;rework
+Mecânico	;stoppages
+Elétrica	;stoppages
+Ferramental	;stoppages
+Troca de material	;stoppages
+Falta de Mão de Obra	;stoppages
+Set Up	;stoppages
+Ajuste de Parâmetro	;stoppages
+Tray -out	;stoppages
+Abastecimento de Material	;stoppages
+Refeição (Café)	;stoppages
+Retrabalho	;stoppages
+Falta de Embalagem	;stoppages
+Treinamento/  Reunião	;stoppages
+Limpeza	;stoppages
+Falta de Energia Elétrica	;stoppages
+Parada Programada	;stoppages
+Manutenção Programada	;stoppages
+Falta de peças semi acabadas	;stoppages
+LIBERAÇAO DE PEÇAS	;stoppages
+Remanejamento	;stoppages
+Falta de material	;stoppages

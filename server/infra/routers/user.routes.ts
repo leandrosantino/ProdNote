@@ -5,6 +5,7 @@ import { createUser } from '../../useCases/CreateUser'
 import { getUserInfo } from '../../useCases/GetUserInfo'
 import { HttpError } from '../../utils/HttpError'
 import { z } from 'zod'
+import { systemPermissionList } from '../../entities/SystemPermission'
 
 const t = initTRPC.context<Context>().create()
 
@@ -14,7 +15,7 @@ export const userRoutes = t.router({
       name: z.string(),
       email: z.string(),
       password: z.string(),
-      permissions: z.array(z.number())
+      permissions: z.array(z.enum(systemPermissionList))
     }))
     .mutation(async ({ input }) => {
       return await createUser.execute(input)

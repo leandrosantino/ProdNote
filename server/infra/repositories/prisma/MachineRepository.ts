@@ -14,7 +14,7 @@ export class MachineRepository implements IMachineRepository {
     return await prisma.machine.findMany() as Machine[]
   }
 
-  async create (data: Machine) {
+  async create (data: Omit<Machine, 'products'>) {
     const machine = await prisma.machine.create({ data })
     return machine as Machine
   }
