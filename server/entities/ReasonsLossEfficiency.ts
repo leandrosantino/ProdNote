@@ -1,5 +1,3 @@
-import { type ProductionEfficiencyLoss } from '@prisma/client'
-
 export const lossTypesList = [
   'scrap',
   'rework',
@@ -10,5 +8,5 @@ export interface ReasonsLossEfficiency {
   id: string
   type: typeof lossTypesList[number]
   description: string
-  productionEfficiencyLosses: ProductionEfficiencyLoss[]
+  // productionEfficiencyLosses: ProductionEfficiencyLoss[]
 }
