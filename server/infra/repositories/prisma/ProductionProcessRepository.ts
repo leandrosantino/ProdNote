@@ -3,7 +3,7 @@ import { type IProductionProcessRepository } from '../../../interfaces/IProducti
 import { prisma } from './connection'
 
 export class ProductionProcessRepository implements IProductionProcessRepository {
-  async create (data: Omit<ProductionProcess, 'id' | 'machines'>) {
+  async create (data: Omit<ProductionProcess, 'id' | 'machines' | 'products'>) {
     const process = await prisma.productionProcess.create({ data })
     return process as ProductionProcess
   }

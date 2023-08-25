@@ -18,4 +18,13 @@ export class MachineRepository implements IMachineRepository {
     const machine = await prisma.machine.create({ data })
     return machine as Machine
   }
+
+  async findBySlug (slug: Machine['slug']) {
+    const machine = await prisma.machine.findFirst({
+      where: {
+        slug
+      }
+    })
+    return machine as Machine
+  }
 }

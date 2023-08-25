@@ -1,0 +1,19 @@
+project;sap;description;cycleTime;technology;ute
+521;2230201019.01;Cargo Load 521 - (M24, M26, M27);63;Hydraulic Press;UTE-4
+551;2230202012.01;Cargo Load 551 - (M24, M26, M27);63;Hydraulic Press;UTE-4
+598;2230202012.02;Cargo Load 598 - (M24, M26, M27);72;Hydraulic Press;UTE-4
+521;2230208008.02;Parcel Shelf 521 (M28, M29);164;Hot Pressing;UTE-4
+551;2230208011.03;Parcel Shelf 551 (M28, M29);120;Hot Pressing;UTE-4
+551;2230102003.02;Outer Dash Disel 551 (M32);80;Hot Pressing;UTE-4
+521/226/551;2230102005.01;Outer Dash Flex (M32);80;Hot Pressing;UTE-4
+226;2230101009.01;Hood 226 MCA (M32);72;Hot Pressing;UTE-4
+598;SFCXRODMOLDA LH/RH;Moldagem CX (M28);72;Carpet Monding;UTE-4
+598;601020046.01;Montagem CX RH (M46);240;Assemble;UTE-4
+598;601020045.01;Montagem CX LH (M46);240;Assemble;UTE-4
+521;2230404001.01 ;Moldagem Túnel 521  (M31, M32);72;Hot Pressing;UTE-4
+226;2230404003.01 ;Moldagem Túnel 226  (M31, M32);72;Hot Pressing;UTE-4
+551;2230440004.01 ;Moldagem Túnel 551  (M31, M32);72;Hot Pressing;UTE-4
+521;2230404001.01;Corte Túnel 521  (M33);36;Hydraulic Press;UTE-4
+226;2230404003.01;Corte Túnel 226  (M33);36;Hydraulic Press;UTE-4
+551;2230440004.01;Corte Túnel 551  (M33);36;Hydraulic Press;UTE-4
+598;SFISOLCRMOLD LH/RH;Moldagem do WheelHouse (M33, M45);120;Hot Pressing;UTE-4

@@ -1,25 +1,22 @@
 import { type Machine } from '../../entities/Machine'
+import { csvReader } from '../../utils/csvReader'
 import { logger } from '../../utils/logger'
 import { Repositories } from '../repositories'
+import path from 'path'
 
 export async function machinesSeed () {
   const machineRepository = new Repositories.Machine()
   logger.success('\nSeeding Machines Table')
   try {
-    const machines: Machine[] = [
-      {
-        capacity: 27,
-        id: '1',
-        slug: 'M15',
-        ute: 'UTE-3'
-      },
-      {
-        capacity: 15,
-        id: '2',
-        slug: 'M16',
-        ute: 'UTE-3'
-      }
-    ]
+    const machines: Machine[] = (await csvReader(
+      path.join(__dirname, '../../../prisma/machines.csv')
+    ))
+      .filter((_, index) => index > 0)
+      .map(row => ({
+        capacity: 0,
+        slug: row[0],
+        ute: row[0]
+      }))
 
     for await (const machine of machines) {
       logger.info('   - add ' + machine.slug)

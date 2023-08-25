@@ -1,11 +1,10 @@
 import CsvReadableStream from 'csv-reader'
 import fs from 'fs'
-import path from 'path'
 
-export async function csvReader () {
+export async function csvReader (filePath: string) {
   return await new Promise<string[][]>((resolve, reject) => {
     const data: string[][] = []
-    const inputStream = fs.createReadStream(path.join(__dirname, '../../../prisma/ReasonsLoss.csv'), 'utf8')
+    const inputStream = fs.createReadStream(filePath, 'utf8')
     inputStream
       .pipe(new CsvReadableStream({ parseNumbers: true, parseBooleans: true, trim: true, delimiter: ';' }))
       .on('data', function (row: string[]) {

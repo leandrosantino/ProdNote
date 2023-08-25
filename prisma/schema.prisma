@@ -11,7 +11,7 @@ datasource db {
 }
 
 model Product {
-  id                   String    @id @default(cuid())
+  id                   String  @id @default(cuid())
   description          String
   technicalDescription String
   ute                  String
@@ -21,14 +21,16 @@ model Product {
   projectNumber        String
   amount               Int
   productionGroupId    String?
-  machines             Machine[]
+  productionProcessId  String?
 
+  machines          Machine[]
   productionRecords ProductionRecord[]
+  ProductionProcess ProductionProcess? @relation(fields: [productionProcessId], references: [id])
 }
 
 model Machine {
   id                  String    @id @default(cuid())
-  slug                String
+  slug                String    @unique
   ute                 String
   capacity            Int
   productionGroupId   String?
@@ -65,10 +67,15 @@ model ProductionRecord {
 }
 
 model ProductionProcess {
-  id          String    @id @default(cuid())
-  description String
-  machines    Machine[]
+  id                 String @id @default(cuid())
+  description        String
+  cycleTimeInSeconds Int
+  projectNumber      String
+  technology         String
+  ute                String
 
+  products                    Product[]
+  machines                    Machine[]
   productionEfficiencyRecords ProductionEfficiencyRecord[]
 }
 

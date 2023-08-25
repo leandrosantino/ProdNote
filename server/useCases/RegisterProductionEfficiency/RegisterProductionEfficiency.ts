@@ -15,7 +15,12 @@ export class RegisterProductionEfficiency {
     console.log(register)
   }
 
-  async calculateOEE () {
-
+  calculateOEE ({ cycleTimeInSeconds, piecesQuantity, productionTimeInMinutes }: {
+    piecesQuantity: number
+    cycleTimeInSeconds: number
+    productionTimeInMinutes: number
+  }) {
+    const cycleTimeInMinutes = cycleTimeInSeconds / 60
+    return (piecesQuantity * cycleTimeInMinutes) / productionTimeInMinutes
   }
 }

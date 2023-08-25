@@ -5,6 +5,7 @@ import { UsersRepository } from './prisma/UsersRepository'
 import { ProductionRecordRepository } from './prisma/ProductionRecordRepository'
 import { ReasonsLossEfficiencyRepository } from './prisma/ReasonsLossEfficiencyRepository'
 import { ProductionProcessRepository } from './prisma/ProductionProcessRepository'
+import { ProductionEfficiencyRecordRepository } from './prisma/ProductionEfficiencyRecordRepository'
 
 export const Repositories = {
   Machine: MachineRepository,
@@ -13,5 +14,6 @@ export const Repositories = {
   Users: UsersRepository,
   ProductionRecord: ProductionRecordRepository,
   ReasonsLossEfficiency: ReasonsLossEfficiencyRepository,
-  ProductionProcess: ProductionProcessRepository
+  ProductionProcess: ProductionProcessRepository,
+  ProductionEfficiencyRecord: ProductionEfficiencyRecordRepository
 }

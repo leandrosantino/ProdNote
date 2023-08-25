@@ -21,4 +21,13 @@ export class ProductRepository implements IProductRepository {
     const product = await prisma.product.create({ data })
     return product as Product
   }
+
+  async findBySapCode (sapCode: Product['sapCode']) {
+    const product = await prisma.product.findFirst({
+      where: {
+        sapCode
+      }
+    })
+    return product as Product
+  }
 }
