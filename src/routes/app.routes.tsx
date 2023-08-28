@@ -6,6 +6,7 @@ import { Layout } from '../components/Layout'
 import { TagGenerator } from '../pages/tagGenerator'
 import { RequireAuth } from './RequireAuth'
 import { UserInfo } from '../pages/userInfo'
+import { RegisterOEE } from '../pages/registerOEE.tsx'
 
 export function AppRoutes () {
   return (
@@ -19,6 +20,10 @@ export function AppRoutes () {
             <Route path='/' element={<h1>Bem vindo!</h1>} />
             <Route path='unauthorized' element={<h1>não autorizado</h1>} />
             <Route path='userInfo' Component={UserInfo} />
+          </Route>
+
+          <Route element={<RequireAuth permission='OEE_NOTE'/>}>
+            <Route path='registerOEE' Component={RegisterOEE} />
           </Route>
 
           <Route element={<RequireAuth permission='READ_TAGS'/>}>

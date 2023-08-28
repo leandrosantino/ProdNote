@@ -39,6 +39,7 @@ export function Sidebar () {
 
         <PageButton permission='GENERATE_TAGS' value="/generateTags" >Gerar Etiquetas</PageButton>
         <PageButton permission='READ_TAGS' value="/registerTag" >Leitor de Etiquetas</PageButton>
+        <PageButton permission='OEE_NOTE' value="/registerOEE" >Registro de Eficiência</PageButton>
         <PageButton permission='PLANNING' value="/planning" >Planejamento</PageButton>
 
       </ToggleGroupRoot>
