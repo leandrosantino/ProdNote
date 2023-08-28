@@ -16,6 +16,7 @@ export interface ProductionProcess {
   projectNumber: string
   technology: typeof technologyTypesList[number]
   ute: typeof uteKeysList[number]
-  products: Product[]
+  productId: string
+  product: Product
   machines?: Machine[]
 }

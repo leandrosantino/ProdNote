@@ -8,8 +8,7 @@ CREATE TABLE "Product" (
     "partNumber" TEXT NOT NULL,
     "sapCode" TEXT NOT NULL,
     "projectNumber" TEXT NOT NULL,
-    "amount" INTEGER NOT NULL,
-    "productionGroupId" TEXT
+    "amount" INTEGER NOT NULL
 );
 
 -- CreateTable
@@ -18,7 +17,6 @@ CREATE TABLE "Machine" (
     "slug" TEXT NOT NULL,
     "ute" TEXT NOT NULL,
     "capacity" INTEGER NOT NULL,
-    "productionGroupId" TEXT,
     "productionProcessId" TEXT,
     CONSTRAINT "Machine_productionProcessId_fkey" FOREIGN KEY ("productionProcessId") REFERENCES "ProductionProcess" ("id") ON DELETE SET NULL ON UPDATE CASCADE
 );
@@ -51,7 +49,13 @@ CREATE TABLE "ProductionRecord" (
 -- CreateTable
 CREATE TABLE "ProductionProcess" (
     "id" TEXT NOT NULL PRIMARY KEY,
-    "description" TEXT NOT NULL
+    "description" TEXT NOT NULL,
+    "cycleTimeInSeconds" INTEGER NOT NULL,
+    "projectNumber" TEXT NOT NULL,
+    "technology" TEXT NOT NULL,
+    "ute" TEXT NOT NULL,
+    "productId" TEXT NOT NULL,
+    CONSTRAINT "ProductionProcess_productId_fkey" FOREIGN KEY ("productId") REFERENCES "Product" ("id") ON DELETE RESTRICT ON UPDATE CASCADE
 );
 
 -- CreateTable
@@ -100,6 +104,9 @@ CREATE TABLE "_SystemPermissionToUser" (
     CONSTRAINT "_SystemPermissionToUser_A_fkey" FOREIGN KEY ("A") REFERENCES "SystemPermission" ("id") ON DELETE CASCADE ON UPDATE CASCADE,
     CONSTRAINT "_SystemPermissionToUser_B_fkey" FOREIGN KEY ("B") REFERENCES "User" ("id") ON DELETE CASCADE ON UPDATE CASCADE
 );
+
+-- CreateIndex
+CREATE UNIQUE INDEX "Machine_slug_key" ON "Machine"("slug");
 
 -- CreateIndex
 CREATE UNIQUE INDEX "User_name_key" ON "User"("name");

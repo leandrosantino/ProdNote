@@ -5,17 +5,23 @@ import { type ProductionProcess } from '../../entities/ProductionProcess'
 import { Repositories } from '../repositories'
 
 const machinesRepository = new Repositories.Machine()
+const productRepository = new Repositories.Product()
 const productionProcessRepository = new Repositories.ProductionProcess()
 
 export async function productionProcessSeed () {
   logger.success('\nSeeding Production Process Table')
   try {
-    const processes: Array<Omit<ProductionProcess, 'machines' | 'products'>> = (await csvReader(
+    interface CreateProcess extends Omit<ProductionProcess, 'machines' | 'product' | 'productId'> {
+      sapCode: string
+    }
+
+    const processes: CreateProcess[] = (await csvReader(
       path.join(__dirname, '../../../prisma/productionProcess.csv')
     ))
       .filter((_, index) => index > 0)
       .map(row => ({
         projectNumber: row[0],
+        sapCode: String(row[1]),
         description: row[2],
         cycleTimeInSeconds: Number(row[3]),
         technology: row[4] as ProductionProcess['technology'],
@@ -27,16 +33,29 @@ export async function productionProcessSeed () {
       let machines: string[] = []
       if (expressionResponse) {
         machines = expressionResponse[1]
-          .split(',')
+          .split(',').map(slug => slug.trim())
       }
 
       for await (const index of machines.keys()) {
-        const machine = await machinesRepository.findBySlug(machines[index])
-        if (machine) machines[index] = machine?.id as string
+        try {
+          const machine = await machinesRepository.findBySlug(machines[index])
+          if (machine) machines[index] = machine?.id as string
+        } catch {}
       }
 
-      productionProcessRepository.create({
-        process
+      logger.info('   - add ' + process.description)
+      const product = await productRepository.findBySapCode(process.sapCode)
+      // console.log(product.id)
+      await productionProcessRepository.create({
+        data: {
+          description: process.description,
+          cycleTimeInSeconds: process.cycleTimeInSeconds,
+          projectNumber: process.projectNumber,
+          technology: process.technology,
+          ute: process.ute,
+          productId: product.id as string
+        },
+        machines
       })
     }
   } catch (err) {
@@ -44,4 +63,4 @@ export async function productionProcessSeed () {
   }
 }
 
-productionProcessSeed().catch(console.log)
+// productionProcessSeed().catch(console.log)

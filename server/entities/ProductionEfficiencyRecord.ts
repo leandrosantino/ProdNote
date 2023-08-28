@@ -13,6 +13,6 @@ export interface ProductionEfficiencyRecord {
   piecesQuantity: number
   oeeValue: number
   productionEfficiencyLosses: ProductionEfficiencyLoss[]
-  productionProcessId: ProductionProcess['id']
+  productionProcessId: string
   productionProcess: ProductionProcess
 }

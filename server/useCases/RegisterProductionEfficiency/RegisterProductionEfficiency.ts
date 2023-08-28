@@ -1,18 +1,30 @@
 import { type IProductionEfficiencyRecordRepository } from '../../interfaces/IProductionEfficiencyRecordRepository'
+import { type IProductionProcessRepository } from '../../interfaces/IProductionProcessRepository'
 import { type RegisterProductionEfficiencyRequestDTO } from './RegisterProductionEfficiencyDTO'
 
 export class RegisterProductionEfficiency {
   constructor (
-    private readonly productionEfficiencyRecordRepository: IProductionEfficiencyRecordRepository
+    private readonly productionEfficiencyRecordRepository: IProductionEfficiencyRecordRepository,
+    private readonly productionProcessRepository: IProductionProcessRepository
   ) {}
 
   async execute ({ data, productionEfficiencyLosses }: RegisterProductionEfficiencyRequestDTO) {
-    const oeeValue = 10
+    const productionProcess = await this.productionProcessRepository
+      .findById(data.productionProcessId)
+
+    if (!productionProcess) throw new Error('production process not found')
+
+    const oeeValue = this.calculateOEE({
+      piecesQuantity: data.piecesQuantity,
+      productionTimeInMinutes: data.productionTimeInMinutes,
+      cycleTimeInSeconds: productionProcess.cycleTimeInSeconds
+    })
+    console.log(oeeValue)
 
     const register = await this.productionEfficiencyRecordRepository
       .create({ ...data, oeeValue }, productionEfficiencyLosses)
 
-    console.log(register)
+    return register
   }
 
   calculateOEE ({ cycleTimeInSeconds, piecesQuantity, productionTimeInMinutes }: {

@@ -11,7 +11,7 @@ datasource db {
 }
 
 model Product {
-  id                   String  @id @default(cuid())
+  id                   String @id @default(cuid())
   description          String
   technicalDescription String
   ute                  String
@@ -20,24 +20,21 @@ model Product {
   sapCode              String
   projectNumber        String
   amount               Int
-  productionGroupId    String?
-  productionProcessId  String?
 
   machines          Machine[]
   productionRecords ProductionRecord[]
-  ProductionProcess ProductionProcess? @relation(fields: [productionProcessId], references: [id])
+  ProductionProcess ProductionProcess[]
 }
 
 model Machine {
-  id                  String    @id @default(cuid())
-  slug                String    @unique
+  id                  String  @id @default(cuid())
+  slug                String  @unique
   ute                 String
   capacity            Int
-  productionGroupId   String?
   productionProcessId String?
-  products            Product[]
 
-  productionProcess ProductionProcess? @relation(fields: [productionProcessId], references: [id])
+  products          Product[]
+  ProductionProcess ProductionProcess? @relation(fields: [productionProcessId], references: [id])
 }
 
 model SystemPermission {
@@ -73,10 +70,11 @@ model ProductionProcess {
   projectNumber      String
   technology         String
   ute                String
+  productId          String
 
-  products                    Product[]
   machines                    Machine[]
   productionEfficiencyRecords ProductionEfficiencyRecord[]
+  product                     Product                      @relation(fields: [productId], references: [id])
 }
 
 model ReasonsLossEfficiency {
@@ -104,7 +102,7 @@ model ProductionEfficiencyRecord {
   ute                        String
   productionTimeInMinutes    Int
   piecesQuantity             Int
-  oeeValue                   Int
+  oeeValue                   Float
   productionProcessId        String?
   productionEfficiencyLosses ProductionEfficiencyLoss[]
 

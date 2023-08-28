@@ -10,9 +10,9 @@ project;sap;description;cycleTime;technology;ute
 598;SFCXRODMOLDA LH/RH;Moldagem CX (M28);72;Carpet Monding;UTE-4
 598;601020046.01;Montagem CX RH (M46);240;Assemble;UTE-4
 598;601020045.01;Montagem CX LH (M46);240;Assemble;UTE-4
-521;2230404001.01 ;Moldagem Túnel 521  (M31, M32);72;Hot Pressing;UTE-4
-226;2230404003.01 ;Moldagem Túnel 226  (M31, M32);72;Hot Pressing;UTE-4
-551;2230440004.01 ;Moldagem Túnel 551  (M31, M32);72;Hot Pressing;UTE-4
+521;SFTUNNEL 521/226;Moldagem Túnel 521  (M31, M32);72;Hot Pressing;UTE-4
+226;SFTUNNEL 521/226;Moldagem Túnel 226  (M31, M32);72;Hot Pressing;UTE-4
+551;SFTUNNEL 551;Moldagem Túnel 551  (M31, M32);72;Hot Pressing;UTE-4
 521;2230404001.01;Corte Túnel 521  (M33);36;Hydraulic Press;UTE-4
 226;2230404003.01;Corte Túnel 226  (M33);36;Hydraulic Press;UTE-4
 551;2230440004.01;Corte Túnel 551  (M33);36;Hydraulic Press;UTE-4

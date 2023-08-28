@@ -4,26 +4,9 @@ import { type IProductionEfficiencyRecordRepository } from '../../../interfaces/
 import { prisma } from './connection'
 
 export class ProductionEfficiencyRecordRepository implements IProductionEfficiencyRecordRepository {
-  private readonly include = {
-    productionProcess: true,
-    productionEfficiencyLosses: {
-      select: {
-        id: true,
-        lostTimeInMinutes: true,
-        reasonsLossEfficiencyId: true,
-        reasonsLossEfficiency: true
-      },
-      include: {
-        reasonsLossEfficiency: {
-          select: {
-            id: true,
-            description: true,
-            type: true
-          }
-        }
-      }
-    }
-  }
+  // private readonly include = {
+
+  // }
 
   create: (
     data: Omit<
@@ -40,7 +23,27 @@ export class ProductionEfficiencyRecordRepository implements IProductionEfficien
               create: productionEfficiencyLosses
             }
           },
-          include: this.include
+          include: {
+            productionProcess: {
+              include: {
+                product: true
+              }
+            },
+            productionEfficiencyLosses: {
+              select: {
+                id: true,
+                lostTimeInMinutes: true,
+                reasonsLossEfficiencyId: true,
+                reasonsLossEfficiency: {
+                  select: {
+                    id: true,
+                    description: true,
+                    type: true
+                  }
+                }
+              }
+            }
+          }
         })
 
         return record as ProductionEfficiencyRecord

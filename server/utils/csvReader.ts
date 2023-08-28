@@ -6,7 +6,7 @@ export async function csvReader (filePath: string) {
     const data: string[][] = []
     const inputStream = fs.createReadStream(filePath, 'utf8')
     inputStream
-      .pipe(new CsvReadableStream({ parseNumbers: true, parseBooleans: true, trim: true, delimiter: ';' }))
+      .pipe(new CsvReadableStream({ ltrim: true, rtrim: true, parseNumbers: false, parseBooleans: true, trim: true, delimiter: ';' }))
       .on('data', function (row: string[]) {
         data.push(row)
       })
