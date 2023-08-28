@@ -22,11 +22,13 @@ test('should create efficiency record', async () => {
     productionEfficiencyLosses: [
       {
         reasonsLossEfficiencyId: 'clluv7i69001om5hs4elskemk',
-        lostTimeInMinutes: 20
+        lostTimeInMinutes: 20,
+        machineId: ''
       },
       {
         reasonsLossEfficiencyId: 'clluv7ij7001tm5hsen8pf6bd',
-        lostTimeInMinutes: 30
+        lostTimeInMinutes: 30,
+        machineId: ''
       }
     ]
   })).resolves.not.toThrowError()

@@ -16,9 +16,7 @@ CREATE TABLE "Machine" (
     "id" TEXT NOT NULL PRIMARY KEY,
     "slug" TEXT NOT NULL,
     "ute" TEXT NOT NULL,
-    "capacity" INTEGER NOT NULL,
-    "productionProcessId" TEXT,
-    CONSTRAINT "Machine_productionProcessId_fkey" FOREIGN KEY ("productionProcessId") REFERENCES "ProductionProcess" ("id") ON DELETE SET NULL ON UPDATE CASCADE
+    "capacity" INTEGER NOT NULL
 );
 
 -- CreateTable
@@ -71,8 +69,10 @@ CREATE TABLE "ProductionEfficiencyLoss" (
     "lostTimeInMinutes" INTEGER NOT NULL,
     "reasonsLossEfficiencyId" TEXT,
     "productionEfficiencyRecordId" TEXT,
+    "machineId" TEXT NOT NULL,
     CONSTRAINT "ProductionEfficiencyLoss_productionEfficiencyRecordId_fkey" FOREIGN KEY ("productionEfficiencyRecordId") REFERENCES "ProductionEfficiencyRecord" ("id") ON DELETE SET NULL ON UPDATE CASCADE,
-    CONSTRAINT "ProductionEfficiencyLoss_reasonsLossEfficiencyId_fkey" FOREIGN KEY ("reasonsLossEfficiencyId") REFERENCES "ReasonsLossEfficiency" ("id") ON DELETE SET NULL ON UPDATE CASCADE
+    CONSTRAINT "ProductionEfficiencyLoss_reasonsLossEfficiencyId_fkey" FOREIGN KEY ("reasonsLossEfficiencyId") REFERENCES "ReasonsLossEfficiency" ("id") ON DELETE SET NULL ON UPDATE CASCADE,
+    CONSTRAINT "ProductionEfficiencyLoss_machineId_fkey" FOREIGN KEY ("machineId") REFERENCES "Machine" ("id") ON DELETE RESTRICT ON UPDATE CASCADE
 );
 
 -- CreateTable
@@ -84,7 +84,7 @@ CREATE TABLE "ProductionEfficiencyRecord" (
     "ute" TEXT NOT NULL,
     "productionTimeInMinutes" INTEGER NOT NULL,
     "piecesQuantity" INTEGER NOT NULL,
-    "oeeValue" INTEGER NOT NULL,
+    "oeeValue" REAL NOT NULL,
     "productionProcessId" TEXT,
     CONSTRAINT "ProductionEfficiencyRecord_productionProcessId_fkey" FOREIGN KEY ("productionProcessId") REFERENCES "ProductionProcess" ("id") ON DELETE SET NULL ON UPDATE CASCADE
 );
@@ -95,6 +95,14 @@ CREATE TABLE "_MachineToProduct" (
     "B" TEXT NOT NULL,
     CONSTRAINT "_MachineToProduct_A_fkey" FOREIGN KEY ("A") REFERENCES "Machine" ("id") ON DELETE CASCADE ON UPDATE CASCADE,
     CONSTRAINT "_MachineToProduct_B_fkey" FOREIGN KEY ("B") REFERENCES "Product" ("id") ON DELETE CASCADE ON UPDATE CASCADE
+);
+
+-- CreateTable
+CREATE TABLE "_MachineToProductionProcess" (
+    "A" TEXT NOT NULL,
+    "B" TEXT NOT NULL,
+    CONSTRAINT "_MachineToProductionProcess_A_fkey" FOREIGN KEY ("A") REFERENCES "Machine" ("id") ON DELETE CASCADE ON UPDATE CASCADE,
+    CONSTRAINT "_MachineToProductionProcess_B_fkey" FOREIGN KEY ("B") REFERENCES "ProductionProcess" ("id") ON DELETE CASCADE ON UPDATE CASCADE
 );
 
 -- CreateTable
@@ -119,6 +127,12 @@ CREATE UNIQUE INDEX "_MachineToProduct_AB_unique" ON "_MachineToProduct"("A", "B
 
 -- CreateIndex
 CREATE INDEX "_MachineToProduct_B_index" ON "_MachineToProduct"("B");
+
+-- CreateIndex
+CREATE UNIQUE INDEX "_MachineToProductionProcess_AB_unique" ON "_MachineToProductionProcess"("A", "B");
+
+-- CreateIndex
+CREATE INDEX "_MachineToProductionProcess_B_index" ON "_MachineToProductionProcess"("B");
 
 -- CreateIndex
 CREATE UNIQUE INDEX "_SystemPermissionToUser_AB_unique" ON "_SystemPermissionToUser"("A", "B");

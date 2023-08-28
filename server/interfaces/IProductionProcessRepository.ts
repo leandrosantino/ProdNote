@@ -9,4 +9,6 @@ export interface CreateProductionProcessProps {
 export interface IProductionProcessRepository {
   create: (props: CreateProductionProcessProps) => Promise<ProductionProcess>
   findById: (id: string) => Promise<ProductionProcess | null>
+  findMany: () => Promise<ProductionProcess[]>
+  getProductionProcessMachines: (id: string) => Promise<Machine[] | null>
 }

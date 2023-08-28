@@ -6,5 +6,5 @@ export interface RegisterProductionEfficiencyRequestDTO {
   ProductionEfficiencyRecord,
   'id' | 'productionProcess' | 'createdAt' | 'productionEfficiencyLosses' | 'oeeValue'
   >
-  productionEfficiencyLosses: Array<Omit<ProductionEfficiencyLoss, 'id' | 'reasonsLossEfficiency'>>
+  productionEfficiencyLosses: Array<Omit<ProductionEfficiencyLoss, 'id' | 'reasonsLossEfficiency' | 'machine'>>
 }

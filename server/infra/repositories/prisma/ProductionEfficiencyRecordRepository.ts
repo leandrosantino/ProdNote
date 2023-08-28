@@ -13,7 +13,7 @@ export class ProductionEfficiencyRecordRepository implements IProductionEfficien
     ProductionEfficiencyRecord,
     'id' | 'productionProcess' | 'createdAt' | 'productionEfficiencyLosses'
     >,
-    productionEfficiencyLosses: Array<Omit<ProductionEfficiencyLoss, 'id' | 'reasonsLossEfficiency'>>
+    productionEfficiencyLosses: Array<Omit<ProductionEfficiencyLoss, 'id' | 'reasonsLossEfficiency' | 'machine'>>
   ) => Promise<ProductionEfficiencyRecord> =
       async (data, productionEfficiencyLosses) => {
         const record = await prisma.productionEfficiencyRecord.create({

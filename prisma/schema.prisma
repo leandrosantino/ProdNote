@@ -27,14 +27,14 @@ model Product {
 }
 
 model Machine {
-  id                  String  @id @default(cuid())
-  slug                String  @unique
-  ute                 String
-  capacity            Int
-  productionProcessId String?
+  id       String @id @default(cuid())
+  slug     String @unique
+  ute      String
+  capacity Int
 
-  products          Product[]
-  ProductionProcess ProductionProcess? @relation(fields: [productionProcessId], references: [id])
+  products                 Product[]
+  ProductionProcess        ProductionProcess[]
+  ProductionEfficiencyLoss ProductionEfficiencyLoss[]
 }
 
 model SystemPermission {
@@ -89,9 +89,11 @@ model ProductionEfficiencyLoss {
   lostTimeInMinutes            Int
   reasonsLossEfficiencyId      String?
   productionEfficiencyRecordId String?
+  machineId                    String
 
   productionEfficiencyRecord ProductionEfficiencyRecord? @relation(fields: [productionEfficiencyRecordId], references: [id])
   reasonsLossEfficiency      ReasonsLossEfficiency?      @relation(fields: [reasonsLossEfficiencyId], references: [id])
+  machine                    Machine                     @relation(fields: [machineId], references: [id])
 }
 
 model ProductionEfficiencyRecord {

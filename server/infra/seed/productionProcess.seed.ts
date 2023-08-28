@@ -30,22 +30,23 @@ export async function productionProcessSeed () {
 
     for await (const process of processes) {
       const expressionResponse = process.description.match(/\(([^)]+)\)/)
-      let machines: string[] = []
+      let machineSlugs: string[] = []
       if (expressionResponse) {
-        machines = expressionResponse[1]
+        machineSlugs = expressionResponse[1]
           .split(',').map(slug => slug.trim())
+        if (machineSlugs.length < 1) {
+          machineSlugs = [expressionResponse[1].trim()]
+        }
       }
 
-      for await (const index of machines.keys()) {
-        try {
-          const machine = await machinesRepository.findBySlug(machines[index])
-          if (machine) machines[index] = machine?.id as string
-        } catch {}
+      const machinesIds: string[] = []
+      for await (const index of machineSlugs.keys()) {
+        const machine = await machinesRepository.findBySlug(machineSlugs[index])
+        if (machine) machinesIds.push(machine?.id as string)
       }
 
       logger.info('   - add ' + process.description)
       const product = await productRepository.findBySapCode(process.sapCode)
-      // console.log(product.id)
       await productionProcessRepository.create({
         data: {
           description: process.description,
@@ -55,7 +56,7 @@ export async function productionProcessSeed () {
           ute: process.ute,
           productId: product.id as string
         },
-        machines
+        machines: machinesIds
       })
     }
   } catch (err) {
