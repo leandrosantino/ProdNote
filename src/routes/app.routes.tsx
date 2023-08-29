@@ -6,7 +6,7 @@ import { Layout } from '../components/Layout'
 import { TagGenerator } from '../pages/tagGenerator'
 import { RequireAuth } from './RequireAuth'
 import { UserInfo } from '../pages/userInfo'
-import { RegisterOEE } from '../pages/registerOEE.tsx'
+import { RegisterOEE } from '../pages/registerOEE'
 
 export function AppRoutes () {
   return (

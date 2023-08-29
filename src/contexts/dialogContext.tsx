@@ -1,6 +1,7 @@
 import { type ReactNode, createContext, useState } from 'react'
 import { Dialog } from '../components/dialog'
-import { Prompt } from '../components/dialog/prompt'
+import { Prompt } from '../components/dialog/Prompt'
+import { DialogCustom } from '../components/dialog/Custom'
 
 export interface DialogProps {
   title: string
@@ -26,11 +27,17 @@ interface PromptProps extends AlertProps {
   refuse: () => void
 }
 
+interface CustomProps {
+  Child: (props: DialogProps) => JSX.Element
+  accept?: (value?: any) => void
+  refuse?: () => void
+}
+
 interface DialogContextProps {
   alert: (props: AlertProps) => void
   question: (props: QuestionProps) => void
   prompt: (props: PromptProps) => void
-
+  custom: (props: CustomProps) => void
 }
 
 export const DialogContext = createContext({} as DialogContextProps)
@@ -40,6 +47,8 @@ export function DialogProvider ({ children }: { children: ReactNode }) {
   const [isPrompt, setIsPrompt] = useState(false)
   const [show, setShow] = useState(false)
   const [dialogPorps, setDialogProps] = useState<DialogProps>({} as DialogProps)
+  const [content, setContent] = useState<JSX.Element>()
+  const [asChild, setAsChild] = useState(false)
 
   function alert ({ message, title, error }: AlertProps) {
     setShow(true)
@@ -79,17 +88,43 @@ export function DialogProvider ({ children }: { children: ReactNode }) {
     })
   }
 
+  function custom ({ Child, refuse, accept }: CustomProps) {
+    setShow(true)
+    setIsPrompt(true)
+    setAsChild(true)
+    const props = {
+      isQuestion: true,
+      title: '',
+      message: '',
+      accept,
+      refuse,
+      finally: () => { setShow(false); setAsChild(false) }
+    }
+    setContent(<Child {...props} />)
+    setDialogProps(props)
+  }
+
+  function DialogContent () {
+    if (asChild && content) {
+      return (
+        <DialogCustom onFinally={dialogPorps.finally}>
+          {content}
+        </DialogCustom>
+      )
+    }
+    if (isPrompt) {
+      return <Prompt {...dialogPorps} />
+    }
+    return <Dialog {...dialogPorps} />
+  }
+
   return (
     <Provider
       value={{
-        alert, question, prompt
+        alert, question, prompt, custom
       }}
     >
-      {show && <>{
-        isPrompt
-          ? <Prompt {...dialogPorps} />
-          : <Dialog {...dialogPorps} />
-      }</>}
+      {show && <><DialogContent /></>}
       {children}
     </Provider>
   )

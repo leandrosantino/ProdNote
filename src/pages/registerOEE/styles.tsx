@@ -56,17 +56,19 @@ export const Container = styled.div`
 `
 
 export const RecordsTable = styled(Table.Root)`
+  margin-top: 1.2rem;
+  margin-bottom: 2rem;
   thead, tbody{
     tr{
       td:first-child, th:first-child{
         width: 20%;
       }
+      td:nth-child(1), th:nth-child(1){
+        width: 30%;
+      }
       td:nth-child(2), th:nth-child(2){
         justify-content: start;
         width: 80%;
-        @media(max-width: 600px){
-          display: none;
-        }
       }
       td:nth-child(6), th:nth-child(6){
         width: 30%;
@@ -80,9 +82,10 @@ export const RecordsTable = styled(Table.Root)`
         }
       }
       td:nth-child(7), th:nth-child(7){
+        width: 5.1rem;
         button{
           height: 3rem;
-          width: 3rem;
+          width: 2rem;
           color: ${p => p.theme.colors.light.blue11};
           &:hover{
             background-color: ${p => p.theme.colors.light.blue4};
@@ -98,5 +101,31 @@ export const RecordsTable = styled(Table.Root)`
         }
       }
     }
+  }
+  @media(max-width: 600px){
+    margin-top: 4rem;
+    td:nth-child(2), th:nth-child(2){
+      width: 70% !important;
+    }
+    td:nth-child(3), th:nth-child(3),
+    td:nth-child(5), th:nth-child(5),
+    td:nth-child(4), th:nth-child(4){
+      display: none
+    }
+    td:nth-child(6), th:nth-child(6){
+      display: none;
+    }
+  }
+`
+export const ModalContent = styled.div`
+  width: 90%;
+  max-width: 70rem;
+  height: 50%;
+  background-color: red;
+  position: absolute;
+  inset: 0;
+  margin: auto;
+  @media (min-width:1000px){
+    left: 25.6rem
   }
 `
