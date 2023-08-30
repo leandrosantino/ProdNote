@@ -58,6 +58,11 @@ export const Container = styled.div`
 export const RecordsTable = styled(Table.Root)`
   margin-top: 1.2rem;
   margin-bottom: 2rem;
+  padding-bottom: .8rem;
+  border-bottom: 1px solid ${p => p.theme.colors.light.gray5};
+  tbody{
+    max-height: 26rem;
+  }
   thead, tbody{
     tr{
       td:first-child, th:first-child{
@@ -117,15 +122,102 @@ export const RecordsTable = styled(Table.Root)`
     }
   }
 `
+
+export const SaveButtonCase = styled.div`
+  width: 100%;
+  display: flex;
+  justify-content: end;
+`
+
 export const ModalContent = styled.div`
+  box-shadow: var(--shadown);
   width: 90%;
   max-width: 70rem;
-  height: 50%;
-  background-color: red;
+  height: 60%;
+  background-color: white;
+  border-radius: 1.2rem;
+  padding: 1.2rem;
   position: absolute;
   inset: 0;
   margin: auto;
+  display: flex;
+  flex-direction: column;
+  gap: .8rem;
+
   @media (min-width:1000px){
     left: 25.6rem
+  }
+
+  h1{
+    font-size: 2rem;
+  }
+
+  form{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-wrap: wrap;
+    overflow-x: auto;
+
+    &>div:nth-child(1){
+      width: 15%;
+    }
+    &>div:nth-child(2){
+      width: 43%;
+    }
+    &>div:nth-child(3){
+      width: 17%;
+    }
+    &>div:nth-child(4){
+      width: 15%;
+    }
+
+    @media (max-width: 560px) {
+      flex-direction: column;
+      div{
+        width: 100% !important;
+      }
+      button{
+        width: 100%
+      }
+    }
+
+    gap: .4rem;
+  }
+
+  @media (max-width: 560px) {
+    height: fit-content;
+    z-index: 110;
+  }
+
+`
+export const LossesTable = styled(Table.Root)`
+  border-bottom: 1px solid ${p => p.theme.colors.light.gray5};
+  padding-bottom: .8rem;
+  tbody{
+    max-height: 17rem;
+  }
+  thead, tbody{
+    th:nth-child(1), td:nth-child(1){
+      width: 15%;
+    }
+    th:nth-child(2), td:nth-child(2){
+      width: 48%;
+    }
+    th:nth-child(3), td:nth-child(3){
+      width: 17%;
+    }
+    th:nth-child(4), td:nth-child(4){
+      width: 15%;
+    }
+    th:nth-child(5), td:nth-child(5){
+      width: 5%;
+    }
+  }
+`
+
+export const OeeCell = styled.span`
+  data-[error='on']{
+    color: ${p => p.theme.colors.light.red11};
   }
 `

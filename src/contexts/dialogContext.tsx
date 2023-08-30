@@ -1,7 +1,8 @@
-import { type ReactNode, createContext, useState } from 'react'
+import { type ReactNode, createContext, useState, useEffect } from 'react'
 import { Dialog } from '../components/dialog'
 import { Prompt } from '../components/dialog/Prompt'
 import { DialogCustom } from '../components/dialog/Custom'
+import { useLocation } from 'react-router-dom'
 
 export interface DialogProps {
   title: string
@@ -12,6 +13,7 @@ export interface DialogProps {
   finally: () => void
   error?: boolean
   type?: 'text' | 'password' | 'number'
+  params?: any
 }
 
 interface AlertProps { title: string, message: string, error?: boolean }
@@ -31,6 +33,7 @@ interface CustomProps {
   Child: (props: DialogProps) => JSX.Element
   accept?: (value?: any) => void
   refuse?: () => void
+  params?: any
 }
 
 interface DialogContextProps {
@@ -49,6 +52,11 @@ export function DialogProvider ({ children }: { children: ReactNode }) {
   const [dialogPorps, setDialogProps] = useState<DialogProps>({} as DialogProps)
   const [content, setContent] = useState<JSX.Element>()
   const [asChild, setAsChild] = useState(false)
+  const { pathname } = useLocation()
+
+  useEffect(() => {
+    setShow(false)
+  }, [pathname])
 
   function alert ({ message, title, error }: AlertProps) {
     setShow(true)
@@ -88,16 +96,17 @@ export function DialogProvider ({ children }: { children: ReactNode }) {
     })
   }
 
-  function custom ({ Child, refuse, accept }: CustomProps) {
+  function custom ({ Child, refuse, accept, params }: CustomProps) {
     setShow(true)
     setIsPrompt(true)
     setAsChild(true)
-    const props = {
+    const props: DialogProps = {
       isQuestion: true,
       title: '',
       message: '',
       accept,
       refuse,
+      params,
       finally: () => { setShow(false); setAsChild(false) }
     }
     setContent(<Child {...props} />)

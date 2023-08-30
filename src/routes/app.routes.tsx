@@ -7,10 +7,13 @@ import { TagGenerator } from '../pages/tagGenerator'
 import { RequireAuth } from './RequireAuth'
 import { UserInfo } from '../pages/userInfo'
 import { RegisterOEE } from '../pages/registerOEE'
+import { DialogProvider } from '../contexts/dialogContext'
 
 export function AppRoutes () {
   return (
     <BrowserRouter>
+    <DialogProvider>
+
       <Routes>
         <Route path="/" Component={Layout}>
 
@@ -41,6 +44,7 @@ export function AppRoutes () {
           <Route path='*' element={<h1>Not Found (404)!</h1>} />
         </Route>
       </Routes>
+      </DialogProvider>
     </BrowserRouter>
   )
 }
