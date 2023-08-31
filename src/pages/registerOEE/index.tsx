@@ -1,17 +1,18 @@
 import { Field } from '../../components/Form/Field'
-import { Container, OeeCell, RecordsTable, SaveButtonCase } from './styles'
+import { Container, OeeCell, RecordsTable, SaveButtonCase, TableButton } from './styles'
 import { FormProvider, useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { Button } from '../../components/Form/Button'
 import { CopyPlus, Pencil, Save, SaveAll, TrashIcon } from 'lucide-react'
 import { Table } from '../../components/Table'
 import { trpc, fetch } from '../../utils/api'
-import { useEffect, useState } from 'react'
+import { useState } from 'react'
 import { useAuth } from '../../hooks/useAuth'
 import { useLocalState } from '../../hooks/useLocalState'
 import { useDialog } from '../../hooks/useDialog'
 import { Modal } from './Modal'
 import { z } from 'zod'
+import { type ProductionEfficiencyRecord } from '../../../server/entities/ProductionEfficiencyRecord'
 
 const registerOEEFormSchema = z.object({
   date: z.string().regex(/^\d{4}-\d{2}-\d{2}$/, 'selecione uma data'),
@@ -38,6 +39,7 @@ export interface EfficiencyRecords extends RegisterOEEForm {
   reasonsLosses: ReasonsLoss[]
   oeeValue: number
   description: string
+  cycleTimeInSeconds: number
 }
 
 export interface ModalParams {
@@ -66,32 +68,40 @@ export function RegisterOEE () {
   const [isEditing, setIsEditing] = useState<boolean>(false)
   const [editingIndex, setEditingIndex] = useState<number>(0)
   const [efficiencyRecords, setEfficiencyRecords] = useLocalState<EfficiencyRecords[]>(localStateKey)
+  const [loading, setLoading] = useState(false)
 
-  useEffect(() => {
-    setValue('date', '2023-01-20')
-    setValue('turn', '1')
-    setValue('ute', 'UTE-1')
-    setValue('process', 'clluzttl5002ym5jsj91hgi24')
-    setValue('time', 12)
-    setValue('piecesQuantity', 12)
-  }, [])
+  // useEffect(() => {
+  //   setValue('date', '2023-01-20')
+  //   setValue('turn', '1')
+  //   setValue('ute', 'UTE-1')
+  //   setValue('process', 'clluzttl5002ym5jsj91hgi24')
+  //   setValue('time', 12)
+  //   setValue('piecesQuantity', 12)
+  // }, [])
 
   async function handleRegister (data: RegisterOEEForm) {
     if (processes.data) {
       const process = processes.data.find(entry => entry.id === data.process)
+      const cycleTimeInSeconds = process?.cycleTimeInSeconds as number
       const oeeValue = await fetch.oee.claculate.query({
-        cycleTimeInSeconds: process?.cycleTimeInSeconds as number,
+        cycleTimeInSeconds,
         piecesQuantity: data.piecesQuantity,
         productionTimeInMinutes: data.time
       })
 
-      if (isEditing) {
+      if (isEditing && efficiencyRecords !== null) {
+        if (!efficiencyRecords[editingIndex]) {
+          setIsEditing(false)
+          clearForm()
+          return
+        }
         setEfficiencyRecords(old => {
           if (old) {
             old[editingIndex] = {
               ...data,
               reasonsLosses: old[editingIndex].reasonsLosses,
               oeeValue,
+              cycleTimeInSeconds,
               description: process?.description as string
             }
           }
@@ -115,6 +125,7 @@ export function RegisterOEE () {
               ...data,
               reasonsLosses,
               oeeValue,
+              cycleTimeInSeconds,
               description: process?.description as string
             }
 
@@ -131,6 +142,14 @@ export function RegisterOEE () {
   }
 
   function handleDelete (index: number) {
+    if (isEditing && index === editingIndex) {
+      dialog.alert({
+        title: 'Atenção!',
+        message: 'Você está tentando excluir um registro que está sendo editado, salve as alterações antes de excluir!',
+        error: true
+      })
+      return
+    }
     setEfficiencyRecords(old => {
       if (old) {
         return old.filter((_, oldIndex) => oldIndex !== index)
@@ -140,12 +159,12 @@ export function RegisterOEE () {
   }
 
   function clearForm () {
-    // setValue('date', '')
-    // setValue('turn', '')
-    // setValue('ute', '')
-    // setValue('process', '')
-    // setValue('time', 0)
-    // setValue('piecesQuantity', 0)
+    setValue('date', '')
+    setValue('turn', '')
+    setValue('ute', '')
+    setValue('process', '')
+    setValue('time', 0)
+    setValue('piecesQuantity', 0)
   }
 
   function handleEditRecord (index: number) {
@@ -189,6 +208,70 @@ export function RegisterOEE () {
           setIsEditing(false)
           clearForm()
         }
+      })
+    }
+  }
+
+  function convertDateStringtoDateObject (date: string) {
+    const [year, month, day] = date.split('-').map(entry => Number(entry))
+    return new Date(year, month - 1, day)
+  }
+
+  function handleSave () {
+    if (efficiencyRecords !== null) {
+      if (efficiencyRecords?.length <= 0) {
+        dialog.alert({
+          title: 'Atenção!',
+          message: 'Nenhum lançamento encontrado!'
+        })
+        return
+      }
+      dialog.question({
+        title: 'Atenção!',
+        message: 'Realmente deseja salvar o laçamento?',
+        async accept () {
+          setLoading(true)
+          const efficiencyRecordsFailed: EfficiencyRecords[] = []
+          for (const index in efficiencyRecords) {
+            const record = efficiencyRecords[index]
+            try {
+              console.log(index, record.description)
+              await fetch.oee.registerProductionEfficiency.mutate({
+                data: {
+                  date: convertDateStringtoDateObject(record.date),
+                  piecesQuantity: record.piecesQuantity,
+                  productionProcessId: record.process,
+                  productionTimeInMinutes: record.time,
+                  turn: record.turn,
+                  ute: record.ute as ProductionEfficiencyRecord['ute']
+                },
+                productionEfficiencyLosses: record.reasonsLosses.map(entry => ({
+                  lostTimeInMinutes: entry.lostTimeInMinutes,
+                  machineId: entry.machineId,
+                  reasonsLossEfficiencyId: entry.reasonsLossEfficiencyId
+                }))
+              })
+            } catch (err) {
+              efficiencyRecordsFailed.push(record)
+            }
+          }
+          if (efficiencyRecordsFailed.length > 0) {
+            dialog.alert({
+              title: 'Erro!',
+              message: 'Alguns registros estão com informções inconsistentes, revise os dados e tente novamente.',
+              error: true
+            })
+          } else {
+            dialog.alert({
+              title: 'Sucesso!',
+              message: 'Lançamento finalizado!',
+              error: false
+            })
+          }
+          setEfficiencyRecords(efficiencyRecordsFailed)
+          setLoading(false)
+        },
+        refuse () {}
       })
     }
   }
@@ -258,7 +341,7 @@ export function RegisterOEE () {
                 <Field.ErrorMessage field='piecesQuantity'/>
               </Field.Root>
 
-                <Button type='submit' >
+                <Button type='submit' disabled={loading}>
                   {isEditing ? <Save size={18} /> : <CopyPlus size={18} />}
                   {isEditing ? 'Salvar' : 'Adicionar'}
                 </Button>
@@ -281,11 +364,11 @@ export function RegisterOEE () {
         <Table.Body>
           {efficiencyRecords?.map((record, index) => (
             <tr key={index} >
-              <td>{record.date}</td>
+              <td>{convertDateStringtoDateObject(record.date).toLocaleDateString()}</td>
               <td>{record.description}</td>
               <td>
                 <OeeCell
-                  data-error={(record.oeeValue > 1.01 || record.oeeValue < 0.99) ?? 'on'}
+                  data-error={(record.oeeValue > 1.01 || record.oeeValue < 0) ? 'on' : 'off'}
                 >
                   {`${(record.oeeValue * 100).toFixed(1)}%`}
                 </OeeCell>
@@ -293,25 +376,28 @@ export function RegisterOEE () {
               <td>{record.ute}</td>
               <td>{record.turn}</td>
               <td>
-                <button
+                <TableButton
+                  disabled={loading}
                   onClick={() => { handleEditLosses(index) }}
                 >
                   Alterar Perdas
-                </button>
+                </TableButton>
               </td>
               <td>
-                <button
+                <TableButton
+                  disabled={loading}
                   onClick={() => { handleEditRecord(index) }}
                 >
                   <Pencil size={15}/>
-                </button>
+                </TableButton>
               </td>
               <td>
-                <button
+                <TableButton
+                  disabled={loading}
                   onClick={() => { handleDelete(index) }}
                 >
                   <TrashIcon size={13} />
-                </button>
+                </TableButton>
               </td>
             </tr>
           ))}
@@ -319,7 +405,10 @@ export function RegisterOEE () {
       </RecordsTable>
 
       <SaveButtonCase>
-        <Button>
+        <Button
+          disabled={loading}
+          onClick={handleSave}
+        >
           <SaveAll />
           Salvar Lançamento
         </Button>

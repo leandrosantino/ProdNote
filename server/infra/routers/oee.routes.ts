@@ -17,7 +17,7 @@ export const oeeRoutes = t.router({
   registerProductionEfficiency: procedure
     .input(z.object({
       data: z.object({
-        date: z.date(),
+        date: z.coerce.date(),
         turn: z.string(),
         ute: z.enum(uteKeysList),
         productionTimeInMinutes: z.number(),

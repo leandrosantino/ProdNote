@@ -55,6 +55,15 @@ export const Container = styled.div`
 
 `
 
+export const TableButton = styled.button`
+  &:disabled{
+    color: ${p => p.theme.colors.light.gray8} !important;
+  }
+  &:hover{
+    background-color: transparent !important;
+  }
+`
+
 export const RecordsTable = styled(Table.Root)`
   margin-top: 1.2rem;
   margin-bottom: 2rem;
@@ -106,6 +115,7 @@ export const RecordsTable = styled(Table.Root)`
         }
       }
     }
+
   }
   @media(max-width: 600px){
     margin-top: 4rem;
@@ -217,7 +227,8 @@ export const LossesTable = styled(Table.Root)`
 `
 
 export const OeeCell = styled.span`
-  data-[error='on']{
+  &[data-error='on']{
     color: ${p => p.theme.colors.light.red11};
+    font-weight: 600;
   }
 `

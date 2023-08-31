@@ -36,6 +36,7 @@ module.exports = {
         '@typescript-eslint/strict-boolean-expressions': 'off',
         'array-callback-return': 'off',
         "@typescript-eslint/no-misused-promises": "off",
-        "n/handle-callback-err": "off"
+        "n/handle-callback-err": "off",
+        "@typescript-eslint/no-for-in-array": "off"
     }
 }
