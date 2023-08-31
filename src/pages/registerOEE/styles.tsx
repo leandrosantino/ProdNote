@@ -136,7 +136,15 @@ export const RecordsTable = styled(Table.Root)`
 export const SaveButtonCase = styled.div`
   width: 100%;
   display: flex;
-  justify-content: end;
+  justify-content: space-between;
+  div{
+    font-size: 1.4rem;
+    padding: .4rem;
+    font-weight: 500;
+    span{
+      font-weight: 600;
+    }
+  }
 `
 
 export const ModalContent = styled.div`

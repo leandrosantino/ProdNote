@@ -47,6 +47,7 @@ export interface ModalParams {
   processId: string
   localStateKey: string
   recordIndex?: number
+  cycleTimeInSeconds: number
 }
 
 export function RegisterOEE () {
@@ -117,9 +118,28 @@ export function RegisterOEE () {
         params: {
           isEditing: false,
           localStateKey,
-          processId: process?.id
+          processId: process?.id,
+          cycleTimeInSeconds
         },
         async accept (reasonsLosses: ReasonsLoss[]) {
+          let lostTimeInMinutes = 0
+          reasonsLosses.forEach(entry => { lostTimeInMinutes += entry.lostTimeInMinutes })
+          const coerency = await fetch.oee.verifyCoerency.query({
+            cycleTimeInSeconds,
+            lostTimeInMinutes,
+            piecesQuantity: data.piecesQuantity,
+            productionTimeInMinutes: data.time
+          })
+
+          if (coerency !== 'ok') {
+            const message = coerency === 'exdent' ? 'excedentes' : 'insuficientes'
+            dialog.alert({
+              title: 'Atenção!',
+              message: `Horas apontadas ${message}, revise o apontamento!`,
+              error: true
+            })
+          }
+
           setEfficiencyRecords(old => {
             const record = {
               ...data,
@@ -182,16 +202,34 @@ export function RegisterOEE () {
 
   function handleEditLosses (index: number) {
     if (processes.data && efficiencyRecords !== null) {
-      const { process } = efficiencyRecords[index]
+      const { process, cycleTimeInSeconds, piecesQuantity, time } = efficiencyRecords[index]
       dialog.custom({
         Child: Modal,
         params: {
           isEditing: true,
           localStateKey,
           processId: process,
-          recordIndex: index
+          recordIndex: index,
+          cycleTimeInSeconds
         },
         async accept (reasonsLosses: ReasonsLoss[]) {
+          let lostTimeInMinutes = 0
+          reasonsLosses.forEach(entry => { lostTimeInMinutes += entry.lostTimeInMinutes })
+          const coerency = await fetch.oee.verifyCoerency.query({
+            cycleTimeInSeconds,
+            lostTimeInMinutes,
+            piecesQuantity,
+            productionTimeInMinutes: time
+          })
+
+          if (coerency !== 'ok') {
+            const message = coerency === 'exdent' ? 'excedentes' : 'insuficientes'
+            dialog.alert({
+              title: 'Atenção!',
+              message: `Horas apontadas ${message}, revise o apontamento!`,
+              error: true
+            })
+          }
           setEfficiencyRecords(old => {
             if (old) {
               return old?.map((entry, i) => {
@@ -368,7 +406,7 @@ export function RegisterOEE () {
               <td>{record.description}</td>
               <td>
                 <OeeCell
-                  data-error={(record.oeeValue > 1.01 || record.oeeValue < 0) ? 'on' : 'off'}
+                  data-error={(record.oeeValue > 1.01 || record.oeeValue < -0.01) ? 'on' : 'off'}
                 >
                   {`${(record.oeeValue * 100).toFixed(1)}%`}
                 </OeeCell>
@@ -405,6 +443,7 @@ export function RegisterOEE () {
       </RecordsTable>
 
       <SaveButtonCase>
+        <div></div>
         <Button
           disabled={loading}
           onClick={handleSave}

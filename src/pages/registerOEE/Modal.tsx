@@ -29,6 +29,13 @@ interface ModalProps extends DialogProps {
 export function Modal ({ params, accept, finally: end }: ModalProps) {
   const [efficiencyRecords] = useLocalState<EfficiencyRecords[]>(params?.localStateKey as string)
   const [reasonsLossEfficiencyList, setReasonsLossEfficiencyList] = useState<ReasonsLoss[]>([])
+  const [totalTime, setTotalTime] = useState(0)
+
+  useEffect(() => {
+    let time = 0
+    reasonsLossEfficiencyList.forEach(entry => { time += entry.lostTimeInMinutes })
+    setTotalTime(time)
+  }, [reasonsLossEfficiencyList])
 
   useEffect(() => {
     if (params && efficiencyRecords && params.recordIndex !== undefined && params.isEditing) {
@@ -59,11 +66,17 @@ export function Modal ({ params, accept, finally: end }: ModalProps) {
     if (machines.data && reasonLosses.data) {
       const reason = reasonLosses.data?.find(entry => entry.id === data.reason)
       const machine = machines.data?.find(entry => entry.id === data.machine)
+      let lostTimeInMinutes = data.lostTime
+
+      if (data.type === 'scrap' && params) {
+        console.log(params.cycleTimeInSeconds)
+        lostTimeInMinutes = data.lostTime * params.cycleTimeInSeconds / 60
+      }
 
       setReasonsLossEfficiencyList(old => [...old, {
         reasonsLossEfficiencyId: data.reason,
         machineId: data.machine,
-        lostTimeInMinutes: data.lostTime,
+        lostTimeInMinutes,
         machineSlug: machine?.slug as string,
         reasonsLossDescription: reason?.description as string,
         type: data.type
@@ -128,7 +141,7 @@ export function Modal ({ params, accept, finally: end }: ModalProps) {
           </Field.Root>
 
           <Field.Root>
-            <Field.Label htmlFor='lostTime'>Tempo(min):</Field.Label>
+            <Field.Label htmlFor='lostTime'>{watch('type') === 'scrap' ? 'Qtd. Peças' : 'Tempo(min)'}:</Field.Label>
             <Field.Input id='lostTime' name='lostTime' type='number'/>
             <Field.ErrorMessage field='lostTime' />
           </Field.Root>
@@ -153,7 +166,7 @@ export function Modal ({ params, accept, finally: end }: ModalProps) {
               <td>{entry.type}</td>
               <td>{entry.reasonsLossDescription}</td>
               <td>{entry.machineSlug}</td>
-              <td>{entry.lostTimeInMinutes}</td>
+              <td>{entry.lostTimeInMinutes.toFixed(2)}</td>
               <td>
                 <button
                   onClick={() => { handleDelete(index) }}
@@ -167,6 +180,7 @@ export function Modal ({ params, accept, finally: end }: ModalProps) {
       </LossesTable>
 
       <SaveButtonCase>
+        <div>Tempo total: <span>{totalTime.toFixed(2)} min</span></div>
         <Button
           onClick={() => { handleRegister() }}
         >

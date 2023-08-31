@@ -44,6 +44,17 @@ export const oeeRoutes = t.router({
       return registerProductionEfficiency.calculateOEE(input)
     }),
 
+  verifyCoerency: procedure
+    .input(z.object({
+      piecesQuantity: z.number(),
+      cycleTimeInSeconds: z.number(),
+      productionTimeInMinutes: z.number(),
+      lostTimeInMinutes: z.number()
+    }))
+    .query(({ input }) => {
+      return registerProductionEfficiency.verifyCoerency(input)
+    }),
+
   getProcessesList: procedure
     .query(async () => {
       return await productionProcessRepository.findMany()
