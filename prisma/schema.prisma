@@ -44,12 +44,13 @@ model SystemPermission {
 }
 
 model User {
-  id                String             @id @default(cuid())
-  name              String             @unique
-  password          String
-  email             String             @unique
-  permissions       SystemPermission[]
-  productionRecords ProductionRecord[]
+  id                         String                       @id @default(cuid())
+  name                       String                       @unique
+  password                   String
+  email                      String                       @unique
+  permissions                SystemPermission[]
+  productionRecords          ProductionRecord[]
+  ProductionEfficiencyRecord ProductionEfficiencyRecord[]
 }
 
 model ProductionRecord {
@@ -107,6 +108,8 @@ model ProductionEfficiencyRecord {
   oeeValue                   Float
   productionProcessId        String?
   productionEfficiencyLosses ProductionEfficiencyLoss[]
+  userId                     String
 
   productionProcess ProductionProcess? @relation(fields: [productionProcessId], references: [id])
+  user              User               @relation(fields: [userId], references: [id])
 }

@@ -1,4 +1,4 @@
-import { Container, Separator, Info, DownloadError, SpinnerCase, TagSection, SelectedProductsTable } from './styles'
+import { Container, Separator, Info, DownloadError, TagSection, SelectedProductsTable } from './styles'
 import { Field } from '../../components/Form/Field'
 import { Button } from '../../components/Form/Button'
 import { PlusCircledIcon, TrashIcon, DownloadIcon, CheckCircledIcon, CrossCircledIcon } from '@radix-ui/react-icons'
@@ -10,9 +10,9 @@ import { Table } from '../../components/Table'
 import { Switch } from '../../components/Form/Switch'
 import { z } from 'zod'
 import { trpc } from '../../utils/api'
-import { ImSpinner6 } from 'react-icons/im'
 import { TagSheet } from '../../components/TagSheet'
 import { type Product } from '../../../server/entities/Product'
+import { Loading } from '../../components/Loading'
 
 interface SelectedProducts {
   name: string
@@ -246,10 +246,10 @@ export function TagGenerator () {
 
         <Info>
           <span>{pagesAmount}-{PAGE_AMOUNT_LIMIT} páginas</span>
-          {tagsDownloadQuery.isLoading && <SpinnerCase>
-            <ImSpinner6 size={20}/>
-             Preparando arquivos...
-          </SpinnerCase>}
+          <Loading
+            message='Preparando arquivos...'
+            show={tagsDownloadQuery.isLoading}
+          />
           <Button
             onClick={handleDownloadTagsInPDF}
             disabled={tagsDownloadQuery.isLoading}

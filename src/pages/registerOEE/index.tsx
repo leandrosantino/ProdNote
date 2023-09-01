@@ -13,6 +13,7 @@ import { useDialog } from '../../hooks/useDialog'
 import { Modal } from './Modal'
 import { z } from 'zod'
 import { type ProductionEfficiencyRecord } from '../../../server/entities/ProductionEfficiencyRecord'
+import { Loading } from '../../components/Loading'
 
 const registerOEEFormSchema = z.object({
   date: z.string().regex(/^\d{4}-\d{2}-\d{2}$/, 'selecione uma data'),
@@ -281,7 +282,8 @@ export function RegisterOEE () {
                   productionProcessId: record.process,
                   productionTimeInMinutes: record.time,
                   turn: record.turn,
-                  ute: record.ute as ProductionEfficiencyRecord['ute']
+                  ute: record.ute as ProductionEfficiencyRecord['ute'],
+                  userId: user?.id as string
                 },
                 productionEfficiencyLosses: record.reasonsLosses.map(entry => ({
                   lostTimeInMinutes: entry.lostTimeInMinutes,
@@ -443,7 +445,10 @@ export function RegisterOEE () {
       </RecordsTable>
 
       <SaveButtonCase>
-        <div></div>
+        <Loading
+          message='Salvando registros...'
+          show={loading}
+        />
         <Button
           disabled={loading}
           onClick={handleSave}

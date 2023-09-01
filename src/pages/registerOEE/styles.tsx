@@ -137,11 +137,13 @@ export const SaveButtonCase = styled.div`
   width: 100%;
   display: flex;
   justify-content: space-between;
+  align-items: center;
   div{
     font-size: 1.4rem;
     padding: .4rem;
     font-weight: 500;
     span{
+      width: 30%;
       font-weight: 600;
     }
   }

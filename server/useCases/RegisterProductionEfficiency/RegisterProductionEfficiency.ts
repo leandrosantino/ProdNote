@@ -62,7 +62,6 @@ export class RegisterProductionEfficiency {
     const productionTimePointer = piecesQuantityInMinutes + props.lostTimeInMinutes
     const diff = props.productionTimeInMinutes - productionTimePointer
     const diffInPercent = diff / props.productionTimeInMinutes
-    console.log(diffInPercent)
 
     if (Math.abs(diffInPercent) > CUTOFF) {
       if (diffInPercent >= 0) {

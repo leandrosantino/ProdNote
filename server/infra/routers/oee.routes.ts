@@ -22,7 +22,8 @@ export const oeeRoutes = t.router({
         ute: z.enum(uteKeysList),
         productionTimeInMinutes: z.number(),
         piecesQuantity: z.number(),
-        productionProcessId: z.string()
+        productionProcessId: z.string(),
+        userId: z.string()
       }),
       productionEfficiencyLosses: z.array(z.object({
         lostTimeInMinutes: z.number(),

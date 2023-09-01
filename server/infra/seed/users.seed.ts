@@ -13,7 +13,6 @@ export async function usersSeed () {
         email: 'leandrosantino2013@gmail.com',
         permissions: [
           'GENERATE_TAGS',
-          'PLANNING',
           'READ_TAGS'
         ]
       },
@@ -22,6 +21,14 @@ export async function usersSeed () {
         password: 'admin123',
         email: 'email@adler.com',
         permissions: [...systemPermissionList]
+      },
+      {
+        email: 'alder@email.com',
+        name: 'oeeute4',
+        password: 'UTE4@adler',
+        permissions: [
+          'OEE_NOTE'
+        ]
       }
     ]
 
