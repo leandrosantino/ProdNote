@@ -1,4 +1,3 @@
-import { type User } from '../entities/User'
 import { type ProductionEfficiencyLoss } from '../entities/ProductionEfficiencyLoss'
 import { type ProductionProcess } from './ProductionProcess'
 
@@ -16,5 +15,5 @@ export interface ProductionEfficiencyRecord {
   productionEfficiencyLosses: ProductionEfficiencyLoss[]
   productionProcessId: string
   productionProcess: ProductionProcess
-  userId: User['id']
+  userId: string
 }

@@ -10,7 +10,7 @@ export const Container = styled.div`
 
   &>div{
     width: 100%;
-    max-width: 800px;
+    max-width: 900px;
     padding: .8rem;
   }
 
@@ -58,9 +58,9 @@ export const Container = styled.div`
 export const TableButton = styled.button`
   &:disabled{
     color: ${p => p.theme.colors.light.gray8} !important;
-  }
-  &:hover{
-    background-color: transparent !important;
+    &:hover{
+      background-color: transparent !important;
+    }
   }
 `
 
@@ -74,18 +74,27 @@ export const RecordsTable = styled(Table.Root)`
   }
   thead, tbody{
     tr{
-      td:first-child, th:first-child{
-        width: 20%;
-      }
       td:nth-child(1), th:nth-child(1){
-        width: 30%;
+        width: 10%;
       }
       td:nth-child(2), th:nth-child(2){
         justify-content: start;
-        width: 80%;
+        width: 40%;
+      }
+      td:nth-child(3), th:nth-child(3){
+        width: 5%;
+      }
+      td:nth-child(4), th:nth-child(4){
+        width: 10%;
+      }
+      td:nth-child(5), th:nth-child(5){
+        width: 6%;
       }
       td:nth-child(6), th:nth-child(6){
-        width: 30%;
+        width: 7%;
+      }
+      td:nth-child(7), th:nth-child(7){
+        width: 12%;
         button{
           width: 100%;
           height: 3rem;
@@ -95,8 +104,8 @@ export const RecordsTable = styled(Table.Root)`
           }
         }
       }
-      td:nth-child(7), th:nth-child(7){
-        width: 5.1rem;
+      td:nth-child(8), th:nth-child(8){
+        width: 5%;
         button{
           height: 3rem;
           width: 2rem;
@@ -106,9 +115,8 @@ export const RecordsTable = styled(Table.Root)`
           }
         }
       }
-
       td:last-child, th:last-child{
-        width: 10%;
+        width: 5%;
         button{
           width: 3rem;
           height: 3rem;
@@ -119,15 +127,23 @@ export const RecordsTable = styled(Table.Root)`
   }
   @media(max-width: 600px){
     margin-top: 4rem;
+    td:nth-child(1), th:nth-child(1){
+      width: 20% !important;
+    }
     td:nth-child(2), th:nth-child(2){
-      width: 70% !important;
+      width: 60% !important;
     }
     td:nth-child(3), th:nth-child(3),
-    td:nth-child(5), th:nth-child(5),
-    td:nth-child(4), th:nth-child(4){
+    td:nth-child(8), th:nth-child(8),
+    td:nth-child(9), th:nth-child(9){
+      width: 10% !important;
+    }
+    td:nth-child(6), th:nth-child(6),
+    td:nth-child(4), th:nth-child(4),
+    td:nth-child(5), th:nth-child(5){
       display: none
     }
-    td:nth-child(6), th:nth-child(6){
+    td:nth-child(7), th:nth-child(7){
       display: none;
     }
   }

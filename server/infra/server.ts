@@ -30,13 +30,17 @@ export class HttpServer {
 
   startRoutes () {
     try {
-      this.server.get('/', async (request, reply) => {
+      this.server.get('/', async (_, reply) => {
+        await reply.sendFile('index.html')
+      })
+
+      this.server.setNotFoundHandler(async (_, reply) => {
         await reply.sendFile('index.html')
       })
 
       logger.info('start routes successfully')
     } catch (err) {
-      logger.error(err)
+      logger.error(String(err))
       throw new Error('failed to start routes')
     }
   }
@@ -60,7 +64,7 @@ export class HttpServer {
       await this.server.register(trpcPlaygroundPlugin, { prefix: this.playgroundEndpoint })
       logger.info('start api successfully')
     } catch (err) {
-      logger.error(err)
+      logger.error(String(err))
       throw new Error('failed to start api')
     }
   }
@@ -77,7 +81,7 @@ export class HttpServer {
 
       logger.info('configure pluguns successfully')
     } catch (err) {
-      logger.error(err)
+      logger.error(String(err))
       throw new Error('failed to configure pluguns')
     }
   }

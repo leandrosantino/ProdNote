@@ -22,7 +22,8 @@ export class RegisterProductionEfficiency {
       piecesQuantity: data.piecesQuantity,
       productionTimeInMinutes: data.productionTimeInMinutes,
       cycleTimeInSeconds: productionProcess.cycleTimeInSeconds,
-      lostTimeInMinutes
+      lostTimeInMinutes,
+      cavitiesNumber: productionProcess.cavitiesNumber
     })
 
     if (coerency !== 'ok') {
@@ -32,9 +33,9 @@ export class RegisterProductionEfficiency {
     const oeeValue = this.calculateOEE({
       piecesQuantity: data.piecesQuantity,
       productionTimeInMinutes: data.productionTimeInMinutes,
-      cycleTimeInSeconds: productionProcess.cycleTimeInSeconds
+      cycleTimeInSeconds: productionProcess.cycleTimeInSeconds,
+      cavitiesNumber: productionProcess.cavitiesNumber
     })
-    console.log(oeeValue)
 
     const register = await this.productionEfficiencyRecordRepository
       .create({ ...data, oeeValue }, productionEfficiencyLosses)
@@ -42,13 +43,14 @@ export class RegisterProductionEfficiency {
     return register
   }
 
-  calculateOEE ({ cycleTimeInSeconds, piecesQuantity, productionTimeInMinutes }: {
+  calculateOEE ({ cycleTimeInSeconds, piecesQuantity, productionTimeInMinutes, cavitiesNumber }: {
     piecesQuantity: number
     cycleTimeInSeconds: number
     productionTimeInMinutes: number
+    cavitiesNumber: number
   }) {
     const cycleTimeInMinutes = cycleTimeInSeconds / 60
-    return (piecesQuantity * cycleTimeInMinutes) / productionTimeInMinutes
+    return (piecesQuantity * (cycleTimeInMinutes / cavitiesNumber)) / productionTimeInMinutes
   }
 
   verifyCoerency (props: {
@@ -56,9 +58,10 @@ export class RegisterProductionEfficiency {
     cycleTimeInSeconds: number
     productionTimeInMinutes: number
     lostTimeInMinutes: number
+    cavitiesNumber: number
   }) {
     const CUTOFF = 0.01
-    const piecesQuantityInMinutes = (props.piecesQuantity * props.cycleTimeInSeconds) / 60
+    const piecesQuantityInMinutes = (props.piecesQuantity * (props.cycleTimeInSeconds / props.cavitiesNumber)) / 60
     const productionTimePointer = piecesQuantityInMinutes + props.lostTimeInMinutes
     const diff = props.productionTimeInMinutes - productionTimePointer
     const diffInPercent = diff / props.productionTimeInMinutes

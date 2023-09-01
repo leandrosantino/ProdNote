@@ -19,4 +19,5 @@ export interface ProductionProcess {
   productId: string
   product: Product
   machines?: Machine[]
+  cavitiesNumber: number
 }

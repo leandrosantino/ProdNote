@@ -33,6 +33,7 @@
     "server/infra/routers/index.ts",
     "server/entities/**/*",
     "server/interfaces/**/*",
+    "@types",
   ],
   "references": [
     {

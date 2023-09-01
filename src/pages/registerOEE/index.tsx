@@ -12,7 +12,6 @@ import { useLocalState } from '../../hooks/useLocalState'
 import { useDialog } from '../../hooks/useDialog'
 import { Modal } from './Modal'
 import { z } from 'zod'
-import { type ProductionEfficiencyRecord } from '../../../server/entities/ProductionEfficiencyRecord'
 import { Loading } from '../../components/Loading'
 
 const registerOEEFormSchema = z.object({
@@ -41,6 +40,7 @@ export interface EfficiencyRecords extends RegisterOEEForm {
   oeeValue: number
   description: string
   cycleTimeInSeconds: number
+  lossesPercentage: number
 }
 
 export interface ModalParams {
@@ -81,6 +81,13 @@ export function RegisterOEE () {
   //   setValue('piecesQuantity', 12)
   // }, [])
 
+  function calculateLossesPercentage (values: number[], ref: number) {
+    let value = 0
+    values.forEach(entry => { value += entry })
+    console.log(value, values, ref)
+    return value / ref
+  }
+
   async function handleRegister (data: RegisterOEEForm) {
     if (processes.data) {
       const process = processes.data.find(entry => entry.id === data.process)
@@ -88,7 +95,8 @@ export function RegisterOEE () {
       const oeeValue = await fetch.oee.claculate.query({
         cycleTimeInSeconds,
         piecesQuantity: data.piecesQuantity,
-        productionTimeInMinutes: data.time
+        productionTimeInMinutes: data.time,
+        cavitiesNumber: process?.cavitiesNumber as number
       })
 
       if (isEditing && efficiencyRecords !== null) {
@@ -102,6 +110,10 @@ export function RegisterOEE () {
             old[editingIndex] = {
               ...data,
               reasonsLosses: old[editingIndex].reasonsLosses,
+              lossesPercentage: calculateLossesPercentage(
+                old[editingIndex].reasonsLosses.map(entry => entry.lostTimeInMinutes),
+                data.time
+              ),
               oeeValue,
               cycleTimeInSeconds,
               description: process?.description as string
@@ -129,7 +141,8 @@ export function RegisterOEE () {
             cycleTimeInSeconds,
             lostTimeInMinutes,
             piecesQuantity: data.piecesQuantity,
-            productionTimeInMinutes: data.time
+            productionTimeInMinutes: data.time,
+            cavitiesNumber: process?.cavitiesNumber as number
           })
 
           if (coerency !== 'ok') {
@@ -147,6 +160,10 @@ export function RegisterOEE () {
               reasonsLosses,
               oeeValue,
               cycleTimeInSeconds,
+              lossesPercentage: calculateLossesPercentage(
+                reasonsLosses.map(entry => entry.lostTimeInMinutes),
+                data.time
+              ),
               description: process?.description as string
             }
 
@@ -204,6 +221,7 @@ export function RegisterOEE () {
   function handleEditLosses (index: number) {
     if (processes.data && efficiencyRecords !== null) {
       const { process, cycleTimeInSeconds, piecesQuantity, time } = efficiencyRecords[index]
+      const cavitiesNumber = processes.data.find(entry => entry.id === process)?.cavitiesNumber as number
       dialog.custom({
         Child: Modal,
         params: {
@@ -220,7 +238,8 @@ export function RegisterOEE () {
             cycleTimeInSeconds,
             lostTimeInMinutes,
             piecesQuantity,
-            productionTimeInMinutes: time
+            productionTimeInMinutes: time,
+            cavitiesNumber
           })
 
           if (coerency !== 'ok') {
@@ -282,8 +301,8 @@ export function RegisterOEE () {
                   productionProcessId: record.process,
                   productionTimeInMinutes: record.time,
                   turn: record.turn,
-                  ute: record.ute as ProductionEfficiencyRecord['ute'],
-                  userId: user?.id as string
+                  ute: record.ute as ('UTE-1' | 'UTE-2' | 'UTE-3' | 'UTE-4' | 'UTE-5'),
+                  userId: String(user?.id)
                 },
                 productionEfficiencyLosses: record.reasonsLosses.map(entry => ({
                   lostTimeInMinutes: entry.lostTimeInMinutes,
@@ -395,6 +414,7 @@ export function RegisterOEE () {
           <th>Data</th>
           <th>Processo</th>
           <th>OEE</th>
+          <th>Perdas (%)</th>
           <th>UTE</th>
           <th>Turno</th>
           <th>  </th>
@@ -410,9 +430,10 @@ export function RegisterOEE () {
                 <OeeCell
                   data-error={(record.oeeValue > 1.01 || record.oeeValue < -0.01) ? 'on' : 'off'}
                 >
-                  {`${(record.oeeValue * 100).toFixed(1)}%`}
+                  {(record.oeeValue * 100).toFixed(1)}%
                 </OeeCell>
               </td>
+              <td>{(record.lossesPercentage * 100).toFixed(1)}%</td>
               <td>{record.ute}</td>
               <td>{record.turn}</td>
               <td>

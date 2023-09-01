@@ -25,7 +25,8 @@ export async function productionProcessSeed () {
         description: row[2],
         cycleTimeInSeconds: Number(row[3]),
         technology: row[4] as ProductionProcess['technology'],
-        ute: row[5] as ProductionProcess['ute']
+        ute: row[5] as ProductionProcess['ute'],
+        cavitiesNumber: Number(row[6])
       }))
 
     for await (const process of processes) {
@@ -54,7 +55,8 @@ export async function productionProcessSeed () {
           projectNumber: process.projectNumber,
           technology: process.technology,
           ute: process.ute,
-          productId: product.id as string
+          productId: product.id as string,
+          cavitiesNumber: process.cavitiesNumber
         },
         machines: machinesIds
       })

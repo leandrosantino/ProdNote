@@ -39,7 +39,8 @@ export const oeeRoutes = t.router({
     .input(z.object({
       piecesQuantity: z.number(),
       cycleTimeInSeconds: z.number(),
-      productionTimeInMinutes: z.number()
+      productionTimeInMinutes: z.number(),
+      cavitiesNumber: z.number()
     }))
     .query(({ input }) => {
       return registerProductionEfficiency.calculateOEE(input)
@@ -50,7 +51,8 @@ export const oeeRoutes = t.router({
       piecesQuantity: z.number(),
       cycleTimeInSeconds: z.number(),
       productionTimeInMinutes: z.number(),
-      lostTimeInMinutes: z.number()
+      lostTimeInMinutes: z.number(),
+      cavitiesNumber: z.number()
     }))
     .query(({ input }) => {
       return registerProductionEfficiency.verifyCoerency(input)

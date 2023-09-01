@@ -21,6 +21,12 @@
   },
   "include": [
     "server/**/*",
-    "src/serverComponents/**/*"
+    "@types",
+    "src/serverComponents/**/*",
+    "@types"
+  ],
+  "exclude": [
+    "server/infra/seed/**/*",
+    "server/**/*.spec.ts"
   ]
 }
