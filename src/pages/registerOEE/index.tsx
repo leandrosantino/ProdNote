@@ -256,6 +256,10 @@ export function RegisterOEE () {
                 if (i === index) {
                   const a = entry
                   a.reasonsLosses = reasonsLosses
+                  a.lossesPercentage = calculateLossesPercentage(
+                    reasonsLosses.map(entry => entry.lostTimeInMinutes),
+                    a.time
+                  )
                   return a
                 }
                 return entry
