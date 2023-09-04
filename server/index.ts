@@ -4,7 +4,7 @@ import { HttpServer } from './infra/server'
 const server = new HttpServer({
   apiEndpoint: '/api',
   playgroundEndpoint: '/playground',
-  port: 3336,
+  port: 3337,
   staticsDirectory: path.join(__dirname, './static')
 })
 

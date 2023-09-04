@@ -9,6 +9,15 @@ export const technologyTypesList = [
   'Assemble'
 ] as const
 
+export const classificationTypesList = [
+  'Shift Setup',
+  'Change-Over + SMED',
+  'Breakdowns',
+  'Maintenance',
+  'Scrap + Quality Issues',
+  'Organizational Issues'
+] as const
+
 export interface ProductionProcess {
   id?: string
   description: string
@@ -20,4 +29,5 @@ export interface ProductionProcess {
   product: Product
   machines?: Machine[]
   cavitiesNumber: number
+  classification: typeof classificationTypesList[number]
 }

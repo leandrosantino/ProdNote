@@ -73,6 +73,7 @@ model ProductionProcess {
   ute                String
   productId          String
   cavitiesNumber     Int
+  classification     String
 
   machines                    Machine[]
   productionEfficiencyRecords ProductionEfficiencyRecord[]

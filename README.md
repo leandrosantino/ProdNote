@@ -1,15 +1,14 @@
-
-![Logo](https://via.placeholder.com/700x100?text=ProdNote)
+# ProdNote
 
 [![Licence](https://img.shields.io/badge/license-AGPLv3-green.svg?style=flat)](https://choosealicense.com/licenses/agpl-3.0/)
 [![Commitizen friendly](https://img.shields.io/badge/commitizen-friendly-green.svg?style=flat)](http://commitizen.github.io/cz-cli/)
 ![Jest friendly](https://img.shields.io/badge/tested%20with-JEST-brightgreen.svg?style=flat&logo=jest)
 ![TypeScript](https://img.shields.io/badge/Made%20with-typescript-%23007ACC.svg?style=flat&logo=typescript)
 
+O _**"ProdNote"**_ é uma aplicação web para PCP (Planejamento e Controle de Produção), ela permite registrar a quantidade de itens produzidos através da leitura de QrCodes, gerar relatórios de produção, realizar análise dos indicadores de produção com dashboards, além de contar com um sistema de usuários que possibilita segmentar o acesso aos recursos de acordo com as permissões de cada usuário.
 
-# ProdNote
-
-Uma aplicação web para PCP (Planejamento e Controle de Produção), ela permite registrar a quantidade de itens produzidos através da leitura de QrCodes, gerar relatórios de produção, realizar análise dos indicadores de produção com dashboards, além de contar com um sistema de usuários que possibilita segmentar o acesso aos recursos de acordo com as permissões de cada usuário.
+![image2](./backup//image2.PNG)
+![image1](./backup//image1.PNG)
 
 ## Como surgiu a ideia do projeto
 
@@ -20,6 +19,17 @@ Então o ***"prodnote"*** veio com o objetivo de facilitar o gerenciamento dos p
 Esta solução não só resolveria o problema do gargalo na gestão dos produtos, mas também permitiria o surgimento de uma base de dados centralizada com o histórico de produção da fábrica, e através desses dados seria possível a criação de relatórios e dashboards, que seriam utilizados para auxiliar a tomada de decisões no setor administrativo.
 
 Com a ideia pronta, um MVP do sistema foi criado e testado. Ele funcionou perfeitamente bem, foi necessário alguns ajustes durante o o processo, mas o objetivo foi atingido. Durante os teste foi notado que com as informações armazenadas pelo sistema poderia ser gerado os valores de alguns indicadores importantes da fábrica como o OEE (Overall Equipment Effectiveness), mas para isso seria necessário mais algumas informações. Então foi decidido que seria criado um sistema centralizado que captaria todos esses dados, e gerenciaria tudo isso para fornecer as informações necessárias. Dai surgiu a ideia dos usuários para restringir o acesso as funcionalidades entre os setores da fábrica. por fim tudo isso levou a construção do ***"prodnote"*** como um sistema de PCP (Planejamento e Controle de Produção).
+
+## Veja o ProdNote funcionando
+[![tamb](./backup/tamb.png)](https://youtu.be/3Mqvd27UoYM)
+
+#### Link para o Repositório
+
+[github.com/leandrosantino/prodnote](https://github.com/leandrosantino/prodnote)
+
+#### Post no Linkeding
+
+[Linkedin - LeandroSantino_ProdNote]()
 
 ## Funcionalidades
 
@@ -54,19 +64,6 @@ Com a ideia pronta, um MVP do sistema foi criado e testado. Ele funcionou perfei
   * apagar usuários
   * alterar dados o usuário
   * alterar permissões do usuário
-
-
-## Demonstração
-
-[em aberto]
-
-
-## Screenshot
-
-<img src="https://raw.githubusercontent.com/leandrosantino/prodnote/master/public/print_login.PNG"  width="600">
-
-<!-- ![App Screenshot](https://raw.githubusercontent.com/leandrosantino/prodnote/master/public/print_login.PNG) -->
-
 
 ## Stack utilizada
 
@@ -120,11 +117,6 @@ Com o desenvolvimento deste projeto pude aplicar diversos conceitos de programa�
 - **Testes Automatizados**: o ***"prodnote"*** também me permitiu aplicar pela primeira vês, testes automatizados, com isso tive a oportunidade de aprender muito sobre a utilização do "jest" e nos métodos de testes.
 
 Além dos pontos citados também testei e aprendi a utilizar bibliotecas como: **commitzen, commintLint, lintstage, husk e eslint**. Essas libs me permitiram padronizar o projeto tanto no código quanto nas mensagens de commits do repositório.
-
-## Melhorias
-
-[em aberto]
-
 
 ## Licença
 
