@@ -27,6 +27,6 @@
     "@types"
   ],
   "exclude": [
-    "server/**/*.spec.ts"
+    "server/**/*.a"
   ]
 }
