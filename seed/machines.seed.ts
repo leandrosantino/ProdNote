@@ -1,7 +1,7 @@
-import { type Machine } from '../../entities/Machine'
-import { csvReader } from '../../utils/csvReader'
-import { logger } from '../../utils/logger'
-import { Repositories } from '../repositories'
+import { type Machine } from '../server/entities/Machine'
+import { csvReader } from '../server/utils/csvReader'
+import { logger } from '../server/utils/logger'
+import { Repositories } from '../server/infra/repositories'
 import path from 'path'
 
 export async function machinesSeed () {
@@ -9,7 +9,7 @@ export async function machinesSeed () {
   logger.success('\nSeeding Machines Table')
   try {
     const machines: Machine[] = (await csvReader(
-      path.join(__dirname, '../../../prisma/machines.csv')
+      path.join(__dirname, './src/machines.csv')
     ))
       .filter((_, index) => index > 0)
       .map(row => ({

@@ -1,4 +1,4 @@
-import { logger } from '../../utils/logger'
+import { logger } from '../server/utils/logger'
 import { machinesSeed } from './machines.seed'
 import { productSeed } from './products.seed.'
 import { reasonsLossEfficiencySeed } from './reasonsLossEfficiency.seed'

@@ -13,7 +13,7 @@
     "test": "jest",
     "lint-fix": "npx eslint --fix ./",
     "lint": "npx eslint ./",
-    "seed": "tsx ./server/infra/seed/index.ts",
+    "seed": "tsx --tsconfig ./server.tsconfig.json ./seed/index.ts",
     "start": "node dist/index",
     "db.studio": "prisma studio"
   },

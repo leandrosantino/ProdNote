@@ -1,7 +1,7 @@
-import { systemPermissionList } from '../../entities/SystemPermission'
-import { createUser } from '../../useCases/CreateUser'
-import { type CreateUserRequestDTO } from '../../useCases/CreateUser/CreateUserDTO'
-import { logger } from '../../utils/logger'
+import { systemPermissionList } from '../server/entities/SystemPermission'
+import { createUser } from '../server/useCases/CreateUser'
+import { type CreateUserRequestDTO } from '../server/useCases/CreateUser/CreateUserDTO'
+import { logger } from '../server/utils/logger'
 
 export async function usersSeed () {
   logger.success('\nSeeding Users Table')

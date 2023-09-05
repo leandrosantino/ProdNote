@@ -1,6 +1,6 @@
-import { systemPermissionList } from '../../entities/SystemPermission'
-import { logger } from '../../utils/logger'
-import { Repositories } from '../repositories'
+import { systemPermissionList } from '../server/entities/SystemPermission'
+import { logger } from '../server/utils/logger'
+import { Repositories } from '../server/infra/repositories'
 
 export async function systemPermisionsSeed () {
   const systemPermissionRepository = new Repositories.SystemPermission()

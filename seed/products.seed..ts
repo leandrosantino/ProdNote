@@ -1,6 +1,6 @@
 import axios from 'axios'
-import { logger } from '../../utils/logger'
-import { Repositories } from '../repositories'
+import { logger } from '../server/utils/logger'
+import { Repositories } from '../server/infra/repositories'
 
 interface Product {
   id: string

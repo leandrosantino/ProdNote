@@ -23,10 +23,10 @@
     "server/**/*",
     "@types",
     "src/serverComponents/**/*",
+    "seed",
     "@types"
   ],
   "exclude": [
-    "server/infra/seed/**/*",
     "server/**/*.spec.ts"
   ]
 }

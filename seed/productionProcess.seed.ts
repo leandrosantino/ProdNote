@@ -1,8 +1,8 @@
-import { csvReader } from '../../utils/csvReader'
-import { logger } from '../../utils/logger'
+import { csvReader } from '../server/utils/csvReader'
+import { logger } from '../server/utils/logger'
 import path from 'path'
-import { type ProductionProcess } from '../../entities/ProductionProcess'
-import { Repositories } from '../repositories'
+import { type ProductionProcess } from '../server/entities/ProductionProcess'
+import { Repositories } from '../server/infra/repositories'
 
 const machinesRepository = new Repositories.Machine()
 const productRepository = new Repositories.Product()
@@ -11,12 +11,12 @@ const productionProcessRepository = new Repositories.ProductionProcess()
 export async function productionProcessSeed () {
   logger.success('\nSeeding Production Process Table')
   try {
-    interface CreateProcess extends Omit<ProductionProcess, 'machines' | 'product' | 'productId'> {
+    interface CreateProcess extends Omit<ProductionProcess, 'machines' | 'product' | 'productId' > {
       sapCode: string
     }
 
     const processes: CreateProcess[] = (await csvReader(
-      path.join(__dirname, '../../../prisma/productionProcess.csv')
+      path.join(__dirname, './src/productionProcess.csv')
     ))
       .filter((_, index) => index > 0)
       .map(row => ({

@@ -1,7 +1,7 @@
-import { type ReasonsLossEfficiency } from '../../entities/ReasonsLossEfficiency'
-import { logger } from '../../utils/logger'
-import { Repositories } from '../repositories'
-import { csvReader } from '../../utils/csvReader'
+import { type ReasonsLossEfficiency } from '../server/entities/ReasonsLossEfficiency'
+import { logger } from '../server/utils/logger'
+import { Repositories } from '../server/infra/repositories'
+import { csvReader } from '../server/utils/csvReader'
 import path from 'path'
 
 export async function reasonsLossEfficiencySeed () {
@@ -10,12 +10,13 @@ export async function reasonsLossEfficiencySeed () {
   try {
     const reasons:
     Array<Omit<ReasonsLossEfficiency, 'id' | 'productionEfficiencyLosses'>> = (await csvReader(
-      path.join(__dirname, '../../../prisma/ReasonsLoss.csv')
+      path.join(__dirname, './src/ReasonsLoss.csv')
     ))
       .filter((_, index) => index > 0)
       .map(entry => ({
         description: entry[0],
-        type: entry[1] as ReasonsLossEfficiency['type']
+        type: entry[1] as ReasonsLossEfficiency['type'],
+        classification: entry[2] as ReasonsLossEfficiency['classification']
       }))
 
     for await (const reason of reasons) {
