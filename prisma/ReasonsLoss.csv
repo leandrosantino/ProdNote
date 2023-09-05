@@ -1,54 +1,53 @@
-description	;type
-Mal Curado  ;scrap
-Rugas / Dobras ;scrap
-Mold. Irregular ;scrap
-Rasgado ;scrap
-Descolado ;scrap
-Migração ;scrap
-Deformado ;scrap
-Corte Irregular ;scrap
-Furo Irregular ;scrap
-Raleira ;scrap
-Falta de Material ;scrap
-Falha na Injeção ;scrap
-Manchas ;scrap
-Teste ;scrap
-Queimado ;scrap
-Quebrado ;scrap
-Mal Curado 2	;rework
-Rugas / Dobras3	;rework
-Mold. Irregular4	;rework
-Rasgado5	;rework
-Desfiado	;rework
-Migração6	;rework
-Deformado7	;rework
-Corte Irregular8	;rework
-Furo Irregular9	;rework
-Raleira10	;rework
-Falta de Material11	;rework
-Falha na Injeção12	;rework
-Manchas15	;rework
-Retrabalho com aluminio 	;rework
-Queimado13	;rework
-Quebrado14	;rework
-Mecânico	;stoppages
-Elétrica	;stoppages
-Ferramental	;stoppages
-Troca de material	;stoppages
-Falta de Mão de Obra	;stoppages
-Set Up	;stoppages
-Ajuste de Parâmetro	;stoppages
-Tray -out	;stoppages
-Abastecimento de Material	;stoppages
-Refeição (Café)	;stoppages
-Retrabalho	;stoppages
-Falta de Embalagem	;stoppages
-Treinamento/  Reunião	;stoppages
-Limpeza	;stoppages
-Falta de Energia Elétrica	;stoppages
-Parada Programada	;stoppages
-Manutenção Programada	;stoppages
-Falta de peças semi acabadas	;stoppages
-LIBERAÇAO DE PEÇAS	;stoppages
-Remanejamento	;stoppages
-Falta de material	;stoppages
+description;type;
+Mal Curado ;scrap;Scrap + Quality Issues
+Rugas / Dobras;scrap;Scrap + Quality Issues
+Mold. Irregular;scrap;Scrap + Quality Issues
+Rasgado;scrap;Scrap + Quality Issues
+Descolado;scrap;Scrap + Quality Issues
+Migração;scrap;Scrap + Quality Issues
+Deformado;scrap;Scrap + Quality Issues
+Corte Irregular;scrap;Scrap + Quality Issues
+Furo Irregular;scrap;Scrap + Quality Issues
+Raleira;scrap;Scrap + Quality Issues
+Falta de Material;scrap;Scrap + Quality Issues
+Falha na Injeção;scrap;Scrap + Quality Issues
+Manchas;scrap;Scrap + Quality Issues
+Teste;scrap;Scrap + Quality Issues
+Queimado;scrap;Scrap + Quality Issues
+Quebrado;scrap;Scrap + Quality Issues
+Mal Curado 2;rework;Scrap + Quality Issues
+Rugas / Dobras3;rework;Scrap + Quality Issues
+Mold. Irregular4;rework;Scrap + Quality Issues
+Rasgado5;rework;Scrap + Quality Issues
+Desfiado;rework;Scrap + Quality Issues
+Migração6;rework;Scrap + Quality Issues
+Deformado7;rework;Scrap + Quality Issues
+Corte Irregular8;rework;Scrap + Quality Issues
+Furo Irregular9;rework;Scrap + Quality Issues
+Raleira10;rework;Scrap + Quality Issues
+Falta de Material11;rework;Scrap + Quality Issues
+Falha na Injeção12;rework;Scrap + Quality Issues
+Manchas15;rework;Scrap + Quality Issues
+Retrabalho com aluminio ;rework;Scrap + Quality Issues
+Queimado13;rework;Scrap + Quality Issues
+Quebrado14;rework;Scrap + Quality Issues
+Mecânico;stoppages;Breakdowns
+Elétrica;stoppages;Breakdowns
+Ferramental;stoppages;Breakdowns
+Troca de material;stoppages;Organizational Issues
+Falta de Mão de Obra;stoppages;Organizational Issues
+Set Up;stoppages;Change-Over + SMED
+Ajuste de Parâmetro;stoppages;Shift Setup
+Tray -out;stoppages;Organizational Issues
+Abastecimento de Material;stoppages;Organizational Issues
+Refeição (Café);stoppages;Organizational Issues
+Falta de Embalagem;stoppages;Organizational Issues
+Treinamento/  Reunião;stoppages;Organizational Issues
+Limpeza;stoppages;Organizational Issues
+Falta de Energia Elétrica;stoppages;Organizational Issues
+Parada Programada;stoppages;Organizational Issues
+Manutenção Programada;stoppages;Maintenance
+Falta de peças semi acabadas;stoppages;Organizational Issues
+LIBERAÇAO DE PEÇAS;stoppages;Organizational Issues
+Remanejamento;stoppages;Organizational Issues
+Falta de matéria prima;stoppages;Organizational Issues

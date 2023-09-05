@@ -7,8 +7,8 @@
 
 O _**"ProdNote"**_ é uma aplicação web para PCP (Planejamento e Controle de Produção), ela permite registrar a quantidade de itens produzidos através da leitura de QrCodes, gerar relatórios de produção, realizar análise dos indicadores de produção com dashboards, além de contar com um sistema de usuários que possibilita segmentar o acesso aos recursos de acordo com as permissões de cada usuário.
 
-![image2](./backup//image2.PNG)
-![image1](./backup//image1.PNG)
+![image2](https://raw.githubusercontent.com/leandrosantino/prodnote/master/docs/image2.PNG)
+![image1](https://raw.githubusercontent.com/leandrosantino/prodnote/master/docs/image1.PNG)
 
 ## Como surgiu a ideia do projeto
 
@@ -21,7 +21,7 @@ Esta solução não só resolveria o problema do gargalo na gestão dos produtos
 Com a ideia pronta, um MVP do sistema foi criado e testado. Ele funcionou perfeitamente bem, foi necessário alguns ajustes durante o o processo, mas o objetivo foi atingido. Durante os teste foi notado que com as informações armazenadas pelo sistema poderia ser gerado os valores de alguns indicadores importantes da fábrica como o OEE (Overall Equipment Effectiveness), mas para isso seria necessário mais algumas informações. Então foi decidido que seria criado um sistema centralizado que captaria todos esses dados, e gerenciaria tudo isso para fornecer as informações necessárias. Dai surgiu a ideia dos usuários para restringir o acesso as funcionalidades entre os setores da fábrica. por fim tudo isso levou a construção do ***"prodnote"*** como um sistema de PCP (Planejamento e Controle de Produção).
 
 ## Veja o ProdNote funcionando
-[![tamb](./backup/tamb.png)](https://youtu.be/3Mqvd27UoYM)
+[![tamb](https://raw.githubusercontent.com/leandrosantino/prodnote/master/docs/tamb.png)](https://youtu.be/3Mqvd27UoYM)
 
 #### Link para o Repositório
 
