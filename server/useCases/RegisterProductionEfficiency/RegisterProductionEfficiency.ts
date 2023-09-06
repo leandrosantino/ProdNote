@@ -37,8 +37,13 @@ export class RegisterProductionEfficiency {
       cavitiesNumber: productionProcess.cavitiesNumber
     })
 
+    const usefulTimeInMunites = (
+      data.piecesQuantity *
+      (productionProcess.cycleTimeInSeconds / productionProcess.cavitiesNumber)
+    ) / 60
+
     const register = await this.productionEfficiencyRecordRepository
-      .create({ ...data, oeeValue }, productionEfficiencyLosses)
+      .create({ ...data, oeeValue, usefulTimeInMunites }, productionEfficiencyLosses)
 
     return register
   }

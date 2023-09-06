@@ -10,6 +10,7 @@ export interface ProductionEfficiencyRecord {
   turn: string
   ute: typeof uteKeysList[number]
   productionTimeInMinutes: number
+  usefulTimeInMunites: number
   piecesQuantity: number
   oeeValue: number
   productionEfficiencyLosses: ProductionEfficiencyLoss[]

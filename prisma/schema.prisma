@@ -83,8 +83,8 @@ model ReasonsLossEfficiency {
   id                         String                     @id @default(cuid())
   type                       String
   description                String
-  productionEfficiencyLosses ProductionEfficiencyLoss[]
   classification             String
+  productionEfficiencyLosses ProductionEfficiencyLoss[]
 }
 
 model ProductionEfficiencyLoss {
@@ -100,18 +100,19 @@ model ProductionEfficiencyLoss {
 }
 
 model ProductionEfficiencyRecord {
-  id                         String                     @id @default(cuid())
-  createdAt                  DateTime                   @default(now())
-  date                       DateTime
-  turn                       String
-  ute                        String
-  productionTimeInMinutes    Int
-  piecesQuantity             Int
-  oeeValue                   Float
-  productionProcessId        String?
-  productionEfficiencyLosses ProductionEfficiencyLoss[]
-  userId                     String
+  id                      String   @id @default(cuid())
+  createdAt               DateTime @default(now())
+  date                    DateTime
+  turn                    String
+  ute                     String
+  productionTimeInMinutes Int
+  piecesQuantity          Int
+  usefulTimeInMunites     Float
+  oeeValue                Float
+  productionProcessId     String?
+  userId                  String
 
-  productionProcess ProductionProcess? @relation(fields: [productionProcessId], references: [id])
-  user              User               @relation(fields: [userId], references: [id])
+  productionEfficiencyLosses ProductionEfficiencyLoss[]
+  productionProcess          ProductionProcess?         @relation(fields: [productionProcessId], references: [id])
+  user                       User                       @relation(fields: [userId], references: [id])
 }

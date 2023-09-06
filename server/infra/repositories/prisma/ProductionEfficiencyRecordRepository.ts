@@ -83,10 +83,13 @@ export class ProductionEfficiencyRecordRepository implements IProductionEfficien
   async getTotalOfLostTimeByFilters (where: ProductionEfficiencyRecordRepositoryFilters) {
     const { _sum: { lostTimeInMinutes } } = await prisma.productionEfficiencyLoss.aggregate({
       where: {
+        reasonsLossEfficiency: {
+          classification: where.classification
+        },
         productionEfficiencyRecord: {
           AND: {
             turn: where.turn,
-            date: { gte: where.startsDate, lte: where.finishDate }
+            date: { gte: where.startsDate?.toISOString(), lte: where.finishDate?.toISOString() }
           }
         }
       },
@@ -94,6 +97,7 @@ export class ProductionEfficiencyRecordRepository implements IProductionEfficien
         lostTimeInMinutes: true
       }
     })
+
     return lostTimeInMinutes
   }
 
@@ -102,7 +106,7 @@ export class ProductionEfficiencyRecordRepository implements IProductionEfficien
       where: {
         AND: {
           turn,
-          date: { gte: startsDate, lte: finishDate },
+          date: { gte: startsDate?.toISOString(), lte: finishDate?.toISOString() },
           productionProcess: { technology }
         }
       },
@@ -112,5 +116,28 @@ export class ProductionEfficiencyRecordRepository implements IProductionEfficien
     })
 
     return productionTimeInMinutes
+  }
+
+  async getSumOfProductionTimeAndUsefulTimeGroupedByDate (where: ProductionEfficiencyRecordRepositoryFilters) {
+    const values = await prisma.productionEfficiencyRecord.groupBy({
+      where: {
+        AND: {
+          turn: where.turn,
+          date: { gte: where.startsDate, lte: where.finishDate },
+          productionProcess: { technology: where.technology }
+        }
+      },
+      by: ['date'],
+      _sum: {
+        productionTimeInMinutes: true,
+        usefulTimeInMunites: true
+      }
+    })
+
+    return values.map(({ _sum, date }) => ({
+      date,
+      productionTimeInMinutes: _sum.productionTimeInMinutes as number,
+      usefulTimeInMunites: _sum.usefulTimeInMunites as number
+    }))
   }
 }

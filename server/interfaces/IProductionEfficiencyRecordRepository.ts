@@ -1,12 +1,14 @@
 import { type ProductionEfficiencyLoss } from '../entities/ProductionEfficiencyLoss'
 import { type ProductionEfficiencyRecord } from '../entities/ProductionEfficiencyRecord'
 import { type ProductionProcess } from '../entities/ProductionProcess'
+import { type ReasonsLossEfficiency } from '../entities/ReasonsLossEfficiency'
 
 export interface ProductionEfficiencyRecordRepositoryFilters {
   startsDate?: Date
   finishDate?: Date
   turn?: string
   technology?: ProductionProcess['technology']
+  classification?: ReasonsLossEfficiency['classification']
 }
 
 export interface IProductionEfficiencyRecordRepository {
@@ -25,5 +27,9 @@ export interface IProductionEfficiencyRecordRepository {
 
   getTotalOfLostTimeByFilters: (where: ProductionEfficiencyRecordRepositoryFilters) => Promise<number | null>
   getTotalOfProductionTimeByFilters: (where: ProductionEfficiencyRecordRepositoryFilters) => Promise<number | null>
-
+  getSumOfProductionTimeAndUsefulTimeGroupedByDate: (where: ProductionEfficiencyRecordRepositoryFilters) => Promise<Array<{
+    date: Date
+    productionTimeInMinutes: number
+    usefulTimeInMunites: number
+  }>>
 }

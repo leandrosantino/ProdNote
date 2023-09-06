@@ -4,7 +4,7 @@ import { type ProductionEfficiencyRecord } from '../../entities/ProductionEffici
 export interface RegisterProductionEfficiencyRequestDTO {
   data: Omit<
   ProductionEfficiencyRecord,
-  'id' | 'productionProcess' | 'createdAt' | 'productionEfficiencyLosses' | 'oeeValue'
+  'id' | 'productionProcess' | 'createdAt' | 'productionEfficiencyLosses' | 'oeeValue' | 'usefulTimeInMunites'
   >
   productionEfficiencyLosses: Array<Omit<ProductionEfficiencyLoss, 'id' | 'reasonsLossEfficiency' | 'machine'>>
 }
