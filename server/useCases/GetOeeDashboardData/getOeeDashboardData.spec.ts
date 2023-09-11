@@ -5,25 +5,17 @@ import { Repositories } from '../../infra/repositories'
   const teste = new GetOeeDashboardData(
     new Repositories.ProductionEfficiencyRecord()
   )
-  await teste.getTurnChartDate({
-    date: {
-      mouth: 9,
-      year: 2023
-    }
-  })
 
-  await teste.getClassChartData({
+  const filters = {
     date: {
       mouth: 9,
       year: 2023
     }
-  })
+  }
 
-  await teste.getDailyChartData({
-    date: {
-      mouth: 9,
-      year: 2023
-    }
-  })
+  await teste.getTurnChartDate(filters)
+  await teste.getClassChartData(filters)
+  await teste.getDailyChartData(filters)
+  await teste.getGeneralOeeValue(filters)
 })()
   .catch(console.log)

@@ -140,4 +140,24 @@ export class ProductionEfficiencyRecordRepository implements IProductionEfficien
       usefulTimeInMunites: _sum.usefulTimeInMunites as number
     }))
   }
+
+  async getSumOfProductionTimeAndUsefulTimeByFilters (where: ProductionEfficiencyRecordRepositoryFilters) {
+    const { _sum } = await prisma.productionEfficiencyRecord.aggregate({
+      where: {
+        AND: {
+          turn: where.turn,
+          date: { gte: where.startsDate, lte: where.finishDate },
+          productionProcess: { technology: where.technology }
+        }
+      },
+      _sum: {
+        productionTimeInMinutes: true,
+        usefulTimeInMunites: true
+      }
+    })
+    return {
+      productionTimeInMinutes: _sum.productionTimeInMinutes as number,
+      usefulTimeInMunites: _sum.usefulTimeInMunites as number
+    }
+  }
 }

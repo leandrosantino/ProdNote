@@ -92,6 +92,19 @@ export class GetOeeDashboardData {
     return chatData
   }
 
+  async getGeneralOeeValue ({ date, classification, ...rest }: GetOeeDashboardDataRequestDTO) {
+    const dateFilters = this.getStartsAndfinishDateByFilters(date)
+    const { productionTimeInMinutes, usefulTimeInMunites } = await this.productionEfficiencyRecordRepository.getSumOfProductionTimeAndUsefulTimeByFilters({
+      ...dateFilters,
+      ...rest
+    })
+    const chatData = {
+      oeeValue: Number((usefulTimeInMunites / productionTimeInMinutes * 100).toFixed(1))
+    }
+    console.table(chatData)
+    return chatData
+  }
+
   private getStartsAndfinishDateByFilters ({ day, mouth, year }: GetOeeDashboardDataRequestDTO['date']) {
     const mouthIndex = mouth - 1
     let initialDay = 1

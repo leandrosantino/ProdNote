@@ -32,4 +32,8 @@ export interface IProductionEfficiencyRecordRepository {
     productionTimeInMinutes: number
     usefulTimeInMunites: number
   }>>
+  getSumOfProductionTimeAndUsefulTimeByFilters: (where: ProductionEfficiencyRecordRepositoryFilters) => Promise<{
+    productionTimeInMinutes: number
+    usefulTimeInMunites: number
+  }>
 }

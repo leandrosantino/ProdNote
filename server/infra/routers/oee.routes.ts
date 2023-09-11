@@ -5,13 +5,26 @@ import { z } from 'zod'
 import { registerProductionEfficiency } from '../../useCases/RegisterProductionEfficiency'
 import { uteKeysList } from '../../entities/ProductionEfficiencyRecord'
 import { Repositories } from '../repositories'
-import { lossTypesList } from '../../entities/ReasonsLossEfficiency'
+import { classificationTypesList, lossTypesList } from '../../entities/ReasonsLossEfficiency'
+import { technologyTypesList } from '../../entities/ProductionProcess'
+import { getOeeDashboardData } from '../../useCases/GetOeeDashboardData'
 
 const t = initTRPC.context<Context>().create()
 
 const procedure = t.procedure.use(authenticattionMiddleware('OEE_NOTE'))
 const productionProcessRepository = new Repositories.ProductionProcess()
 const reasonsLossEfficiencyRepository = new Repositories.ReasonsLossEfficiency()
+
+const filtersSchema = z.object({
+  technology: z.enum(technologyTypesList).optional(),
+  classification: z.enum(classificationTypesList).optional(),
+  turn: z.string().optional(),
+  date: z.object({
+    day: z.number().optional(),
+    mouth: z.number(),
+    year: z.number()
+  })
+})
 
 export const oeeRoutes = t.router({
   registerProductionEfficiency: procedure
@@ -73,5 +86,30 @@ export const oeeRoutes = t.router({
     .input(z.object({ id: z.string() }))
     .query(async ({ input }) => {
       return await productionProcessRepository.getProductionProcessMachines(input.id)
+    }),
+
+  getTurnChartDate: procedure
+    .input(filtersSchema)
+    .query(async ({ input }) => {
+      return await getOeeDashboardData.getTurnChartDate(input)
+    }),
+
+  getClassChartData: procedure
+    .input(filtersSchema)
+    .query(async ({ input }) => {
+      return await getOeeDashboardData.getClassChartData(input)
+    }),
+
+  getDailyChartData: procedure
+    .input(filtersSchema)
+    .query(async ({ input }) => {
+      return await getOeeDashboardData.getDailyChartData(input)
+    }),
+
+  getGeneralOeeValue: procedure
+    .input(filtersSchema)
+    .query(async ({ input }) => {
+      return await getOeeDashboardData.getGeneralOeeValue(input)
     })
+
 })
