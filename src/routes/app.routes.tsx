@@ -8,6 +8,7 @@ import { RequireAuth } from './RequireAuth'
 import { UserInfo } from '../pages/userInfo'
 import { RegisterOEE } from '../pages/registerOEE'
 import { DialogProvider } from '../contexts/dialogContext'
+import { OeeDashboard } from '../pages/oeeDashboard'
 
 export function AppRoutes () {
   return (
@@ -27,6 +28,10 @@ export function AppRoutes () {
 
           <Route element={<RequireAuth permission='OEE_NOTE'/>}>
             <Route path='registerOEE' Component={RegisterOEE} />
+          </Route>
+
+          <Route element={<RequireAuth permission='OEE_NOTE'/>}>
+            <Route path='oeeDashboard' Component={OeeDashboard} />
           </Route>
 
           <Route element={<RequireAuth permission='READ_TAGS'/>}>
