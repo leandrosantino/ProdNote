@@ -33,8 +33,6 @@ export class GetOeeDashboardData {
       }
     }
 
-    console.table(data)
-
     return data
   }
 
@@ -73,8 +71,6 @@ export class GetOeeDashboardData {
       }
     }
 
-    console.table(data)
-
     return data
   }
 
@@ -84,11 +80,28 @@ export class GetOeeDashboardData {
       ...dateFilters,
       ...rest
     })
-    const chatData = values.map(({ date, productionTimeInMinutes, usefulTimeInMunites }) => ({
-      date,
-      oeeValue: Number((usefulTimeInMunites / productionTimeInMinutes * 100).toFixed(1))
-    }))
-    console.table(chatData)
+    const daysValues: Record<number, { value: number }> = {}
+    values.forEach(({ date, productionTimeInMinutes, usefulTimeInMunites }) => {
+      daysValues[date.getDate()] = {
+        value: Number((usefulTimeInMunites / productionTimeInMinutes * 100).toFixed(1))
+      }
+    })
+
+    const mouthIndex = date.mouth - 1
+    const mouthFinishDay = new Date(date.year, mouthIndex + 1, 0).getDate()
+
+    const chatData = []
+    for (let day = 1; day <= mouthFinishDay; day++) {
+      let value = 0
+      if (daysValues[day]) {
+        value = daysValues[day].value
+      }
+      chatData.push({
+        day,
+        value
+      })
+    }
+
     return chatData
   }
 
@@ -101,7 +114,7 @@ export class GetOeeDashboardData {
     const chatData = {
       oeeValue: Number((usefulTimeInMunites / productionTimeInMinutes * 100).toFixed(1))
     }
-    console.table(chatData)
+
     return chatData
   }
 

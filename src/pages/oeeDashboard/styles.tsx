@@ -65,8 +65,8 @@ export const OeeValueCase = styled.div`
 
 export const FiltersCase = styled.div`
   display: flex;
-  justify-content: end;
-  gap: .8rem;
+  justify-content: end !important;
+  gap: .4rem;
 `
 
 export const Filter = styled.div`
@@ -74,7 +74,11 @@ export const Filter = styled.div`
     margin-right: .4rem;
   }
 
-  select{
+  input:last-child{
+    width: 16rem;
+  }
+
+  input, select{
     width: 6rem;
     border: 0.15rem solid ${p => p.theme.colors.dark.gray10};
     font-size: 1.4rem;
@@ -98,15 +102,26 @@ export const ChartsArea = styled.div`
   div:nth-child(3){grid-area: chart3;}
 
 `
-export const Chart = styled.div`
+export const Chart = styled.div<{ loading?: boolean }>`
   border: 0.15rem solid ${p => p.theme.colors.dark.gray10};
   border-radius: .8rem;
   display: flex;
   flex-direction: column;
-  justify-content: center;
   align-items: center;
+  justify-content: s${p => p.loading ? 'space-between' : 'center'};
+  align-items: center;
+  padding: .8rem;
   *:active, *:focus{
     outline: none;
+  }
+  div#chatTurn{
+    height: 98%;
+  }
+
+  &>div:last-child{
+    height: 80%;
+    width: 95%;
+    margin-top: 1.2rem;
   }
 
   &>div{
@@ -119,7 +134,10 @@ export const Chart = styled.div`
       width: 100%;
     }
     &>div{
-      width: 50%;
+      width: 100%;
+      #tech{
+        width: 13rem;
+      }
     }
   }
 

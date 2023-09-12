@@ -357,9 +357,9 @@ export function RegisterOEE () {
                 <Field.Label htmlFor='turn'>Turno:</Field.Label>
                 <Field.Select id='turn' name='turn' >
                   <option value={''}>- Selecione o turno -</option>
-                  <option value="1">1º truno</option>
-                  <option value="2">2º truno</option>
-                  <option value="3">3º truno</option>
+                  <option value="1">1º turno</option>
+                  <option value="2">2º turno</option>
+                  <option value="3">3º turno</option>
                 </Field.Select>
                 <Field.ErrorMessage field='turn'/>
               </Field.Root>
