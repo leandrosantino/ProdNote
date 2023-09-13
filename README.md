@@ -21,7 +21,7 @@ Esta solução não só resolveria o problema do gargalo na gestão dos produtos
 Com a ideia pronta, um MVP do sistema foi criado e testado. Ele funcionou perfeitamente bem, foi necessário alguns ajustes durante o o processo, mas o objetivo foi atingido. Durante os teste foi notado que com as informações armazenadas pelo sistema poderia ser gerado os valores de alguns indicadores importantes da fábrica como o OEE (Overall Equipment Effectiveness), mas para isso seria necessário mais algumas informações. Então foi decidido que seria criado um sistema centralizado que captaria todos esses dados, e gerenciaria tudo isso para fornecer as informações necessárias. Dai surgiu a ideia dos usuários para restringir o acesso as funcionalidades entre os setores da fábrica. por fim tudo isso levou a construção do ***"prodnote"*** como um sistema de PCP (Planejamento e Controle de Produção).
 
 ## Veja o ProdNote funcionando
-[![tamb](https://raw.githubusercontent.com/leandrosantino/prodnote/master/docs/tamb.png)](https://youtu.be/3Mqvd27UoYM)
+[![tamb](https://raw.githubusercontent.com/leandrosantino/prodnote/master/docs/tamb.png)](https://youtu.be/t-G0onpEY_E)
 
 #### Link para o Repositório
 
@@ -29,7 +29,7 @@ Com a ideia pronta, um MVP do sistema foi criado e testado. Ele funcionou perfei
 
 #### Post no Linkeding
 
-[Linkedin - LeandroSantino_ProdNote]()
+[Linkedin - LeandroSantino_ProdNote](https://www.linkedin.com/posts/leandro-santino-7b2717215_fala-galera-blz-estou-desenvolvendo-um-activity-7076725026552524800-2bD2?utm_source=share&utm_medium=member_desktop)
 
 ## Funcionalidades
 
