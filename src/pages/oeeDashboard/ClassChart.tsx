@@ -3,17 +3,8 @@ import { BarChart, Bar, Cell, XAxis, Tooltip, ResponsiveContainer } from 'rechar
 import { greenDark, grayDark } from '@radix-ui/colors'
 import { trpc } from '../../utils/api'
 import { type Filters } from '.'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { Loading } from '../../components/Loading'
-
-// const data = [
-//   { classification: 'Breakdowns', value: 13 },
-//   { classification: 'Change-Over + SMED', value: 56 },
-//   { classification: 'Maintenance', value: 85 },
-//   { classification: 'Organizational Issues', value: 50 },
-//   { classification: 'Scrap + Quality Issues', value: 21 },
-//   { classification: 'Shift Setup', value: 96 }
-// ]
 
 const technologyTypesList = [
   'Hydraulic Press',
@@ -31,29 +22,6 @@ const reducedNames = [
   'SS'
 ]
 
-const renderCustomizedLabel = (props: {
-  width: number
-  x: number
-  y: number
-  value: number
-}) => {
-  const textLength = 40
-  if (props.value <= 0) {
-    return <></>
-  }
-  return (
-    <text
-      x={props.x + (props.width / 2) - (textLength / 2)}
-      width={props.width} y={props.y - 10}
-      textLength={textLength} fontSize={14} fontWeight={500}
-      dominantBaseline="central"
-      color={grayDark.gray5}
-    >
-      {`${props.value.toFixed(1)}%`}
-    </text>
-  )
-}
-
 export function ClassChart ({ filters }: { filters: Filters }) {
   const COLORS = [
     greenDark.green11,
@@ -67,7 +35,7 @@ export function ClassChart ({ filters }: { filters: Filters }) {
   const [technology, setTechnology] = useState<string>('')
   const [turn, setTurn] = useState<string>('')
 
-  const { data, isLoading } = trpc.oee.getClassChartData.useQuery({
+  const { data, isLoading, refetch, remove } = trpc.oee.getClassChartData.useQuery({
     date: filters,
     ...turn === '' ? {} : { turn },
     ...technology === '' ? {} : { technology: technology as Technology }
@@ -76,6 +44,11 @@ export function ClassChart ({ filters }: { filters: Filters }) {
   const chartData = data?.map(({ classification, value }, index) => {
     return { name: reducedNames[index], classification, value }
   })
+
+  useEffect(() => {
+    remove()
+    refetch().catch(console.log)
+  }, [technology, turn, filters])
 
   if (isLoading) {
     return (
@@ -130,7 +103,11 @@ export function ClassChart ({ filters }: { filters: Filters }) {
               separator=''
               formatter={(value) => [Number(value).toFixed(1) + '%', '']}
             />
-            <Bar dataKey="value" label={renderCustomizedLabel}>
+            <Bar dataKey="value" label={{
+              position: 'top',
+              fontSize: 14,
+              formatter: (value: number) => value === 0 ? '' : `${value.toFixed(1)}%`
+            }} >
               {chartData?.map((_, index) => (
                 <Cell key={`cell-${index}`} fill={COLORS[index % 20]} />
               ))}
