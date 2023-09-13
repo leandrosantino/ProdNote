@@ -12,5 +12,5 @@ export function parseQrCodeData (_: string) {
   //   .replaceAll('û', '"u')
   // console.log(value)
   a++
-  return `{"productId":"cli1se9pc0034m5vc8bdu4pyj","tagId":"00000000000000000000000${a}","isFractional":false}`
+  return `{"productId":"cli1se1cn0000m5vc5o1jhg1n","tagId":"00000000000000000000000${a}","isFractional":false}`
 }

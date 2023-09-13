@@ -9,6 +9,7 @@ import { UserInfo } from '../pages/userInfo'
 import { RegisterOEE } from '../pages/registerOEE'
 import { DialogProvider } from '../contexts/dialogContext'
 import { OeeDashboard } from '../pages/oeeDashboard'
+import { EfficiencyRecords } from '../pages/efficiencyRecords'
 
 export function AppRoutes () {
   return (
@@ -32,6 +33,9 @@ export function AppRoutes () {
 
           <Route element={<RequireAuth permission='OEE_NOTE'/>}>
             <Route path='oeeDashboard' Component={OeeDashboard} />
+          </Route>
+          <Route element={<RequireAuth permission='OEE_NOTE'/>}>
+            <Route path='efficiencyRecords' Component={EfficiencyRecords} />
           </Route>
 
           <Route element={<RequireAuth permission='READ_TAGS'/>}>

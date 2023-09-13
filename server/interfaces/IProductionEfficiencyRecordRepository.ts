@@ -2,6 +2,7 @@ import { type ProductionEfficiencyLoss } from '../entities/ProductionEfficiencyL
 import { type ProductionEfficiencyRecord } from '../entities/ProductionEfficiencyRecord'
 import { type ProductionProcess } from '../entities/ProductionProcess'
 import { type ReasonsLossEfficiency } from '../entities/ReasonsLossEfficiency'
+import { type User } from '../entities/User'
 
 export interface ProductionEfficiencyRecordRepositoryFilters {
   startsDate?: Date
@@ -9,6 +10,10 @@ export interface ProductionEfficiencyRecordRepositoryFilters {
   turn?: string
   technology?: ProductionProcess['technology']
   classification?: ReasonsLossEfficiency['classification']
+}
+
+export interface ProductionEfficiencyRecordIncludedUser extends ProductionEfficiencyRecord {
+  user: User
 }
 
 export interface IProductionEfficiencyRecordRepository {
@@ -23,7 +28,7 @@ export interface IProductionEfficiencyRecordRepository {
   ) => Promise<ProductionEfficiencyRecord>
   findByFilters: (
     where: ProductionEfficiencyRecordRepositoryFilters
-  ) => Promise<ProductionEfficiencyRecord[]>
+  ) => Promise<ProductionEfficiencyRecordIncludedUser[]>
 
   getTotalOfLostTimeByFilters: (where: ProductionEfficiencyRecordRepositoryFilters) => Promise<number | null>
   getTotalOfProductionTimeByFilters: (where: ProductionEfficiencyRecordRepositoryFilters) => Promise<number | null>

@@ -1,6 +1,10 @@
 import { type ProductionEfficiencyLoss } from '../../../entities/ProductionEfficiencyLoss'
 import { type ProductionEfficiencyRecord } from '../../../entities/ProductionEfficiencyRecord'
-import { type ProductionEfficiencyRecordRepositoryFilters, type IProductionEfficiencyRecordRepository } from '../../../interfaces/IProductionEfficiencyRecordRepository'
+import {
+  type ProductionEfficiencyRecordRepositoryFilters,
+  type IProductionEfficiencyRecordRepository,
+  type ProductionEfficiencyRecordIncludedUser
+} from '../../../interfaces/IProductionEfficiencyRecordRepository'
 import { prisma } from './connection'
 
 export class ProductionEfficiencyRecordRepository implements IProductionEfficiencyRecordRepository {
@@ -55,6 +59,7 @@ export class ProductionEfficiencyRecordRepository implements IProductionEfficien
         }
       },
       include: {
+        user: true,
         productionProcess: {
           include: {
             product: true
@@ -77,7 +82,7 @@ export class ProductionEfficiencyRecordRepository implements IProductionEfficien
       }
     })
 
-    return record as ProductionEfficiencyRecord[]
+    return record as ProductionEfficiencyRecordIncludedUser[]
   }
 
   async getTotalOfLostTimeByFilters (where: ProductionEfficiencyRecordRepositoryFilters) {

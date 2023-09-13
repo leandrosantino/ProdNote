@@ -13,6 +13,7 @@ const t = initTRPC.context<Context>().create()
 
 const procedure = t.procedure.use(authenticattionMiddleware('OEE_NOTE'))
 const productionProcessRepository = new Repositories.ProductionProcess()
+const ProductionEfficiencyRecordRepository = new Repositories.ProductionEfficiencyRecord()
 const reasonsLossEfficiencyRepository = new Repositories.ReasonsLossEfficiency()
 
 const filtersSchema = z.object({
@@ -46,6 +47,15 @@ export const oeeRoutes = t.router({
     }))
     .mutation(async ({ input }) => {
       return await registerProductionEfficiency.execute(input)
+    }),
+
+  listProductionEfficiency: procedure
+    .input(filtersSchema)
+    .query(async ({ input }) => {
+      return await ProductionEfficiencyRecordRepository.findByFilters({
+        startsDate: new Date(2023, 8, 1),
+        finishDate: new Date(2023, 8, 30)
+      })
     }),
 
   claculate: procedure
