@@ -27,7 +27,7 @@ temp
 *.sw?
 
 coverage
-
+docs/instrução de trabalho
 prisma/dev.db
 prodnote@v1.0
 prodnote@app
