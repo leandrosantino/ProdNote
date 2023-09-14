@@ -296,7 +296,7 @@ export function RegisterOEE () {
               console.log(index, record.description)
               await fetch.oee.registerProductionEfficiency.mutate({
                 data: {
-                  date: convertDateStringtoDateObject(record.date),
+                  date: convertDateStringtoDateObject(record.date) as Date,
                   piecesQuantity: record.piecesQuantity,
                   productionProcessId: record.process,
                   productionTimeInMinutes: record.time,
@@ -424,7 +424,7 @@ export function RegisterOEE () {
         <Table.Body>
           {efficiencyRecords?.map((record, index) => (
             <tr key={index} >
-              <td>{convertDateStringtoDateObject(record.date).toLocaleDateString()}</td>
+              <td>{convertDateStringtoDateObject(record.date)?.toLocaleDateString()}</td>
               <td>{record.description}</td>
               <td>
                 <OeeCell

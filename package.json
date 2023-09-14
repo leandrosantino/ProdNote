@@ -14,8 +14,9 @@
     "lint-fix": "npx eslint --fix ./",
     "lint": "npx eslint ./",
     "seed": "tsx --tsconfig ./server.tsconfig.json ./seed/index.ts",
-    "start": "node dist/index",
-    "db.studio": "prisma studio"
+    "start": "node index",
+    "db.studio": "prisma studio",
+    "dist": "npm run build && npm run server.build"
   },
   "prisma": {
     "seed": "npm run seed"

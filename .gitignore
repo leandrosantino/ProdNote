@@ -30,4 +30,5 @@ coverage
 
 prisma/dev.db
 prodnote@v1.0
+prodnote@app
 /seed/src/*

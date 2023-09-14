@@ -47,7 +47,7 @@ module.exports = {
     rules: [
       {
         test: /\.(ts|tsx)$/,
-        use: { loader: 'ts-loader', options: { configFile: 'server.tsconfig.json' } },
+        use: { loader: 'ts-loader', options: { configFile: 'server-prod.tsconfig.json' } },
       },
     ],
   },
@@ -59,6 +59,6 @@ module.exports = {
   },
   output: {
     filename: '[name].js',
-    path: path.resolve(__dirname, './dist'),
+    path: path.resolve(__dirname, './prodnote@app'),
   },
 };
