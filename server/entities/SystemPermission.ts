@@ -3,7 +3,8 @@ export const systemPermissionList = [
   'READ_TAGS',
   'PLANNING',
   'CREATE_USERS',
-  'OEE_NOTE'
+  'OEE_NOTE',
+  'ROOT'
 ] as const
 
 export type SystemPermissionKeys = typeof systemPermissionList[number]
