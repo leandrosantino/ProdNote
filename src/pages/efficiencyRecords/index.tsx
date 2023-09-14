@@ -12,22 +12,27 @@ export interface DateFilters {
 }
 
 export function EfficiencyRecords () {
-  const [date, setDate] = useState<string>('')
   const [process, setProcess] = useState<string>('')
   const [ute, setUte] = useState<string>('')
   const [turn, setTurn] = useState<string>('')
+  const [date, setDate] = useState<string>('')
+  const [dateObject, setDateObject] = useState<Date>()
 
-  const { data: processesList } = trpc.oee.getProcessesList.useQuery()
   const { data: productionEfficiency } = trpc.oee.listProductionEfficiency.useQuery({
-    date: {
-      mouth: 9,
-      year: 2023
+    filters: {
+      date: dateObject,
+      process: process === '' ? undefined : process,
+      turn: turn === '' ? undefined : turn,
+      ute: ute === '' ? undefined : ute
     }
   })
 
   useEffect(() => {
-    console.log(convertDateStringtoDateObject(date), process, ute, turn)
-  }, [date, process, ute, turn])
+    setDateObject(convertDateStringtoDateObject(date))
+  }, [date])
+  useEffect(() => {
+    console.log(dateObject)
+  }, [dateObject])
 
   return (
     <Container>
@@ -38,25 +43,19 @@ export function EfficiencyRecords () {
 
         <FiltersCase>
           <Filter>
-            <label htmlFor="date">Data:</label>
+            <label htmlFor="date">Date:</label>
             <input
               type="date" id='date'
-              value={date}
               onChange={e => { setDate(e.target.value) }}
             />
           </Filter>
           <Filter>
             <label htmlFor="process">Processo:</label>
-            <select
-              id="process"
+            <input
+              id="process" type="search"
               value={process}
               onChange={e => { setProcess(e.target.value) }}
-            >
-              <option value="">------------------</option>
-              {processesList?.map(entry => (
-                <option key={entry.id} value={entry.id}>{entry.description}</option>
-              ))}
-            </select>
+            />
           </Filter>
           <Filter>
             <label htmlFor="ute">UTE:</label>

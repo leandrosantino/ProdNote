@@ -8,12 +8,12 @@ import { Repositories } from '../repositories'
 import { classificationTypesList, lossTypesList } from '../../entities/ReasonsLossEfficiency'
 import { technologyTypesList } from '../../entities/ProductionProcess'
 import { getOeeDashboardData } from '../../useCases/GetOeeDashboardData'
+import { listProductionEfficiency } from '../../useCases/ListProductionEfficiency'
 
 const t = initTRPC.context<Context>().create()
 
 const procedure = t.procedure.use(authenticattionMiddleware('OEE_NOTE'))
 const productionProcessRepository = new Repositories.ProductionProcess()
-const ProductionEfficiencyRecordRepository = new Repositories.ProductionEfficiencyRecord()
 const reasonsLossEfficiencyRepository = new Repositories.ReasonsLossEfficiency()
 
 const filtersSchema = z.object({
@@ -50,12 +50,16 @@ export const oeeRoutes = t.router({
     }),
 
   listProductionEfficiency: procedure
-    .input(filtersSchema)
-    .query(async ({ input }) => {
-      return await ProductionEfficiencyRecordRepository.findByFilters({
-        startsDate: new Date(2023, 8, 1),
-        finishDate: new Date(2023, 8, 30)
+    .input(z.object({
+      filters: z.object({
+        process: z.string().optional(),
+        ute: z.string().optional(),
+        turn: z.string().optional(),
+        date: z.coerce.date().optional()
       })
+    }))
+    .query(async ({ input }) => {
+      return await listProductionEfficiency.execute(input)
     }),
 
   claculate: procedure

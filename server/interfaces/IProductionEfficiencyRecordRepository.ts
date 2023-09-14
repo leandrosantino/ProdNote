@@ -10,6 +10,8 @@ export interface ProductionEfficiencyRecordRepositoryFilters {
   turn?: string
   technology?: ProductionProcess['technology']
   classification?: ReasonsLossEfficiency['classification']
+  ute?: string
+  process?: string
 }
 
 export interface ProductionEfficiencyRecordIncludedUser extends ProductionEfficiencyRecord {
@@ -26,10 +28,7 @@ export interface IProductionEfficiencyRecordRepository {
     ProductionEfficiencyLoss, 'id' | 'reasonsLossEfficiency' | 'machine'
     >>
   ) => Promise<ProductionEfficiencyRecord>
-  findByFilters: (
-    where: ProductionEfficiencyRecordRepositoryFilters
-  ) => Promise<ProductionEfficiencyRecordIncludedUser[]>
-
+  findByFilters: (where: ProductionEfficiencyRecordRepositoryFilters) => Promise<ProductionEfficiencyRecordIncludedUser[]>
   getTotalOfLostTimeByFilters: (where: ProductionEfficiencyRecordRepositoryFilters) => Promise<number | null>
   getTotalOfProductionTimeByFilters: (where: ProductionEfficiencyRecordRepositoryFilters) => Promise<number | null>
   getSumOfProductionTimeAndUsefulTimeGroupedByDate: (where: ProductionEfficiencyRecordRepositoryFilters) => Promise<Array<{

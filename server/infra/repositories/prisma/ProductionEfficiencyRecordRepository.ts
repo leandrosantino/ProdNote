@@ -49,13 +49,16 @@ export class ProductionEfficiencyRecordRepository implements IProductionEfficien
         return record as ProductionEfficiencyRecord
       }
 
-  async findByFilters ({ finishDate, startsDate, technology, turn }: ProductionEfficiencyRecordRepositoryFilters) {
+  async findByFilters ({ finishDate, startsDate, turn, process, ute }: ProductionEfficiencyRecordRepositoryFilters) {
     const record = await prisma.productionEfficiencyRecord.findMany({
       where: {
-        AND: {
-          turn,
-          date: { gte: startsDate, lte: finishDate },
-          productionProcess: { technology }
+        turn,
+        date: { gte: startsDate?.toISOString(), lte: finishDate?.toISOString() },
+        ute,
+        productionProcess: {
+          description: {
+            contains: process
+          }
         }
       },
       include: {

@@ -25,6 +25,11 @@ export const FiltersCase = styled.form`
   display: flex;
   gap: .8rem;
 
+
+  &>div:nth-child(2){
+    input{width: 25rem;}
+  }
+
   &>div{
     select{width: fit-content;}
   }
