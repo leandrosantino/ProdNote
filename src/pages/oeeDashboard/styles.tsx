@@ -5,7 +5,7 @@ export const Container = styled.div`
   height: 100%;
   display: grid;
   gap: 1.2rem;
-  grid-template-rows: 3.5rem auto;
+  grid-template-rows: 4.1rem auto;
   grid-template-columns: 1fr;
   grid-template-areas:
     "head"
@@ -33,6 +33,7 @@ export const Header = styled.header`
 
   &>div{
     width: 33.33%;
+    /* background-color: red; */
     display: flex;
     justify-content: center;
     align-items: center;
@@ -91,8 +92,8 @@ export const ChartsArea = styled.div`
 
   display: grid;
   gap: 1.6rem;
-  grid-template-rows: .6fr .4fr;
-  grid-template-columns: .4fr .6fr;
+  grid-template-columns: .33fr auto;
+  grid-template-rows: .55fr auto;
   grid-template-areas:
     "chart1 chart2"
     "chart3 chart3";
@@ -115,7 +116,13 @@ export const Chart = styled.div<{ loading?: boolean }>`
     outline: none;
   }
   div#chatTurn{
-    height: 98%;
+    height: fit-content ;
+    justify-content: center;
+  }
+
+  div#chatClass{
+    height: fit-content ;
+    justify-content: center;
   }
 
   &>div:last-child{
@@ -141,4 +148,59 @@ export const Chart = styled.div<{ loading?: boolean }>`
     }
   }
 
+`
+export const SelectFiltersContent = styled.div`
+  box-shadow: var(--shadown);
+  width: 100%;
+  max-width: 60rem;
+  height: fit-content;
+  background-color: white;
+  border-radius: 1.2rem;
+  padding: 1.2rem;
+  position: absolute;
+  inset: 0;
+  margin: auto;
+  top: -20rem;
+  display: flex;
+  flex-direction: column;
+
+  form {
+    &>div{
+      width: 100%;
+      display: flex;
+      gap: .8rem;
+      div{
+        flex: 1;
+      }
+    }
+    select{
+      option{
+        font-seize: 1.2rem;
+      }
+    }
+  }
+
+  div{
+    width: 100%;
+    display: flex;
+    justify-content: end;
+    button{
+      width: 16rem;
+    }
+  }
+
+  @media (min-width:1000px){
+    left: 25.6rem
+  }
+
+  h1{
+    font-size: 2rem;
+    margin-bottom: auto.4rem;
+  }
+
+  z-index: 200;
+  @media (max-width: 560px) {
+    height: fit-content;
+    z-index: 210;
+  }
 `

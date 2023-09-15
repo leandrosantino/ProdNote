@@ -1,56 +1,68 @@
-import { useEffect, useState } from 'react'
+import { useState } from 'react'
 import { ClassChart } from './ClassChart'
 import { DailyChart } from './DailyChart'
 import { TrunChart } from './TurnChart'
-import { ChartsArea, Container, Filter, FiltersCase, Header, OeeValueCase } from './styles'
+import { ChartsArea, Container, FiltersCase, Header, OeeValueCase } from './styles'
 import { trpc } from '../../utils/api'
+import { Button } from '../../components/Form/Button'
+import { FilterIcon } from 'lucide-react'
+import { useDialog } from '../../hooks/useDialog'
+import { SelectFilters } from './SelectFilters'
 
 export interface Filters {
   day?: number
   mouth: number
   year: number
+  process?: string
+  turn?: string
+  ute?: string
 }
+
+const MONTH_NAMES = [
+  'jan',
+  'fev',
+  'mar',
+  'abr',
+  'mai',
+  'jun',
+  'jul',
+  'ago',
+  'set',
+  'out',
+  'nov',
+  'dez'
+]
 
 export function OeeDashboard () {
   const now = new Date()
-  const [day, setDay] = useState<number>(0)
-  const [month, setMonth] = useState<number>(now.getMonth() + 1)
-  const [year, setYear] = useState<number>(now.getFullYear())
-  const [monthFinishDay, setMonthFinishDay] = useState<number>()
-  const [inputMonth, setInputMonth] = useState<string>(
-    `${year}-${month.toString().padStart(2, '0')}`
-  )
 
   const [filters, setFilters] = useState<Filters>({
-    mouth: month,
-    year,
-    day
+    mouth: now.getMonth() + 1,
+    year: now.getFullYear()
   })
 
-  useEffect(() => {
-    setFilters({
-      day: day === 0 ? undefined : day,
-      mouth: month,
-      year
-    })
-  }, [day, month, year])
-
-  useEffect(() => {
-    const mouthIndex = month - 1
-    setMonthFinishDay(new Date(year, mouthIndex + 1, 0).getDate())
-  }, [year, month])
-
-  useEffect(() => {
-    try {
-      const [year, month] = inputMonth.split('-').map(entry => Number(entry))
-      setMonth(month)
-      setYear(year)
-    } catch {}
-  }, [inputMonth])
+  const dialog = useDialog()
 
   const { data, isLoading } = trpc.oee.getGeneralOeeValue.useQuery({
-    date: filters
+    date: {
+      day: filters.day,
+      mouth: filters.mouth,
+      year: filters.year
+    },
+    process: filters.process,
+    turn: filters.turn,
+    ute: filters.ute
   })
+
+  function handleSelectFilters () {
+    dialog.custom({
+      Child: SelectFilters,
+      params: filters,
+      accept (data: Filters) {
+        setFilters(data)
+      }
+    })
+  }
 
   console.log(data?.oeeValue)
 
@@ -61,12 +73,28 @@ export function OeeDashboard () {
         <h2>Eficiencia de Produção</h2>
         <div>
           <OeeValueCase>
-            <span>OEE do {day === 0 ? 'Mês' : 'Dia'}</span>
-            <span>{isLoading ? '00.0%' : (`${data?.oeeValue as number}%` ?? '00.0%')}</span>
+            <span>OEE do {filters.day === 0 ? 'Mês' : 'Dia'}</span>
+            <span>{isLoading ? '00.0%' : (`${data?.oeeValue ?? '0.00'}%` ?? '00.0%')}</span>
           </OeeValueCase>
         </div>
         <FiltersCase>
-          <Filter>
+          <div>
+            <p style={{ fontSize: '1.2rem' }} >
+              {filters.day ? `${filters.day.toString().padStart(2, '0')} de ` : ''}
+              {MONTH_NAMES[filters.mouth - 1]} de {filters.year}
+              {filters.turn ? ` , ${filters.turn}º Turno` : ''}
+              {filters.ute ? ` , ${filters.ute}` : ''}
+            </p>
+            <p style={{ fontSize: '1.2rem' }} >Cargo Load 521 - (M24, M26, M27)</p>
+
+          </div>
+          <Button
+            onClick={() => { handleSelectFilters() }}
+          >
+            <FilterIcon size={15}/>
+            Filtrar
+          </Button>
+          {/* <Filter>
             <label htmlFor="day">Dia:</label>
             <select id='day'
               value={day}
@@ -85,30 +113,30 @@ export function OeeDashboard () {
               value={inputMonth}
               onChange={e => { setInputMonth(e.target.value) }}
             />
-            {/* <select id='mouth' >
-              <option value="1">Jan</option>
-              <option value="2">Fev</option>
-              <option value="3">Mar</option>
-              <option value="4">Abr</option>
-              <option value="5">Mai</option>
-              <option value="6">Jun</option>
-              <option value="7">Jul</option>
-              <option value="8">Ago</option>
-              <option value="9">Set</option>
-              <option value="10">Out</option>
-              <option value="11">Nov</option>
-              <option value="12">Dez</option>
-            </select> */}
           </Filter>
-          {/* <Filter>
-            <label htmlFor="year">Ano:</label>
-            <input
-              type="number"
-              id='year' min={2023}
-              value={year}
-              onChange={e => { setYear(Number(e.target.value)) }}
-            />
-
+          <Filter>
+            <label htmlFor="trun">Truno:</label>
+            <select id='turn'
+              value={turn}
+              onChange={(e) => { setTurn(e.target.value) }}
+            >
+              <option value=""> --- </option>
+              <option value="1">1º</option>
+              <option value="2">2º</option>
+              <option value="3">3º</option>
+            </select>
+          </Filter>
+          <Filter>
+            <label htmlFor="tech">Tec:</label>
+            <select id='tech'
+              value={technology}
+              onChange={(e) => { setTechnology(e.target.value) }}
+            >
+              <option value=""> ------- </option>
+              {technologyTypesList.map(entry => (
+                <option key={entry} value={entry}>{entry}</option>
+              ))}
+            </select>
           </Filter> */}
         </FiltersCase>
       </Header>

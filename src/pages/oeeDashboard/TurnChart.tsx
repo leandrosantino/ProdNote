@@ -1,4 +1,4 @@
-import { PieChart, Pie, Tooltip, ResponsiveContainer, Cell, Legend } from 'recharts'
+import { PieChart, Pie, Tooltip, Cell, Legend } from 'recharts'
 import { Chart } from './styles'
 import { useTheme } from 'styled-components'
 import { trpc } from '../../utils/api'
@@ -55,23 +55,22 @@ export function TrunChart ({ filters }: { filters: Filters }) {
         <h3>Perdas por Turno</h3>
       </div>
       <div id='chatTurn' >
-        <ResponsiveContainer width="100%" height="100%">
-          <PieChart>
+          <PieChart width={340} height={250} >
           <Pie
               data={data?.map(({ turn, value }) => ({ name: `${turn}º turno`, value }))}
               isAnimationActive={true}
               labelLine={false}
               label={renderCustomizedLabel}
               dataKey="value"
+              outerRadius={'90%'}
             >
               {data?.map((_, index) => (
                 <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
               ))}
             </Pie>
             <Tooltip />
-            <Legend layout='vertical' align='right' verticalAlign='middle'/>
+            <Legend margin={{ left: 50 }} layout='vertical' align='right' verticalAlign='middle'/>
           </PieChart>
-        </ResponsiveContainer>
       </div>
     </Chart>
   )

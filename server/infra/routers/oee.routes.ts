@@ -19,6 +19,8 @@ const reasonsLossEfficiencyRepository = new Repositories.ReasonsLossEfficiency()
 const filtersSchema = z.object({
   technology: z.enum(technologyTypesList).optional(),
   classification: z.enum(classificationTypesList).optional(),
+  process: z.string().optional(),
+  ute: z.string().optional(),
   turn: z.string().optional(),
   date: z.object({
     day: z.number().optional(),

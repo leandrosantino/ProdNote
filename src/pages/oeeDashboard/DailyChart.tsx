@@ -1,5 +1,5 @@
 import { blueDark, grayDark } from '@radix-ui/colors'
-import { ResponsiveContainer, Tooltip, XAxis, YAxis, Line, LineChart } from 'recharts'
+import { Tooltip, XAxis, YAxis, Line, LineChart } from 'recharts'
 import { Chart } from './styles'
 import { trpc } from '../../utils/api'
 import { type Filters } from '.'
@@ -25,12 +25,12 @@ export function DailyChart ({ filters: { mouth, year } }: { filters: Filters }) 
 
     </div>
     <div>
-      <ResponsiveContainer width="100%" height="100%">
         <LineChart
           data={data}
           margin={{
             top: 18
           }}
+          width={950} height={186}
         >
           <XAxis dataKey="day" fontSize={12} fontWeight={500} color={grayDark.gray5}/>
           <YAxis fontSize={10} width={30} type='number' tickFormatter={(value: number) => `${value}%`}/>
@@ -40,7 +40,6 @@ export function DailyChart ({ filters: { mouth, year } }: { filters: Filters }) 
           />
           <Line type="bump" dataKey="value" fill={blueDark.blue7}/>
         </LineChart>
-      </ResponsiveContainer>
     </div>
   </Chart>
   )

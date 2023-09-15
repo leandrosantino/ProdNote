@@ -59,6 +59,7 @@ export function DialogProvider ({ children }: { children: ReactNode }) {
   }, [pathname])
 
   function alert ({ message, title, error }: AlertProps) {
+    setAsChild(false)
     setShow(true)
     setIsPrompt(false)
     setDialogProps({
@@ -70,6 +71,7 @@ export function DialogProvider ({ children }: { children: ReactNode }) {
   }
 
   function question ({ message, title, accept, refuse }: QuestionProps) {
+    setAsChild(false)
     setShow(true)
     setIsPrompt(false)
     setDialogProps({
@@ -83,6 +85,7 @@ export function DialogProvider ({ children }: { children: ReactNode }) {
   }
 
   function prompt ({ message, refuse, title, type, accept }: PromptProps) {
+    setAsChild(false)
     setShow(true)
     setIsPrompt(true)
     setDialogProps({
