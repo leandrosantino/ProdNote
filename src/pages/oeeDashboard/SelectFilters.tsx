@@ -34,11 +34,12 @@ export function SelectFilters ({ params, ...props }: SelectFiltersProps) {
     getValues
   } = filtersForm
 
-  const { data: processes } = trpc.oee.getProcessesList.useQuery()
+  const { data: processes } = trpc.oee.getProcessesList.useQuery({
+    ute: watch().ute === '' ? undefined : watch().ute
+  })
 
   useEffect(() => {
     if (params) {
-      setValue('day', params.day ?? 0)
       setValue('month', yearAndMonthToInputMonth(params.year, params.mouth ?? ''))
       setValue('process', params.processId ?? '')
       setValue('turn', params.turn ?? '')

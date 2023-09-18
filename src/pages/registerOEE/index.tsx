@@ -63,10 +63,13 @@ export function RegisterOEE () {
 
   const {
     handleSubmit,
-    setValue
+    setValue,
+    watch
   } = registerOEEForm
 
-  const processes = trpc.oee.getProcessesList.useQuery()
+  const processes = trpc.oee.getProcessesList.useQuery({
+    ute: watch().ute === '' ? undefined : watch().ute
+  })
 
   const [isEditing, setIsEditing] = useState<boolean>(false)
   const [editingIndex, setEditingIndex] = useState<number>(0)
