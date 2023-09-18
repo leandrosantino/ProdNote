@@ -4,6 +4,7 @@ export const systemPermissionList = [
   'PLANNING',
   'CREATE_USERS',
   'OEE_NOTE',
+  'OEE_ADMIN',
   'ROOT'
 ] as const
 
