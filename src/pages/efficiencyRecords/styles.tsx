@@ -54,15 +54,18 @@ export const DataTable = styled(Table.Root)`
         width: 7%;
       }
       td:nth-child(4), th:nth-child(4){
-        width: 8%;
+        width: 7%;
       }
       td:nth-child(5), th:nth-child(5){
-        width: 10%;
+        width: 8%;
       }
       td:nth-child(6), th:nth-child(6){
         width: 10%;
       }
       td:nth-child(7), th:nth-child(7){
+        width: 10%;
+      }
+      td:nth-child(8), th:nth-child(8){
         width: 15%;
       }
     }

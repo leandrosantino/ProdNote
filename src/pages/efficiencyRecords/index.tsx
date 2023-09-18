@@ -92,6 +92,7 @@ export function EfficiencyRecords () {
             <th>Data</th>
             <th>Processo</th>
             <th>UTE</th>
+            <th>Turno</th>
             <th>OEE</th>
             <th>Tempo Plan. (min)</th>
             <th>Peças Boas (qtd)</th>
@@ -105,6 +106,7 @@ export function EfficiencyRecords () {
                 <td>{new Date(entry.date).toLocaleDateString()}</td>
                 <td>{entry.productionProcess.description}</td>
                 <td>{entry.ute}</td>
+                <td>{entry.turn}º</td>
                 <td>{(entry.oeeValue * 100).toFixed(1)}%</td>
                 <td>{entry.productionTimeInMinutes}</td>
                 <td>{entry.piecesQuantity}</td>

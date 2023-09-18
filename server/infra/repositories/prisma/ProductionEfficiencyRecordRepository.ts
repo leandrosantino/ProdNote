@@ -61,6 +61,9 @@ export class ProductionEfficiencyRecordRepository implements IProductionEfficien
           }
         }
       },
+      orderBy: {
+        date: 'desc'
+      },
       include: {
         user: true,
         productionProcess: {
