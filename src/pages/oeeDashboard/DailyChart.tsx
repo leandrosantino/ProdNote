@@ -5,9 +5,12 @@ import { trpc } from '../../utils/api'
 import { type Filters } from '.'
 import { Loading } from '../../components/Loading'
 
-export function DailyChart ({ filters: { mouth, year } }: { filters: Filters }) {
+export function DailyChart ({ filters: { mouth, year, ...filters } }: { filters: Filters }) {
   const { data, isLoading } = trpc.oee.getDailyChartData.useQuery({
-    date: { mouth, year }
+    date: { mouth, year },
+    process: filters.processId,
+    turn: filters.turn,
+    ute: filters.ute
   })
 
   if (isLoading) {
@@ -24,7 +27,7 @@ export function DailyChart ({ filters: { mouth, year } }: { filters: Filters }) 
       <h3>OEE por Dia</h3>
 
     </div>
-    <div>
+    <div id='chartDaily' >
         <LineChart
           data={data}
           margin={{

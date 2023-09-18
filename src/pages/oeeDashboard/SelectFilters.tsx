@@ -38,10 +38,9 @@ export function SelectFilters ({ params, ...props }: SelectFiltersProps) {
 
   useEffect(() => {
     if (params) {
-      console.log(params.day)
       setValue('day', params.day ?? 0)
       setValue('month', yearAndMonthToInputMonth(params.year, params.mouth ?? ''))
-      setValue('process', params.process ?? '')
+      setValue('process', params.processId ?? '')
       setValue('turn', params.turn ?? '')
       setValue('ute', params.ute ?? '')
     }
@@ -81,10 +80,11 @@ export function SelectFilters ({ params, ...props }: SelectFiltersProps) {
           year,
           mouth: month,
           day: data.day,
-          process: data.process === '' ? undefined : data.process,
+          processId: data.process === '' ? undefined : data.process,
           turn: data.turn === '' ? undefined : data.turn,
-          ute: data.ute === '' ? undefined : data.ute
-        })
+          ute: data.ute === '' ? undefined : data.ute,
+          processDescription: processes?.find(entry => entry.id === data.process)?.description
+        } as Filters)
         props.finally()
       }
     }

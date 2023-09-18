@@ -26,7 +26,14 @@ export function ClassChart ({ filters }: { filters: Filters }) {
   ]
 
   const { data, isLoading, refetch, remove } = trpc.oee.getClassChartData.useQuery({
-    date: filters
+    date: {
+      day: filters.day,
+      mouth: filters.mouth,
+      year: filters.year
+    },
+    process: filters.processId,
+    turn: filters.turn,
+    ute: filters.ute
   })
 
   const chartData = data?.map(({ classification, value }, index) => {
@@ -36,7 +43,6 @@ export function ClassChart ({ filters }: { filters: Filters }) {
   useEffect(() => {
     remove()
     refetch().catch(console.log)
-    console.log(chartData)
   }, [filters])
 
   if (isLoading) {

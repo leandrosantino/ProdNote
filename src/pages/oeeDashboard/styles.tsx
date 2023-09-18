@@ -3,7 +3,20 @@ import styled from 'styled-components'
 export const Container = styled.div`
   width: 100%;
   height: 100%;
+  display: flex;
+  justify-content: center;
+
+
+`
+
+export const Content = styled.div`
+  width: 100%;
+  height: 100%;
+  max-width: 1038px;
+  max-height: 625px;
   display: grid;
+  justify-content: center;
+  align-items: center;
   gap: 1.2rem;
   grid-template-rows: 4.1rem auto;
   grid-template-columns: 1fr;
@@ -17,7 +30,6 @@ export const Container = styled.div`
   &>div{
     grid-area: content;
   }
-
 `
 
 export const Header = styled.header`
@@ -68,6 +80,16 @@ export const FiltersCase = styled.div`
   display: flex;
   justify-content: end !important;
   gap: .4rem;
+
+  div{
+    margin-right: .8rem;
+    p{
+      font-weight: 500;
+      font-size: 1.2rem;
+      text-align: end;
+    }
+  }
+
 `
 
 export const Filter = styled.div`
@@ -89,11 +111,11 @@ export const Filter = styled.div`
   }
 `
 export const ChartsArea = styled.div`
-
+  height: 100%;
   display: grid;
   gap: 1.6rem;
-  grid-template-columns: .33fr auto;
-  grid-template-rows: .55fr auto;
+  grid-template-columns: .4fr .6fr;
+  grid-template-rows: .6fr .4fr;
   grid-template-areas:
     "chart1 chart2"
     "chart3 chart3";
@@ -121,6 +143,11 @@ export const Chart = styled.div<{ loading?: boolean }>`
   }
 
   div#chatClass{
+    height: fit-content ;
+    justify-content: center;
+  }
+
+  div#chartDaily{
     height: fit-content ;
     justify-content: center;
   }
@@ -175,7 +202,7 @@ export const SelectFiltersContent = styled.div`
     }
     select{
       option{
-        font-seize: 1.2rem;
+        font-size: 1.2rem;
       }
     }
   }

@@ -39,7 +39,15 @@ export function TrunChart ({ filters }: { filters: Filters }) {
   const { colors } = useTheme()
   const COLORS = [colors.dark.blue7, colors.dark.green9, colors.dark.gray9]
 
-  const { data, isLoading } = trpc.oee.getTurnChartDate.useQuery({ date: filters })
+  const { data, isLoading } = trpc.oee.getTurnChartDate.useQuery({
+    date: {
+      day: filters.day,
+      mouth: filters.mouth,
+      year: filters.year
+    },
+    process: filters.processId,
+    ute: filters.ute
+  })
 
   if (isLoading) {
     return (
