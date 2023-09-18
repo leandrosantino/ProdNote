@@ -26,8 +26,12 @@ export class ProductionProcessRepository implements IProductionProcessRepository
     return null
   }
 
-  async findMany () {
-    const process = await prisma.productionProcess.findMany()
+  async findManyByFilters (filters: { ute?: string }) {
+    const process = await prisma.productionProcess.findMany({
+      where: {
+        ...filters
+      }
+    })
     return process as ProductionProcess[]
   }
 

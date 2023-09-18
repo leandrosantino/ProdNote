@@ -96,8 +96,12 @@ export class ProductionEfficiencyRecordRepository implements IProductionEfficien
         },
         productionEfficiencyRecord: {
           AND: {
+            date: { gte: where.startsDate?.toISOString(), lte: where.finishDate?.toISOString() },
+            productionProcess: {
+              id: where.process
+            },
             turn: where.turn,
-            date: { gte: where.startsDate?.toISOString(), lte: where.finishDate?.toISOString() }
+            ute: where.ute
           }
         }
       },
@@ -109,13 +113,17 @@ export class ProductionEfficiencyRecordRepository implements IProductionEfficien
     return lostTimeInMinutes
   }
 
-  async getTotalOfProductionTimeByFilters ({ finishDate, startsDate, technology, turn }: ProductionEfficiencyRecordRepositoryFilters) {
+  async getTotalOfProductionTimeByFilters ({ finishDate, startsDate, technology, turn, ...where }: ProductionEfficiencyRecordRepositoryFilters) {
     const { _sum: { productionTimeInMinutes } } = await prisma.productionEfficiencyRecord.aggregate({
       where: {
         AND: {
           turn,
           date: { gte: startsDate?.toISOString(), lte: finishDate?.toISOString() },
-          productionProcess: { technology }
+          productionProcess: {
+            technology,
+            id: where.process
+          },
+          ute: where.ute
         }
       },
       _sum: {
@@ -132,7 +140,11 @@ export class ProductionEfficiencyRecordRepository implements IProductionEfficien
         AND: {
           turn: where.turn,
           date: { gte: where.startsDate, lte: where.finishDate },
-          productionProcess: { technology: where.technology }
+          productionProcess: {
+            technology: where.technology,
+            id: where.process
+          },
+          ute: where.ute
         }
       },
       by: ['date'],
@@ -155,7 +167,11 @@ export class ProductionEfficiencyRecordRepository implements IProductionEfficien
         AND: {
           turn: where.turn,
           date: { gte: where.startsDate, lte: where.finishDate },
-          productionProcess: { technology: where.technology }
+          productionProcess: {
+            technology: where.technology,
+            id: where.process
+          },
+          ute: where.ute
         }
       },
       _sum: {

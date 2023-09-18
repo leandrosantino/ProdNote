@@ -16,14 +16,18 @@ export class GetOeeDashboardData {
     const dateFilters = this.getStartsAndfinishDateByFilters(filters.date)
 
     const totalOfProductionTime = await this.productionEfficiencyRecordRepository.getTotalOfLostTimeByFilters({
-      ...dateFilters
+      ...dateFilters,
+      process: filters.process,
+      ute: filters.ute
     })
 
     if (totalOfProductionTime) {
       for (const item of data) {
         const totalOfLostTime = await this.productionEfficiencyRecordRepository.getTotalOfLostTimeByFilters({
           ...dateFilters,
-          turn: item.turn
+          turn: item.turn,
+          process: filters.process,
+          ute: filters.ute
         })
         if (totalOfLostTime) {
           item.value = Number(
@@ -54,7 +58,9 @@ export class GetOeeDashboardData {
     const totalOfProductionTime = await this.productionEfficiencyRecordRepository.getTotalOfProductionTimeByFilters({
       ...dateFilters,
       turn: filters.turn,
-      technology: filters.technology
+      technology: filters.technology,
+      process: filters.process,
+      ute: filters.ute
     })
 
     if (totalOfProductionTime) {
@@ -63,7 +69,9 @@ export class GetOeeDashboardData {
           ...dateFilters,
           classification: item.classification,
           turn: filters.turn,
-          technology: filters.technology
+          technology: filters.technology,
+          process: filters.process,
+          ute: filters.ute
         })
         if (totalOfLostTime) {
           item.value = Number(((totalOfLostTime / totalOfProductionTime) * 100).toFixed(1))

@@ -88,8 +88,11 @@ export const oeeRoutes = t.router({
     }),
 
   getProcessesList: procedure
-    .query(async () => {
-      return await productionProcessRepository.findMany()
+    .input(z.object({
+      ute: z.string().optional()
+    }))
+    .query(async ({ input }) => {
+      return await productionProcessRepository.findManyByFilters(input)
     }),
 
   getReasonsLossList: procedure
