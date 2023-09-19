@@ -1,3 +1,4 @@
+import { Table } from '../../components/Table'
 import styled from 'styled-components'
 
 export const Container = styled.div`
@@ -10,6 +11,7 @@ export const Container = styled.div`
     width: 100%;
     height: 100%;
     max-width: 500px;
+    padding: .8rem;
 
     form{
       margin-top: 1.2rem;
@@ -21,8 +23,102 @@ export const Container = styled.div`
 `
 
 export const FieldCase = styled.div`
-
   display: flex;
-  gap: .8rem;;
+  gap: .8rem;
+  width: 100%;
+  height: fit-content;
+  justify-content: center;
+  align-items: start;
+  &>div{
+    width: fit-content;
+    input, select{
+      width: 100%;
+    }
+  }
+
+  #fieldProduct{
+    width: 100%;
+    select, input{
+      width: 100%;
+    }
+  }
+
+  #fieldTechnology{
+    width: 50%;
+    select, input{
+      width: 100%;
+    }
+  }
+
+  #teste{
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: end;
+    width: 100%;
+    height: 139px;
+    div{
+      width: 100%;
+    }
+    select, input{
+      width: 100%;
+    }
+
+
+    #buttons{
+      display: flex;
+      justify-content: end;
+      gap: .8rem;
+      button{
+        padding: .8rem 1.2rem;
+      }
+      button:first-child{
+        background-color: transparent;
+        color: ${p => p.theme.colors.light.red11};
+        font-size: 1.4rem;
+
+        &:hover{
+          background-color: ${p => p.theme.colors.light.red4};
+        }
+
+      }
+    }
+
+  }
+
+  #machinesList{
+    padding: .4rem .8rem;
+    font-size: 1.2rem;
+  }
+
+  #teste:last-child{
+    padding-bottom: 2rem;
+  }
+
+  &>div:nth-child(1){
+    select, input{width: 10rem;}
+  }
+  &>div:nth-child(2){
+    select, input{width: 10rem;}
+  }
+
+`
+
+export const ProcessesTable = styled(Table.Root)`
+
+  td:first-child, th:first-child{
+   width: 70%;
+   justify-content: start;
+  }
+  td:last-child, th:last-child{
+   width: 10%;
+   button{
+    color: ${p => p.theme.colors.light.blue11};
+    &:hover{
+      background-color: ${p => p.theme.colors.light.blue4};
+    }
+   }
+  }
+
 
 `
