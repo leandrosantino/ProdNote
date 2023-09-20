@@ -83,8 +83,6 @@ export class GetOeeDashboardData {
 
     data = this.orderArrayOfObjects<typeof data[number]>(data, 'value', 'desc')
 
-    console.table(data)
-
     return data
   }
 
@@ -118,8 +116,6 @@ export class GetOeeDashboardData {
         })
       })
     }
-
-    console.table(lossReasonsParsed)
 
     return lossReasonsParsed
   }

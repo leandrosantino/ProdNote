@@ -145,18 +145,28 @@ export class ProductionEfficiencyRecordRepository implements IProductionEfficien
 
     const efficiencyLoss = []
     let index = 1
-    for (const item of data) {
-      const reason = await prisma.reasonsLossEfficiency.findUnique({
-        where: { id: item.reasonsLossEfficiencyId as string }
-      })
-      if (reason) {
-        efficiencyLoss.push({
-          index,
-          reason: reason.description,
-          lostTimeInMinutes: item._sum.lostTimeInMinutes as number
+    for (let i = 0; i <= 9; i++) {
+      const item = data[i]
+      if (item) {
+        const reason = await prisma.reasonsLossEfficiency.findUnique({
+          where: { id: item.reasonsLossEfficiencyId as string }
         })
-        index++
+        if (reason) {
+          efficiencyLoss.push({
+            index,
+            reason: reason.description,
+            lostTimeInMinutes: item._sum.lostTimeInMinutes as number
+          })
+          index++
+          continue
+        }
       }
+      efficiencyLoss.push({
+        index,
+        reason: '',
+        lostTimeInMinutes: 0
+      })
+      index++
     }
 
     return efficiencyLoss

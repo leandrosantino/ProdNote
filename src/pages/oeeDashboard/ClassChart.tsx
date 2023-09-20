@@ -138,11 +138,8 @@ export function ClassChart ({ filters }: { filters: Filters }) {
                       fontSize: 14,
                       formatter: (value: number) => value === 0 ? '' : `${value.toFixed(1)}%`
                     }}
-                  >
-                    {chartData?.map((_, index) => (
-                      <Cell key={`cell-${index}`} fill={COLORS[index % 20]} />
-                    ))}
-                  </Bar>
+                    fill={COLORS[2]}
+                  />
                 </BarChart>
               </>
           }
