@@ -3,8 +3,9 @@ import { BarChart, Bar, Cell, XAxis, Tooltip } from 'recharts'
 import { greenDark, grayDark } from '@radix-ui/colors'
 import { trpc } from '../../utils/api'
 import { type Filters } from '.'
-import { useEffect } from 'react'
+import { useEffect, useState } from 'react'
 import { Loading } from '../../components/Loading'
+import { ArrowLeft } from 'lucide-react'
 
 const reducedNames = {
   Breakdowns: 'BD',
@@ -36,18 +37,33 @@ export function ClassChart ({ filters }: { filters: Filters }) {
     ute: filters.ute
   })
 
-  const chartData = data?.map(({ classification, value }) => {
-    return { name: reducedNames[classification as (keyof typeof reducedNames)], classification, value }
+  const chartData = data?.map(({ classification, value, percent }) => {
+    return { name: reducedNames[classification as (keyof typeof reducedNames)], classification, value, percent }
+  })
+
+  const [selectedClassification, setSelectedClassification] = useState<(keyof typeof reducedNames)>()
+
+  const reasonsChartData = trpc.oee.getLossReasonsChartData.useQuery({
+    date: {
+      day: filters.day,
+      mouth: filters.mouth,
+      year: filters.year
+    },
+    process: filters.processId,
+    turn: filters.turn,
+    ute: filters.ute,
+    classification: selectedClassification
   })
 
   useEffect(() => {
     remove()
     refetch().catch(console.log)
+    setSelectedClassification(undefined)
   }, [filters])
 
   if (isLoading) {
     return (
-      <Chart loading={true} >
+      <Chart>
         <Loading show={true} message='Carregndo Gráfico...'/>
       </Chart>
     )
@@ -56,32 +72,80 @@ export function ClassChart ({ filters }: { filters: Filters }) {
   return (
     <Chart>
       <div>
-        <h3>Perdas por Classificação</h3>
+        <h3>{selectedClassification ? `Top 10 perdas em- ${selectedClassification}` : 'Perdas por Classificação'}</h3>
       </div>
       <div id='chatClass'>
-          <BarChart
-            width={560} height={250}
-            margin={{
-              top: 15
-            }}
-            data={chartData}
-          >
-            <XAxis dataKey="name" fontSize={12} fontWeight={500} color={grayDark.gray5}/>
-            <Tooltip
-              labelFormatter={(name) => chartData?.find(entry => entry.name === name)?.classification}
-              separator=''
-              formatter={(value) => [Number(value).toFixed(1) + '%', '']}
-            />
-            <Bar dataKey="value" label={{
-              position: 'top',
-              fontSize: 14,
-              formatter: (value: number) => value === 0 ? '' : `${value.toFixed(1)}%`
-            }} >
-              {chartData?.map((_, index) => (
-                <Cell key={`cell-${index}`} fill={COLORS[index]} />
-              ))}
-            </Bar>
-          </BarChart>
+        {
+          !selectedClassification
+            ? <BarChart
+              width={560} height={250}
+              margin={{
+                top: 15
+              }}
+              data={chartData}
+            >
+              <XAxis dataKey="name" fontSize={12} fontWeight={500} color={grayDark.gray5}/>
+              <Tooltip
+                labelFormatter={(name) => chartData?.find(entry => entry.name === name)?.classification}
+                separator=''
+                formatter={(...params) => {
+                  const { payload } = params[2]
+                  return [`${Number(payload.percent).toFixed(1)}% - ${Number(payload.value)}hrs`, '']
+                }}
+              />
+              <Bar
+                dataKey="percent"
+                label={{
+                  position: 'top',
+                  fontSize: 14,
+                  formatter: (value: number) => value === 0 ? '' : `${value.toFixed(1)}%`
+                }}
+                onClick={data => { setSelectedClassification(data.classification) }}
+              >
+                {chartData?.map((_, index) => (
+                  <Cell key={`cell-${index}`} fill={COLORS[index % 20]} />
+                ))}
+              </Bar>
+            </BarChart>
+            : reasonsChartData.isLoading
+              ? <Loading show={true} message='Carregndo Gráfico...'/>
+              : <>
+                <button
+                  onClick={() => { setSelectedClassification(undefined) }}
+                >
+                  <ArrowLeft size={15} strokeWidth={3} /> Voltar
+                </button>
+                <BarChart
+                  width={560} height={250}
+                  margin={{
+                    top: 15
+                  }}
+                  data={reasonsChartData.data}
+                >
+                  <XAxis dataKey="index" fontSize={12} fontWeight={500} color={grayDark.gray5}/>
+                  <Tooltip
+                    labelFormatter={(name) => reasonsChartData.data?.find(entry => entry.index === name)?.reason}
+                    separator=''
+                    formatter={(...params) => {
+                      const { payload } = params[2]
+                      return [`${Number(payload.lostTimeInPercent).toFixed(1)}% - ${Number(payload.lostTimeInHours)}hrs`, '']
+                    }}
+                  />
+                  <Bar
+                    dataKey="lostTimeInPercent"
+                    label={{
+                      position: 'top',
+                      fontSize: 14,
+                      formatter: (value: number) => value === 0 ? '' : `${value.toFixed(1)}%`
+                    }}
+                  >
+                    {chartData?.map((_, index) => (
+                      <Cell key={`cell-${index}`} fill={COLORS[index % 20]} />
+                    ))}
+                  </Bar>
+                </BarChart>
+              </>
+          }
       </div>
     </Chart>
   )

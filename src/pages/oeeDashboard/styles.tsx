@@ -134,6 +134,29 @@ export const Chart = styled.div<{ loading?: boolean }>`
   justify-content: s${p => p.loading ? 'space-between' : 'center'};
   align-items: center;
   padding: .8rem;
+  position: relative;
+
+  button{
+    position: absolute;
+    top: 0;
+    right: 0;
+    margin-top: 2rem;
+    margin-right: 2rem;
+    padding: .4rem;
+    border-radius: .4rem;
+    color: ${p => p.theme.colors.dark.green11};
+    &:hover{
+      background-color: ${p => p.theme.colors.dark.green12};
+    }
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: .4rem;
+    font-weight: 500;
+    font-size: 1.4rem;
+
+  }
+
   *:active, *:focus{
     outline: none;
   }
