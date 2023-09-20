@@ -130,6 +130,12 @@ export const oeeRoutes = t.router({
     .input(filtersSchema)
     .query(async ({ input }) => {
       return await getOeeDashboardData.getGeneralOeeValue(input)
+    }),
+
+  getLossReasonsChartData: procedure
+    .input(filtersSchema)
+    .query(async ({ input }) => {
+      return await getOeeDashboardData.getLossReasonsChart(input)
     })
 
 })

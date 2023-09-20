@@ -6,14 +6,14 @@ import { type Filters } from '.'
 import { useEffect } from 'react'
 import { Loading } from '../../components/Loading'
 
-const reducedNames = [
-  'BD',
-  'CO+SMED',
-  'MTC',
-  'OI',
-  'SQI',
-  'SS'
-]
+const reducedNames = {
+  Breakdowns: 'BD',
+  'Change-Over + SMED': 'CO+SMED',
+  Maintenance: 'MTC',
+  'Organizational Issues': 'OI',
+  'Scrap + Quality Issues': 'SQI',
+  'Shift Setup': 'SS'
+}
 
 export function ClassChart ({ filters }: { filters: Filters }) {
   const COLORS = [
@@ -36,8 +36,8 @@ export function ClassChart ({ filters }: { filters: Filters }) {
     ute: filters.ute
   })
 
-  const chartData = data?.map(({ classification, value }, index) => {
-    return { name: reducedNames[index], classification, value }
+  const chartData = data?.map(({ classification, value }) => {
+    return { name: reducedNames[classification as (keyof typeof reducedNames)], classification, value }
   })
 
   useEffect(() => {
@@ -78,7 +78,7 @@ export function ClassChart ({ filters }: { filters: Filters }) {
               formatter: (value: number) => value === 0 ? '' : `${value.toFixed(1)}%`
             }} >
               {chartData?.map((_, index) => (
-                <Cell key={`cell-${index}`} fill={COLORS[index % 20]} />
+                <Cell key={`cell-${index}`} fill={COLORS[index]} />
               ))}
             </Bar>
           </BarChart>

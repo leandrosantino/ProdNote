@@ -30,6 +30,11 @@ export interface IProductionEfficiencyRecordRepository {
   ) => Promise<ProductionEfficiencyRecord>
   findByFilters: (where: ProductionEfficiencyRecordRepositoryFilters) => Promise<ProductionEfficiencyRecordIncludedUser[]>
   getTotalOfLostTimeByFilters: (where: ProductionEfficiencyRecordRepositoryFilters) => Promise<number | null>
+  getSumOfLostTimeGroupedByReasons: (where: ProductionEfficiencyRecordRepositoryFilters) => Promise<Array<{
+    index: number
+    reason: string
+    lostTimeInMinutes: number
+  }> | null>
   getTotalOfProductionTimeByFilters: (where: ProductionEfficiencyRecordRepositoryFilters) => Promise<number | null>
   getSumOfProductionTimeAndUsefulTimeGroupedByDate: (where: ProductionEfficiencyRecordRepositoryFilters) => Promise<Array<{
     date: Date

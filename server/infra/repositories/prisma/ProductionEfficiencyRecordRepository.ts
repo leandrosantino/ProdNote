@@ -116,6 +116,52 @@ export class ProductionEfficiencyRecordRepository implements IProductionEfficien
     return lostTimeInMinutes
   }
 
+  async getSumOfLostTimeGroupedByReasons (where: ProductionEfficiencyRecordRepositoryFilters) {
+    const data = await prisma.productionEfficiencyLoss.groupBy({
+      by: ['reasonsLossEfficiencyId'],
+      orderBy: {
+        _sum: { lostTimeInMinutes: 'desc' }
+      },
+      take: 10,
+      where: {
+        reasonsLossEfficiency: {
+          classification: where.classification
+        },
+        productionEfficiencyRecord: {
+          AND: {
+            date: { gte: where.startsDate?.toISOString(), lte: where.finishDate?.toISOString() },
+            productionProcess: {
+              id: where.process
+            },
+            turn: where.turn,
+            ute: where.ute
+          }
+        }
+      },
+      _sum: {
+        lostTimeInMinutes: true
+      }
+    })
+
+    const efficiencyLoss = []
+    let index = 1
+    for (const item of data) {
+      const reason = await prisma.reasonsLossEfficiency.findUnique({
+        where: { id: item.reasonsLossEfficiencyId as string }
+      })
+      if (reason) {
+        efficiencyLoss.push({
+          index,
+          reason: reason.description,
+          lostTimeInMinutes: item._sum.lostTimeInMinutes as number
+        })
+        index++
+      }
+    }
+
+    return efficiencyLoss
+  }
+
   async getTotalOfProductionTimeByFilters ({ finishDate, startsDate, technology, turn, ...where }: ProductionEfficiencyRecordRepositoryFilters) {
     const { _sum: { productionTimeInMinutes } } = await prisma.productionEfficiencyRecord.aggregate({
       where: {

@@ -41,16 +41,17 @@ export class GetOeeDashboardData {
   }
 
   async getClassChartData (filters: GetOeeDashboardDataRequestDTO) {
-    const data: Array<{
+    let data: Array<{
       classification: GetOeeDashboardDataRequestDTO['classification']
       value: number
+      percent: number
     }> = [
-      { classification: 'Breakdowns', value: 0 },
-      { classification: 'Change-Over + SMED', value: 0 },
-      { classification: 'Maintenance', value: 0 },
-      { classification: 'Organizational Issues', value: 0 },
-      { classification: 'Scrap + Quality Issues', value: 0 },
-      { classification: 'Shift Setup', value: 0 }
+      { classification: 'Breakdowns', value: 0, percent: 0 },
+      { classification: 'Change-Over + SMED', value: 0, percent: 0 },
+      { classification: 'Maintenance', value: 0, percent: 0 },
+      { classification: 'Organizational Issues', value: 0, percent: 0 },
+      { classification: 'Scrap + Quality Issues', value: 0, percent: 0 },
+      { classification: 'Shift Setup', value: 0, percent: 0 }
     ]
 
     const dateFilters = this.getStartsAndfinishDateByFilters(filters.date)
@@ -74,12 +75,53 @@ export class GetOeeDashboardData {
           ute: filters.ute
         })
         if (totalOfLostTime) {
-          item.value = Number(((totalOfLostTime / totalOfProductionTime) * 100).toFixed(1))
+          item.value = Number((totalOfLostTime / 60).toFixed(1))
+          item.percent = Number(((totalOfLostTime / totalOfProductionTime) * 100).toFixed(1))
         }
       }
     }
 
+    data = this.orderArrayOfObjects<typeof data[number]>(data, 'value', 'desc')
+
+    console.table(data)
+
     return data
+  }
+
+  async getLossReasonsChart ({ date, classification, ...filters }: GetOeeDashboardDataRequestDTO) {
+    const dateFilters = this.getStartsAndfinishDateByFilters(date)
+
+    const totalOfProductionTime = await this.productionEfficiencyRecordRepository.getTotalOfProductionTimeByFilters({
+      ...dateFilters,
+      ...filters
+    })
+
+    const lossReasons = await this.productionEfficiencyRecordRepository.getSumOfLostTimeGroupedByReasons({
+      ...dateFilters,
+      ...filters,
+      classification
+    })
+
+    const lossReasonsParsed: Array<{
+      index: number
+      reason: string
+      lostTimeInHours: number
+      lostTimeInPercent: number
+    }> = []
+
+    if (totalOfProductionTime && lossReasons) {
+      lossReasons.forEach(({ lostTimeInMinutes, ...entry }) => {
+        lossReasonsParsed.push({
+          ...entry,
+          lostTimeInHours: Number((lostTimeInMinutes / 60).toFixed(1)),
+          lostTimeInPercent: Number(((lostTimeInMinutes / totalOfProductionTime) * 100).toFixed(1))
+        })
+      })
+    }
+
+    console.table(lossReasonsParsed)
+
+    return lossReasonsParsed
   }
 
   async getDailyChartData ({ date, classification, ...rest }: GetOeeDashboardDataRequestDTO) {
@@ -124,6 +166,23 @@ export class GetOeeDashboardData {
     }
 
     return chatData
+  }
+
+  private orderArrayOfObjects <T>(
+    objects: T[],
+    referenceKey: keyof typeof objects[number],
+    order: 'asc' | 'desc'
+  ) {
+    return objects
+      .sort((previousObject, currentObject) => {
+        if (previousObject[referenceKey] > currentObject[referenceKey]) {
+          return order === 'asc' ? 1 : -1
+        }
+        if (previousObject[referenceKey] < currentObject[referenceKey]) {
+          return order === 'asc' ? -1 : 1
+        }
+        return 0
+      })
   }
 
   private getStartsAndfinishDateByFilters ({ day, mouth, year }: GetOeeDashboardDataRequestDTO['date']) {

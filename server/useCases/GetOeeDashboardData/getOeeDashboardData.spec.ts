@@ -12,13 +12,13 @@ import { type GetOeeDashboardDataRequestDTO } from './GetOeeDashboardDataDTO'
       mouth: 9,
       year: 2023
     },
-    technology: 'Assemble',
-    turn: '1'
+    classification: 'Breakdowns'
 
   }
 
-  await teste.getTurnChartDate(filters)
   await teste.getClassChartData(filters)
+  await teste.getLossReasonsChart(filters)
+  await teste.getTurnChartDate(filters)
   await teste.getDailyChartData(filters)
   await teste.getGeneralOeeValue(filters)
 })()
