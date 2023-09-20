@@ -7,6 +7,7 @@ import { z } from 'zod'
 import { Save, Trash } from 'lucide-react'
 import { trpc } from '../../utils/api'
 import { useEffect, useState } from 'react'
+import { type Process } from '.'
 
 export const technologyTypesList = [
   'Hydraulic Press',
@@ -18,16 +19,17 @@ export const technologyTypesList = [
 const processFormSchema = z.object({
   description: z.string().nonempty('informe a descrição do processo'),
   ute: z.string(),
-  cavities: z.coerce.number().min(1, 'requer > 1').nullable(),
-  cicleTime: z.coerce.number().min(1, 'requer > 1').nullable(),
+  cavities: z.coerce.number().min(1, 'requer > 0').nullable(),
+  cicleTime: z.coerce.number().min(1, 'requer > 0').nullable(),
   project: z.string().nonempty('obrigatório'),
   product: z.string(),
+  technology: z.string(),
   machines: z.string().array().min(1, 'Selecione ao menos uma máquina!')
 })
 
 type ProcessForm = z.infer<typeof processFormSchema>
 
-export function FormProductionProcess () {
+export function FormProductionProcess ({ selectedProcess }: { selectedProcess?: Process }) {
   const processForm = useForm<ProcessForm>({
     resolver: zodResolver(processFormSchema)
   })
@@ -42,6 +44,21 @@ export function FormProductionProcess () {
   } = processForm
 
   const [selectedMachines, setSelectedMachines] = useState('')
+
+  useEffect(() => {
+    if (selectedProcess) {
+      console.log(selectedProcess?.machines)
+      if (selectedProcess?.machines) {
+        setValue('machines', selectedProcess?.machines?.map(entry => entry.id as string))
+      }
+      setValue('cavities', selectedProcess.cavitiesNumber)
+      setValue('cicleTime', selectedProcess.cycleTimeInSeconds)
+      setValue('description', selectedProcess.description)
+      setValue('project', selectedProcess.projectNumber)
+      setValue('technology', selectedProcess.technology)
+      setValue('product', selectedProcess.productId)
+    }
+  }, [selectedProcess])
 
   useEffect(() => {
     if (machines) {
@@ -77,7 +94,7 @@ export function FormProductionProcess () {
 
             <Field.Root>
               <Field.Label>Descrição</Field.Label>
-              <Field.Input type='text' name='description'/>
+              <Field.Input type='text' name='description' autoComplete='false'/>
               <Field.ErrorMessage field='description' />
             </Field.Root>
 
@@ -97,19 +114,19 @@ export function FormProductionProcess () {
 
               <Field.Root>
                 <Field.Label>Projeto:</Field.Label>
-                <Field.Input type='text' name='project'/>
+                <Field.Input type='text' name='project' autoComplete='false'/>
                 <Field.ErrorMessage field='project' />
               </Field.Root>
 
               <Field.Root>
                 <Field.Label>Cavidades:</Field.Label>
-                <Field.Input type='number' name='cavities' min={0} />
+                <Field.Input type='number' name='cavities' min={1} />
                 <Field.ErrorMessage field='cavities' />
               </Field.Root>
 
               <Field.Root>
                 <Field.Label>Tempo de Ciclo:</Field.Label>
-                <Field.Input type='number' name='cicleTime' min={0} />
+                <Field.Input type='number' name='cicleTime' min={1} />
                 <Field.ErrorMessage field='cicleTime' />
               </Field.Root>
 

@@ -89,7 +89,8 @@ export const oeeRoutes = t.router({
 
   getProcessesList: procedure
     .input(z.object({
-      ute: z.string().optional()
+      ute: z.string().optional(),
+      description: z.string().optional()
     }))
     .query(async ({ input }) => {
       return await productionProcessRepository.findManyByFilters(input)

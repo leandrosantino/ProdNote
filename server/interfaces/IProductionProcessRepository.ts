@@ -9,6 +9,6 @@ export interface CreateProductionProcessProps {
 export interface IProductionProcessRepository {
   create: (props: CreateProductionProcessProps) => Promise<ProductionProcess>
   findById: (id: string) => Promise<ProductionProcess | null>
-  findManyByFilters: (filters: { ute?: string }) => Promise<ProductionProcess[]>
+  findManyByFilters: (filters: { ute?: string, description?: string }) => Promise<ProductionProcess[]>
   getProductionProcessMachines: (id: string) => Promise<Machine[] | null>
 }

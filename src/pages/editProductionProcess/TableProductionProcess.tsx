@@ -1,10 +1,33 @@
-import { Pencil } from 'lucide-react'
+import { Pencil, Search } from 'lucide-react'
 import { Table } from '../../components/Table'
-import { ProcessesTable } from './styles'
+import { ProcessesTable, SearchField } from './styles'
+import { trpc } from '../../utils/api'
+import { useState } from 'react'
+import { type Process } from '.'
 
-export function TableProductionProcess () {
+export function TableProductionProcess ({ handleEdit }: { handleEdit: (data: Process) => void }) {
+  const [search, setSearch] = useState('')
+
+  const { data: processes } = trpc.oee.getProcessesList.useQuery({
+    description: search === '' ? undefined : search
+  })
+
   return (
     <div>
+
+      <SearchField>
+        <label htmlFor="search">
+          <Search size={20}/>
+        </label>
+        <input
+          type="search"
+          id="search"
+          autoComplete='false'
+          value={search}
+          onChange={(e) => { setSearch(e.target.value) }}
+        />
+      </SearchField>
+
       <ProcessesTable>
         <Table.Head>
           <th>Descrição</th>
@@ -13,13 +36,15 @@ export function TableProductionProcess () {
           <th> - </th>
         </Table.Head>
         <Table.Body>
-          {Array(10).fill(' ').map((_, index) => (
+          {processes?.map((process, index) => (
             <tr key={index} >
-              <td>Cargo Load 521 - (M24, M26, M27)</td>
-              <td>UTE-4</td>
-              <td>63</td>
+              <td>{process.description}</td>
+              <td>{process.ute}</td>
+              <td>{process.cycleTimeInSeconds}</td>
               <td>
-                <button>
+                <button
+                  onClick={() => { handleEdit(process) }}
+                >
                   <Pencil size={15} />
                 </button>
               </td>

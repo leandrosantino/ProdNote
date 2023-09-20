@@ -106,6 +106,11 @@ export const FieldCase = styled.div`
 
 export const ProcessesTable = styled(Table.Root)`
 
+  tbody{
+    max-height: 47rem;
+    height: 47rem !important;
+  }
+
   td:first-child, th:first-child{
    width: 70%;
    justify-content: start;
@@ -118,6 +123,30 @@ export const ProcessesTable = styled(Table.Root)`
       background-color: ${p => p.theme.colors.light.blue4};
     }
    }
+  }
+
+
+`
+
+export const SearchField = styled.div`
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: .8rem;
+  gap: .8rem;
+  label{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  input{
+    width: 100%;
+    border: 0.15rem solid ${p => p.theme.colors.dark.gray10};
+    font-size: 1.4rem;
+    padding: .6rem;
+    border-radius: .4rem;
+    text-indent: .2rem;
   }
 
 
