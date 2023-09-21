@@ -1,20 +1,19 @@
-import { Pencil, Search } from 'lucide-react'
+import { Pencil, Search, Trash } from 'lucide-react'
 import { Table } from '../../components/Table'
 import { ProcessesTable, SearchField } from './styles'
-import { trpc } from '../../utils/api'
-import { useState } from 'react'
 import { type Process } from '.'
 
-export function TableProductionProcess ({ handleEdit }: { handleEdit: (data: Process) => void }) {
-  const [search, setSearch] = useState('')
+interface TableProductionProcessProps {
+  handleEdit: (data: Process) => void
+  data?: Process[]
+  setSearchFieldValue: (value: string) => void
+  handleDelete: (id: string) => void
+  searchFieldValue: string
+}
 
-  const { data: processes } = trpc.oee.getProcessesList.useQuery({
-    description: search === '' ? undefined : search
-  })
-
+export function TableProductionProcess ({ handleEdit, data, setSearchFieldValue, searchFieldValue, handleDelete }: TableProductionProcessProps) {
   return (
     <div>
-
       <SearchField>
         <label htmlFor="search">
           <Search size={20}/>
@@ -23,8 +22,8 @@ export function TableProductionProcess ({ handleEdit }: { handleEdit: (data: Pro
           type="search"
           id="search"
           autoComplete='false'
-          value={search}
-          onChange={(e) => { setSearch(e.target.value) }}
+          value={searchFieldValue}
+          onChange={(e) => { setSearchFieldValue(e.target.value) }}
         />
       </SearchField>
 
@@ -32,20 +31,28 @@ export function TableProductionProcess ({ handleEdit }: { handleEdit: (data: Pro
         <Table.Head>
           <th>Descrição</th>
           <th>UTE</th>
-          <th>T. de Ciclo</th>
+          <th>Ciclo</th>
+          <th> - </th>
           <th> - </th>
         </Table.Head>
         <Table.Body>
-          {processes?.map((process, index) => (
+          {data?.map((process, index) => (
             <tr key={index} >
               <td>{process.description}</td>
               <td>{process.ute}</td>
-              <td>{process.cycleTimeInSeconds}</td>
+              <td>{process.cycleTimeInSeconds}sec</td>
               <td>
                 <button
                   onClick={() => { handleEdit(process) }}
                 >
                   <Pencil size={15} />
+                </button>
+              </td>
+              <td>
+                <button
+                  onClick={() => { handleDelete(process.id as string) }}
+                >
+                  <Trash size={15} />
                 </button>
               </td>
             </tr>

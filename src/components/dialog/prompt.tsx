@@ -34,7 +34,7 @@ export function Prompt (props: DialogProps) {
       >
 
         <h4>{props.title}</h4>
-        <p >{props.message}</p>
+        <p dangerouslySetInnerHTML={{ __html: props.message }} />
 
         <form
           onSubmit={(e) => {

@@ -166,7 +166,7 @@ export const Chart = styled.div<{ loading?: boolean }>`
   }
 
   div#chatClass{
-    height: fit-content ;
+    height: 100%;
     justify-content: center;
   }
 

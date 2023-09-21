@@ -12,7 +12,7 @@ export function Dialog (props: DialogProps) {
         error={props.error ?? false}
       >
         <h4>{props.title}</h4>
-        <p >{props.message}</p>
+        <p dangerouslySetInnerHTML={{ __html: props.message }} />
         {props.isQuestion
           ? <div>
             <Button

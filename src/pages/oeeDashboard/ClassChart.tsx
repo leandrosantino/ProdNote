@@ -63,7 +63,7 @@ export function ClassChart ({ filters }: { filters: Filters }) {
 
   if (isLoading) {
     return (
-      <Chart>
+      <Chart loading={true} >
         <Loading show={true} message='Carregndo Gráfico...'/>
       </Chart>
     )
@@ -108,7 +108,9 @@ export function ClassChart ({ filters }: { filters: Filters }) {
               </Bar>
             </BarChart>
             : reasonsChartData.isLoading
-              ? <Loading show={true} message='Carregndo Gráfico...'/>
+              ? <div id='loadCase' >
+                  <Loading show={true} message='Carregndo Gráfico...'/>
+                </div>
               : <>
                 <button
                   onClick={() => { setSelectedClassification(undefined) }}

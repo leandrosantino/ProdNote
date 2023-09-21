@@ -71,12 +71,11 @@ export const FieldCase = styled.div`
       gap: .8rem;
       button{
         padding: .8rem 1.2rem;
+        font-size: 1.4rem;
       }
-      button:first-child{
+      button#btDelete{
         background-color: transparent;
         color: ${p => p.theme.colors.light.red11};
-        font-size: 1.4rem;
-
         &:hover{
           background-color: ${p => p.theme.colors.light.red4};
         }
@@ -116,13 +115,16 @@ export const ProcessesTable = styled(Table.Root)`
    justify-content: start;
   }
   td:last-child, th:last-child{
-   width: 10%;
-   button{
-    color: ${p => p.theme.colors.light.blue11};
-    &:hover{
-      background-color: ${p => p.theme.colors.light.blue4};
+    width: 10%;
+  }
+  td:nth-child(4), th:nth-child(4){
+    width: 10%;
+    button{
+      color: ${p => p.theme.colors.light.blue11};
+      &:hover{
+        background-color: ${p => p.theme.colors.light.blue4};
+      }
     }
-   }
   }
 
 

@@ -4,7 +4,7 @@ import { Button } from '../../components/Form/Button'
 import { FieldCase } from './styles'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { z } from 'zod'
-import { Save, Trash } from 'lucide-react'
+import { Save, X } from 'lucide-react'
 import { trpc } from '../../utils/api'
 import { useEffect, useState } from 'react'
 import { type Process } from '.'
@@ -18,18 +18,24 @@ export const technologyTypesList = [
 
 const processFormSchema = z.object({
   description: z.string().nonempty('informe a descrição do processo'),
-  ute: z.string(),
+  ute: z.string().nonempty('selecione a ute'),
   cavities: z.coerce.number().min(1, 'requer > 0').nullable(),
   cicleTime: z.coerce.number().min(1, 'requer > 0').nullable(),
   project: z.string().nonempty('obrigatório'),
-  product: z.string(),
-  technology: z.string(),
+  product: z.string().nonempty('selecione o produto'),
+  technology: z.string().nonempty('selecione a tecnologia'),
   machines: z.string().array().min(1, 'Selecione ao menos uma máquina!')
 })
 
-type ProcessForm = z.infer<typeof processFormSchema>
+export type ProcessForm = z.infer<typeof processFormSchema>
 
-export function FormProductionProcess ({ selectedProcess }: { selectedProcess?: Process }) {
+interface FormProductionProcessProps {
+  selectedProcess?: Process
+  handleSave: (data: ProcessForm, id?: string) => Promise<void>
+  handleCancel: () => Promise<void>
+}
+
+export function FormProductionProcess ({ selectedProcess, ...props }: FormProductionProcessProps) {
   const processForm = useForm<ProcessForm>({
     resolver: zodResolver(processFormSchema)
   })
@@ -40,14 +46,17 @@ export function FormProductionProcess ({ selectedProcess }: { selectedProcess?: 
   const {
     handleSubmit,
     setValue,
-    watch
+    watch,
+    reset
   } = processForm
 
   const [selectedMachines, setSelectedMachines] = useState('')
+  const [inEditing, setInEditing] = useState(false)
 
   useEffect(() => {
     if (selectedProcess) {
-      console.log(selectedProcess?.machines)
+      reset()
+      setInEditing(true)
       if (selectedProcess?.machines) {
         setValue('machines', selectedProcess?.machines?.map(entry => entry.id as string))
       }
@@ -57,7 +66,10 @@ export function FormProductionProcess ({ selectedProcess }: { selectedProcess?: 
       setValue('project', selectedProcess.projectNumber)
       setValue('technology', selectedProcess.technology)
       setValue('product', selectedProcess.productId)
+      setValue('ute', selectedProcess.ute)
+      return
     }
+    setInEditing(false)
   }, [selectedProcess])
 
   useEffect(() => {
@@ -73,17 +85,20 @@ export function FormProductionProcess ({ selectedProcess }: { selectedProcess?: 
   }, [watch().machines])
 
   function handleSave (data: ProcessForm) {
-    console.log(data)
-    clearForm()
+    props.handleSave(data, selectedProcess?.id)
+      .then(() => {
+        clearForm()
+      })
+      .catch(console.log)
   }
 
-  function clearForm () {
-    setValue('machines', [])
-    setValue('cavities', null)
-    setValue('cicleTime', null)
-    setValue('description', '')
-    setValue('project', '')
+  function handleCancel () {
+    props.handleCancel()
+      .then(() => { clearForm() })
+      .catch(console.log)
   }
+
+  const clearForm = () => { reset() }
 
   return (
     <div>
@@ -103,6 +118,7 @@ export function FormProductionProcess ({ selectedProcess }: { selectedProcess?: 
               <Field.Root>
                 <Field.Label>UTE:</Field.Label>
                 <Field.Select name='ute'>
+                  <option value="">---</option>
                   <option value="UTE-1">UTE-1</option>
                   <option value="UTE-2">UTE-2</option>
                   <option value="UTE-3">UTE-3</option>
@@ -137,6 +153,7 @@ export function FormProductionProcess ({ selectedProcess }: { selectedProcess?: 
               <Field.Root id='fieldProduct' >
                 <Field.Label>Produto:</Field.Label>
                 <Field.Select name='product'>
+                  <option value="">-- selecionar produto --</option>
                   {products?.map(entry => (
                     <option key={entry.id} value={entry.id} >{entry.technicalDescription}</option>
                   ))}
@@ -166,27 +183,29 @@ export function FormProductionProcess ({ selectedProcess }: { selectedProcess?: 
                 <Field.Root id='fieldTechnology' >
                   <Field.Label>Tecnologia:</Field.Label>
                   <Field.Select name='technology'>
+                    <option value="">-- selecionar tecnologia --</option>
                     {technologyTypesList.map(entry => (
                       <option key={entry} value={entry}>{entry}</option>
                     ))}
-                    <option value="111">hot pressing</option>
-                    <option value="111">carpet molding</option>
+
                   </Field.Select>
                   <Field.ErrorMessage field='technology' />
                 </Field.Root>
 
                 <div id="buttons">
+                  {inEditing &&
+                    <Button
+                      id='btDelete' type='button'
+                      onClick={() => { handleCancel() }}
+                    >
+                      <X size={15}/>
+                      cancelar
+                    </Button>
+                  }
 
-                  <Button
-                    type='button'
-                  >
-                    <Trash size={15}/>
-                    Excluir
-                  </Button>
-
-                  <Button>
+                  <Button id='btSave'>
                     <Save size={15}/>
-                    Salvar
+                    {inEditing ? 'Atualizar' : 'Criar'}
                   </Button>
 
                 </div>
