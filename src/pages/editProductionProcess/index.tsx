@@ -2,9 +2,11 @@ import { useState } from 'react'
 import { FormProductionProcess, type ProcessForm } from './FormProductionProcess'
 import { TableProductionProcess } from './TableProductionProcess'
 import { Container } from './styles'
-import { type ProductionProcess } from '../../../server/entities/ProductionProcess'
-import { trpc } from '../../utils/api'
+import { type ProductionProcess, type TechnologyKeys } from '../../../server/entities/ProductionProcess'
+import { trpc, fetch } from '../../utils/api'
 import { useDialog } from '../../hooks/useDialog'
+
+import { type UteKeys } from '../../../server/entities/ProductionEfficiencyRecord'
 
 export type Process = Omit<ProductionProcess, 'product'>
 
@@ -20,17 +22,38 @@ export function EditProductionProcess () {
   const updateProcessesList = async () => await processes.refetch()
 
   async function createProcesse (data: ProcessForm) {
-    await new Promise<void>((resolve) => {
+    await new Promise<void>((resolve, reject) => {
       dialog.question({
         title: 'Atenção!',
         message: 'Realmente deseja criar esse processo?',
         accept () {
-          console.log('create', data)
-          dialog.alert({
-            title: 'Sucesso!',
-            message: 'processo criado!!'
+          fetch.productionProcess.create.mutate({
+            data: {
+              cavitiesNumber: data.cavities as number,
+              cycleTimeInSeconds: data.cicleTime as number,
+              description: data.description,
+              productId: data.product,
+              projectNumber: data.project,
+              technology: data.technology as TechnologyKeys,
+              ute: data.ute as UteKeys
+            },
+            machines: data.machines
           })
-          resolve()
+            .then(() => {
+              dialog.alert({
+                title: 'Sucesso!',
+                message: 'processo criado!!'
+              })
+              resolve()
+            })
+            .catch((err: Error) => {
+              dialog.alert({
+                title: 'Erro!',
+                message: `Falha ao criar processo!! <br> ${err.message}`,
+                error: true
+              })
+              reject(err)
+            })
         },
         refuse () {}
       })
@@ -38,17 +61,41 @@ export function EditProductionProcess () {
   }
 
   async function updateProcesse (data: ProcessForm, id?: string) {
-    await new Promise<void>((resolve) => {
+    await new Promise<void>((resolve, reject) => {
       dialog.question({
         title: 'Atenção!',
         message: 'Realmente deseja atualizar os dados deste processo?',
         accept () {
-          console.log('update', id, data)
-          dialog.alert({
-            title: 'Sucesso!',
-            message: 'processo atualizado!!'
+          fetch.productionProcess.update.mutate({
+            id: id as string,
+            process: {
+              data: {
+                cavitiesNumber: data.cavities as number,
+                cycleTimeInSeconds: data.cicleTime as number,
+                description: data.description,
+                productId: data.product,
+                projectNumber: data.project,
+                technology: data.technology as TechnologyKeys,
+                ute: data.ute as UteKeys
+              },
+              machines: data.machines
+            }
           })
-          resolve()
+            .then(() => {
+              dialog.alert({
+                title: 'Sucesso!',
+                message: 'processo atualizado!!'
+              })
+              resolve()
+            })
+            .catch((err: Error) => {
+              dialog.alert({
+                title: 'Erro!',
+                message: `Falha ao atualizar processo!! <br> ${err.message}`,
+                error: true
+              })
+              reject(err)
+            })
         },
         refuse () {}
       })
@@ -66,7 +113,7 @@ export function EditProductionProcess () {
   }
 
   async function handleDelete (id: string) {
-    await new Promise<void>((resolve) => {
+    await new Promise<void>((resolve, reject) => {
       dialog.question({
         title: 'Atenção!',
         message: 'Realmente deseja excluir este processo? <br> A ação não pode ser revertida!',
@@ -75,13 +122,23 @@ export function EditProductionProcess () {
             title: 'Excluir processo',
             message: 'Insira a sua senha para continuar!',
             type: 'password',
-            accept (password: string) {
-              console.log('delete', id, password)
-              dialog.alert({
-                title: 'Sucesso!',
-                message: 'processo excluído!!'
-              })
-              resolve()
+            accept (_: string) {
+              fetch.productionProcess.delete.mutate({ id })
+                .then(() => {
+                  dialog.alert({
+                    title: 'Sucesso!',
+                    message: 'processo excluído!!'
+                  })
+                  resolve()
+                })
+                .catch((err: Error) => {
+                  dialog.alert({
+                    title: 'Erro!',
+                    message: `Falha ao excluir processo!! <br> ${err.message}`,
+                    error: true
+                  })
+                  reject(err)
+                })
             },
             refuse () {}
           })

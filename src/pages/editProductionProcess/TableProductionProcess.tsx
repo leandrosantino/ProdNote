@@ -40,7 +40,7 @@ export function TableProductionProcess ({ handleEdit, data, setSearchFieldValue,
             <tr key={index} >
               <td>{process.description}</td>
               <td>{process.ute}</td>
-              <td>{process.cycleTimeInSeconds}sec</td>
+              <td>{process.cycleTimeInSeconds}s</td>
               <td>
                 <button
                   onClick={() => { handleEdit(process) }}

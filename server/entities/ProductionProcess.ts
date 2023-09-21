@@ -1,6 +1,6 @@
 import { type Product } from './Product'
 import { type Machine } from '../entities/Machine'
-import { type uteKeysList } from './ProductionEfficiencyRecord'
+import { type UteKeys } from './ProductionEfficiencyRecord'
 
 export const technologyTypesList = [
   'Hydraulic Press',
@@ -9,13 +9,15 @@ export const technologyTypesList = [
   'Assemble'
 ] as const
 
+export type TechnologyKeys = typeof technologyTypesList[number]
+
 export interface ProductionProcess {
   id?: string
   description: string
   cycleTimeInSeconds: number
   projectNumber: string
-  technology: typeof technologyTypesList[number]
-  ute: typeof uteKeysList[number]
+  technology: TechnologyKeys
+  ute: UteKeys
   productId: string
   product: Product
   machines?: Machine[]
