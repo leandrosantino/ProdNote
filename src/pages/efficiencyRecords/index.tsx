@@ -4,6 +4,10 @@ import { Filter } from '../oeeDashboard/styles'
 import { Container, DataTable, Header, FiltersCase } from './styles'
 import { trpc } from '../../utils/api'
 import { convertDateStringtoDateObject } from '../../utils/convertDateStringtoDateObject'
+import { Button } from '../../components/Form/Button'
+import { BarChart4 } from 'lucide-react'
+import { useDialog } from '../../hooks/useDialog'
+import { GenerateReportModal } from './GenerateReportModal'
 
 export interface DateFilters {
   day?: number
@@ -12,6 +16,7 @@ export interface DateFilters {
 }
 
 export function EfficiencyRecords () {
+  const dialog = useDialog()
   const [process, setProcess] = useState<string>('')
   const [ute, setUte] = useState<string>('')
   const [turn, setTurn] = useState<string>('')
@@ -34,57 +39,72 @@ export function EfficiencyRecords () {
     console.log(dateObject)
   }, [dateObject])
 
+  function handleGenerateReport () {
+    dialog.custom({
+      Child: GenerateReportModal,
+      accept () {}
+    })
+  }
+
   return (
     <Container>
       <div>
         <Header>
           <h2>Registros de Eficiência</h2>
         </Header>
-
         <FiltersCase>
-          <Filter>
-            <label htmlFor="date">Date:</label>
-            <input
-              type="date" id='date'
-              onChange={e => { setDate(e.target.value) }}
-            />
-          </Filter>
-          <Filter>
-            <label htmlFor="process">Processo:</label>
-            <input
-              id="process" type="search"
-              value={process}
-              onChange={e => { setProcess(e.target.value) }}
-            />
-          </Filter>
-          <Filter>
-            <label htmlFor="ute">UTE:</label>
-            <select
-              id="ute"
-              value={ute}
-              onChange={e => { setUte(e.target.value) }}
-            >
-              <option value="">-----</option>
-              <option value="UTE-1">UTE-1</option>
-              <option value="UTE-2">UTE-2</option>
-              <option value="UTE-3">UTE-3</option>
-              <option value="UTE-4">UTE-4</option>
-              <option value="UTE-5">UTE-5</option>
-            </select>
-          </Filter>
-          <Filter>
-            <label htmlFor="turn">Turno:</label>
-            <select
-              id="turn"
-              value={turn}
-              onChange={e => { setTurn(e.target.value) }}
-            >
-              <option value="">--------</option>
-              <option value="1">1º Turno</option>
-              <option value="2">2º Turno</option>
-              <option value="3">3º Turno</option>
-            </select>
-          </Filter>
+          <div>
+            <Filter>
+              <label htmlFor="date">Date:</label>
+              <input
+                type="date" id='date'
+                onChange={e => { setDate(e.target.value) }}
+              />
+            </Filter>
+            <Filter>
+              <label htmlFor="process">Processo:</label>
+              <input
+                id="process" type="search"
+                value={process}
+                onChange={e => { setProcess(e.target.value) }}
+              />
+            </Filter>
+            <Filter>
+              <label htmlFor="ute">UTE:</label>
+              <select
+                id="ute"
+                value={ute}
+                onChange={e => { setUte(e.target.value) }}
+              >
+                <option value="">-----</option>
+                <option value="UTE-1">UTE-1</option>
+                <option value="UTE-2">UTE-2</option>
+                <option value="UTE-3">UTE-3</option>
+                <option value="UTE-4">UTE-4</option>
+                <option value="UTE-5">UTE-5</option>
+              </select>
+            </Filter>
+            <Filter>
+              <label htmlFor="turn">Turno:</label>
+              <select
+                id="turn"
+                value={turn}
+                onChange={e => { setTurn(e.target.value) }}
+              >
+                <option value="">--------</option>
+                <option value="1">1º Turno</option>
+                <option value="2">2º Turno</option>
+                <option value="3">3º Turno</option>
+              </select>
+            </Filter>
+          </div>
+          <Button
+            type='button'
+            onClick={() => { handleGenerateReport() }}
+          >
+            <BarChart4 size={15} />
+            Gerar Relatório
+          </Button>
         </FiltersCase>
 
         <DataTable>

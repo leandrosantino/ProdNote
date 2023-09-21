@@ -29,6 +29,23 @@ export async function usersSeed () {
         permissions: [
           'OEE_NOTE'
         ]
+      },
+      {
+        email: 'alder@email.com',
+        name: 'oeeute2',
+        password: 'UTE2@adler',
+        permissions: [
+          'OEE_NOTE'
+        ]
+      },
+      {
+        email: 'alder@email.com',
+        name: 'oeeAdmin',
+        password: 'ADM@oee',
+        permissions: [
+          'OEE_NOTE',
+          'OEE_ADMIN'
+        ]
       }
     ]
 
