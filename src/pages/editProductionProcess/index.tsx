@@ -7,11 +7,13 @@ import { trpc, fetch } from '../../utils/api'
 import { useDialog } from '../../hooks/useDialog'
 
 import { type UteKeys } from '../../../server/entities/ProductionEfficiencyRecord'
+import { useAuth } from '../../hooks/useAuth'
 
 export type Process = Omit<ProductionProcess, 'product'>
 
 export function EditProductionProcess () {
   const dialog = useDialog()
+  const { user } = useAuth()
   const [selectedProcess, setSelectedProcess] = useState<Process | undefined>()
   const [search, setSearch] = useState('')
 
@@ -122,8 +124,12 @@ export function EditProductionProcess () {
             title: 'Excluir processo',
             message: 'Insira a sua senha para continuar!',
             type: 'password',
-            accept (_: string) {
-              fetch.productionProcess.delete.mutate({ id })
+            accept (password: string) {
+              fetch.productionProcess.delete.mutate({
+                password,
+                productionProcessId: id,
+                userId: user?.id as string
+              })
                 .then(() => {
                   dialog.alert({
                     title: 'Sucesso!',
