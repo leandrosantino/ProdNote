@@ -16,6 +16,30 @@ export class ProductionProcessRepository implements IProductionProcessRepository
     return process as ProductionProcess
   }
 
+  async update (id: string, { data, machines }: CreateProductionProcessProps) {
+    const process = await prisma.productionProcess.update({
+      where: { id },
+      data: {
+        ...data,
+        machines: {
+          connect: machines.map(id => ({ id }))
+        }
+      }
+    })
+
+    if (!process) {
+      return null
+    }
+
+    return process as ProductionProcess
+  }
+
+  async delete (id: string) {
+    await prisma.productionProcess.delete({
+      where: { id }
+    })
+  }
+
   async findById (id: string) {
     const process = await prisma.productionProcess.findUnique({
       where: { id }

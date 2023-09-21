@@ -8,7 +8,7 @@ import { MachineRoutes } from './machine.routes'
 import { tagRoutes } from './tag.routes'
 import { productRoutes } from './product.routes'
 import { oeeRoutes } from './oee.routes'
-import { RootRoutes } from './root.routes'
+import { ProductionProcessRoutes } from './productionProcess.routes'
 
 const trpc = initTRPC.context<Context>().create()
 
@@ -20,7 +20,7 @@ export const appRouter = trpc.router({
   tag: tagRoutes,
   product: productRoutes,
   oee: oeeRoutes,
-  root: RootRoutes
+  productionProcess: ProductionProcessRoutes
 })
 
 export type AppRouter = typeof appRouter

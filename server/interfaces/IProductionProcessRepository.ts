@@ -8,6 +8,8 @@ export interface CreateProductionProcessProps {
 
 export interface IProductionProcessRepository {
   create: (props: CreateProductionProcessProps) => Promise<ProductionProcess>
+  update: (id: string, data: CreateProductionProcessProps) => Promise<ProductionProcess | null>
+  delete: (id: string) => Promise<void>
   findById: (id: string) => Promise<ProductionProcess | null>
   findManyByFilters: (filters: { ute?: string, description?: string }) => Promise<ProductionProcess[]>
   getProductionProcessMachines: (id: string) => Promise<Machine[] | null>
