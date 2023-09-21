@@ -5,8 +5,9 @@ import { Repositories } from '../repositories'
 import { z } from 'zod'
 import { technologyTypesList } from '../../entities/ProductionProcess'
 import { uteKeysList } from '../../entities/ProductionEfficiencyRecord'
-const t = initTRPC.context<Context>().create()
+import { deleteProductionProcess } from '../../useCases/DeleteProductionProcess'
 
+const t = initTRPC.context<Context>().create()
 const procedure = t.procedure.use(authenticattionMiddleware('OEE_ADMIN'))
 const productionProcessRepository = new Repositories.ProductionProcess()
 
@@ -39,9 +40,11 @@ export const ProductionProcessRoutes = t.router({
     }),
   delete: procedure
     .input(z.object({
-      id: z.string()
+      productionProcessId: z.string(),
+      userId: z.string(),
+      password: z.string()
     }))
-    .mutation(async ({ input: { id } }) => {
-      await productionProcessRepository.delete(id)
+    .mutation(async ({ input }) => {
+      await deleteProductionProcess.execute(input)
     })
 })
