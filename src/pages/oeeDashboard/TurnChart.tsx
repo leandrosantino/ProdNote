@@ -46,7 +46,8 @@ export function TrunChart ({ filters }: { filters: Filters }) {
       year: filters.year
     },
     process: filters.processId,
-    ute: filters.ute
+    ute: filters.ute,
+    technology: filters.technology
   })
 
   if (isLoading) {

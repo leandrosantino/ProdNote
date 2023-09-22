@@ -8,14 +8,23 @@ import { Button } from '../../components/Form/Button'
 import { useEffect, useState } from 'react'
 import { type Filters } from '.'
 import { trpc } from '../../utils/api'
+import { type TechnologyKeys } from '../../../server/entities/ProductionProcess'
 
 const filtersFormSchema = z.object({
   month: z.string(),
   day: z.coerce.number(),
   turn: z.string(),
   ute: z.string(),
-  process: z.string()
+  process: z.string(),
+  technology: z.string()
 })
+
+export const technologyTypesList = [
+  'Hydraulic Press',
+  'Hot Pressing',
+  'Carpet Monding',
+  'Assemble'
+]
 
 export type FiltersForm = z.infer<typeof filtersFormSchema>
 
@@ -44,6 +53,7 @@ export function SelectFilters ({ params, ...props }: SelectFiltersProps) {
       setValue('process', params.processId ?? '')
       setValue('turn', params.turn ?? '')
       setValue('ute', params.ute ?? '')
+      setValue('technology', params.technology ?? '')
     }
   }, [])
 
@@ -84,7 +94,8 @@ export function SelectFilters ({ params, ...props }: SelectFiltersProps) {
           processId: data.process === '' ? undefined : data.process,
           turn: data.turn === '' ? undefined : data.turn,
           ute: data.ute === '' ? undefined : data.ute,
-          processDescription: processes?.find(entry => entry.id === data.process)?.description
+          processDescription: processes?.find(entry => entry.id === data.process)?.description,
+          technology: data.technology === '' ? undefined : data.technology as TechnologyKeys
         } as Filters)
         props.finally()
       }
@@ -96,20 +107,28 @@ export function SelectFilters ({ params, ...props }: SelectFiltersProps) {
       <h1>Filtrar Dashboard</h1>
       <FormProvider {...filtersForm} >
         <form onSubmit={handleSubmit(submit)} >
-
-          <Field.Root>
-            <Field.Label htmlFor='process' >Processo:</Field.Label>
-            <Field.Select id='process' name='process'>
-              <option value=""> ------------- </option>
-
+          <div>
+            <Field.Root>
+              <Field.Label htmlFor='process' >Processo:</Field.Label>
+              <Field.Select id='process' name='process'>
+                <option value=""> ------------- </option>
                 {processes?.map(entry => (
                   <option key={entry.id} value={entry.id}>{entry.description}</option>
                 ))}
-
-            </Field.Select>
-            <Field.ErrorMessage field='process'/>
-          </Field.Root>
-
+              </Field.Select>
+              <Field.ErrorMessage field='process'/>
+            </Field.Root>
+            <Field.Root>
+              <Field.Label htmlFor='technology' >Tecnologia:</Field.Label>
+              <Field.Select id='technology' name='technology'>
+                <option value=""> ------------- </option>
+                {technologyTypesList?.map(entry => (
+                  <option key={entry} value={entry}>{entry}</option>
+                ))}
+              </Field.Select>
+              <Field.ErrorMessage field='technology'/>
+            </Field.Root>
+          </div>
           <div>
             <Field.Root>
               <Field.Label htmlFor='day' >Dia:</Field.Label>

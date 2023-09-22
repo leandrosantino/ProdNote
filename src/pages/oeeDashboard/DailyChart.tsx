@@ -10,7 +10,8 @@ export function DailyChart ({ filters: { mouth, year, ...filters } }: { filters:
     date: { mouth, year },
     process: filters.processId,
     turn: filters.turn,
-    ute: filters.ute
+    ute: filters.ute,
+    technology: filters.technology
   })
 
   if (isLoading) {

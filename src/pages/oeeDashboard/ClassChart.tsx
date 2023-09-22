@@ -34,6 +34,7 @@ export function ClassChart ({ filters }: { filters: Filters }) {
     },
     process: filters.processId,
     turn: filters.turn,
+    technology: filters.technology,
     ute: filters.ute
   })
 
@@ -52,6 +53,7 @@ export function ClassChart ({ filters }: { filters: Filters }) {
     process: filters.processId,
     turn: filters.turn,
     ute: filters.ute,
+    technology: filters.technology,
     classification: selectedClassification
   })
 

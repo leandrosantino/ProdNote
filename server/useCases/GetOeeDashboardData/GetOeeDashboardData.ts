@@ -18,7 +18,8 @@ export class GetOeeDashboardData {
     const totalOfProductionTime = await this.productionEfficiencyRecordRepository.getTotalOfLostTimeByFilters({
       ...dateFilters,
       process: filters.process,
-      ute: filters.ute
+      ute: filters.ute,
+      technology: filters.technology
     })
 
     if (totalOfProductionTime) {
@@ -27,7 +28,8 @@ export class GetOeeDashboardData {
           ...dateFilters,
           turn: item.turn,
           process: filters.process,
-          ute: filters.ute
+          ute: filters.ute,
+          technology: filters.technology
         })
         if (totalOfLostTime) {
           item.value = Number(

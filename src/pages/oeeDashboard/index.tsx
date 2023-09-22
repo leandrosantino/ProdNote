@@ -8,6 +8,7 @@ import { Button } from '../../components/Form/Button'
 import { FilterIcon } from 'lucide-react'
 import { useDialog } from '../../hooks/useDialog'
 import { SelectFilters } from './SelectFilters'
+import { type TechnologyKeys } from '../../../server/entities/ProductionProcess'
 
 export interface Filters {
   day?: number
@@ -17,6 +18,7 @@ export interface Filters {
   processDescription?: string
   turn?: string
   ute?: string
+  technology?: TechnologyKeys
 }
 
 const MONTH_NAMES = [
@@ -42,7 +44,8 @@ export function OeeDashboard () {
     },
     process: filters.processId,
     turn: filters.turn,
-    ute: filters.ute
+    ute: filters.ute,
+    technology: filters.technology
   })
 
   function handleSelectFilters () {

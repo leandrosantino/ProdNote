@@ -101,7 +101,8 @@ export class ProductionEfficiencyRecordRepository implements IProductionEfficien
           AND: {
             date: { gte: where.startsDate?.toISOString(), lte: where.finishDate?.toISOString() },
             productionProcess: {
-              id: where.process
+              id: where.process,
+              technology: where.technology
             },
             turn: where.turn,
             ute: where.ute
@@ -131,7 +132,8 @@ export class ProductionEfficiencyRecordRepository implements IProductionEfficien
           AND: {
             date: { gte: where.startsDate?.toISOString(), lte: where.finishDate?.toISOString() },
             productionProcess: {
-              id: where.process
+              id: where.process,
+              technology: where.technology
             },
             turn: where.turn,
             ute: where.ute
