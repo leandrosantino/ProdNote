@@ -78,6 +78,7 @@ export function OeeDashboard () {
                 {filters.ute ? ` , ${filters.ute}` : ''}
               </p>
               <p>{filters.processDescription}</p>
+              <p>{filters.technology}</p>
             </div>
             <Button
               onClick={() => { handleSelectFilters() }}
