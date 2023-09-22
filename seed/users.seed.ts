@@ -8,9 +8,9 @@ export async function usersSeed () {
   try {
     const users: CreateUserRequestDTO[] = [
       {
-        name: 'PROD@teste',
-        password: 'alpha45c',
-        email: 'leandrosantino2013@gmail.com',
+        name: 'producao',
+        password: 'PROD@adler',
+        email: 'prod@email.com',
         permissions: [
           'GENERATE_TAGS',
           'READ_TAGS'
@@ -18,9 +18,33 @@ export async function usersSeed () {
       },
       {
         name: 'ADMIN@adler',
-        password: 'admin123',
-        email: 'email@adler.com',
+        password: 'frd4aws2',
+        email: 'emailadmin@adler.com',
         permissions: [...systemPermissionList]
+      },
+      {
+        email: 'alder1@email.com',
+        name: 'oeeute1',
+        password: 'UTE1@adler',
+        permissions: [
+          'OEE_NOTE'
+        ]
+      },
+      {
+        email: 'alder2@email.com',
+        name: 'oeeute2',
+        password: 'UTE2@adler',
+        permissions: [
+          'OEE_NOTE'
+        ]
+      },
+      {
+        email: 'alder3@email.com',
+        name: 'oeeute3',
+        password: 'UTE3@adler',
+        permissions: [
+          'OEE_NOTE'
+        ]
       },
       {
         email: 'alder@email.com',
@@ -31,15 +55,15 @@ export async function usersSeed () {
         ]
       },
       {
-        email: 'alder@email.com',
-        name: 'oeeute2',
-        password: 'UTE2@adler',
+        email: 'alder4@email.com',
+        name: 'oeeute5',
+        password: 'UTE5@adler',
         permissions: [
           'OEE_NOTE'
         ]
       },
       {
-        email: 'alder@email.com',
+        email: 'alder5@email.com',
         name: 'oeeAdmin',
         password: 'ADM@oee',
         permissions: [
