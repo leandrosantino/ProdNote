@@ -4,10 +4,6 @@ import { Filter } from '../oeeDashboard/styles'
 import { Container, DataTable, Header, FiltersCase } from './styles'
 import { trpc } from '../../utils/api'
 import { convertDateStringtoDateObject } from '../../utils/convertDateStringtoDateObject'
-import { Button } from '../../components/Form/Button'
-import { BarChart4 } from 'lucide-react'
-import { useDialog } from '../../hooks/useDialog'
-import { GenerateReportModal } from './GenerateReportModal'
 
 export interface DateFilters {
   day?: number
@@ -16,7 +12,6 @@ export interface DateFilters {
 }
 
 export function EfficiencyRecords () {
-  const dialog = useDialog()
   const [process, setProcess] = useState<string>('')
   const [ute, setUte] = useState<string>('')
   const [turn, setTurn] = useState<string>('')
@@ -35,16 +30,6 @@ export function EfficiencyRecords () {
   useEffect(() => {
     setDateObject(convertDateStringtoDateObject(date))
   }, [date])
-  useEffect(() => {
-    console.log(dateObject)
-  }, [dateObject])
-
-  function handleGenerateReport () {
-    dialog.custom({
-      Child: GenerateReportModal,
-      accept () {}
-    })
-  }
 
   return (
     <Container>
@@ -98,13 +83,6 @@ export function EfficiencyRecords () {
               </select>
             </Filter>
           </div>
-          <Button
-            type='button'
-            onClick={() => { handleGenerateReport() }}
-          >
-            <BarChart4 size={15} />
-            Gerar Relatório
-          </Button>
         </FiltersCase>
 
         <DataTable>
