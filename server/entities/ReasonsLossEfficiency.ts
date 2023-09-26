@@ -1,7 +1,10 @@
 export const lossTypesList = [
   'scrap',
   'rework',
-  'stoppages'
+  'stoppages',
+  'mechanical',
+  'electrical',
+  'tooling'
 ] as const
 
 export const classificationTypesList = [

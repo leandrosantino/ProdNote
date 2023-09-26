@@ -114,6 +114,9 @@ export function Modal ({ params, accept, finally: end }: ModalProps) {
                 <option value="scrap">Scrap</option>
                 <option value="rework">Retrabalho</option>
                 <option value="stoppages">Parada</option>
+                <option value="mechanical">Mecânica</option>
+                <option value="electrical">Elétrica</option>
+                <option value="tooling">Ferramental</option>
             </Field.Select>
             <Field.ErrorMessage field='type' />
           </Field.Root>
