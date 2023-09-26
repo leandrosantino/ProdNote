@@ -142,7 +142,7 @@ export const SearchField = styled.div`
     justify-content: center;
     align-items: center;
   }
-  input{
+  input, select{
     width: 100%;
     border: 0.15rem solid ${p => p.theme.colors.dark.gray10};
     font-size: 1.4rem;

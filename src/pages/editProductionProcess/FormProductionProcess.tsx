@@ -109,7 +109,7 @@ export function FormProductionProcess ({ selectedProcess, ...props }: FormProduc
 
             <Field.Root>
               <Field.Label>Descrição</Field.Label>
-              <Field.Input type='text' name='description' autoComplete='false'/>
+              <Field.Input type='text' name='description' autoComplete='off' />
               <Field.ErrorMessage field='description' />
             </Field.Root>
 
@@ -130,7 +130,7 @@ export function FormProductionProcess ({ selectedProcess, ...props }: FormProduc
 
               <Field.Root>
                 <Field.Label>Projeto:</Field.Label>
-                <Field.Input type='text' name='project' autoComplete='false'/>
+                <Field.Input type='text' name='project' autoComplete='off'/>
                 <Field.ErrorMessage field='project' />
               </Field.Root>
 

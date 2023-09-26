@@ -21,7 +21,7 @@ export function TableProductionProcess ({ handleEdit, data, setSearchFieldValue,
         <input
           type="search"
           id="search"
-          autoComplete='false'
+          autoComplete='off'
           value={searchFieldValue}
           onChange={(e) => { setSearchFieldValue(e.target.value) }}
         />
