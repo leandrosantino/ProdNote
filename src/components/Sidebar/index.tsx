@@ -43,6 +43,7 @@ export function Sidebar () {
         <PageButton permission='OEE_NOTE' value="/efficiencyRecords" >Registro de Eficiência</PageButton>
         <PageButton permission='OEE_NOTE' value="/oeeDashboard" >Dashboard OEE</PageButton>
         <PageButton permission='OEE_ADMIN' value="/editProductionProcess" >Processos de Produção</PageButton>
+        <PageButton permission='OEE_ADMIN' value="/editReasonsLoss" >Motivos de Perda</PageButton>
         {/* <PageButton permission='PLANNING' value="/planning" >Planejamento</PageButton> */}
 
       </ToggleGroupRoot>

@@ -11,6 +11,7 @@ import { DialogProvider } from '../contexts/dialogContext'
 import { OeeDashboard } from '../pages/oeeDashboard'
 import { EfficiencyRecords } from '../pages/efficiencyRecords'
 import { EditProductionProcess } from '../pages/editProductionProcess'
+import { EditReasonsLoss } from '../pages/editReasonsLoss'
 
 export function AppRoutes () {
   return (
@@ -42,6 +43,10 @@ export function AppRoutes () {
 
           <Route element={<RequireAuth permission='OEE_ADMIN'/>}>
             <Route path='editProductionProcess' Component={EditProductionProcess} />
+          </Route>
+
+          <Route element={<RequireAuth permission='OEE_ADMIN'/>}>
+            <Route path='editReasonsLoss' Component={EditReasonsLoss} />
           </Route>
 
           <Route element={<RequireAuth permission='READ_TAGS'/>}>
