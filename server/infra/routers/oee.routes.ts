@@ -97,7 +97,12 @@ export const oeeRoutes = t.router({
     }),
 
   getReasonsLossList: procedure
-    .input(z.object({ type: z.enum(lossTypesList) }).optional())
+    .input(
+      z.object({
+        type: z.enum(lossTypesList).optional(),
+        description: z.string().optional()
+      })
+    )
     .query(async ({ input }) => {
       return await reasonsLossEfficiencyRepository.findMany(input)
     }),

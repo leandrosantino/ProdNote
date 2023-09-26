@@ -10,8 +10,29 @@ export class ReasonsLossEfficiencyRepository implements IReasonsLossEfficiencyRe
     return reasonsLossEfficiency as ReasonsLossEfficiency
   }
 
-  async findMany (where?: { type: ReasonsLossEfficiency['type'] }) {
-    const reasonsLossEfficiency = await prisma.reasonsLossEfficiency.findMany({ where })
+  async update (data: Omit<ReasonsLossEfficiency, 'id' | 'productionEfficiencyLosses'>, id: string) {
+    const reasonsLossEfficiency = await prisma.reasonsLossEfficiency.update({
+      data,
+      where: { id }
+    })
+    return reasonsLossEfficiency as ReasonsLossEfficiency
+  }
+
+  async delete (id: string) {
+    await prisma.reasonsLossEfficiency.delete({
+      where: { id }
+    })
+  }
+
+  async findMany ({ description, ...where }: { type?: ReasonsLossEfficiency['type'], description?: string }) {
+    const reasonsLossEfficiency = await prisma.reasonsLossEfficiency.findMany({
+      where: {
+        ...where,
+        description: {
+          contains: description
+        }
+      }
+    })
     return reasonsLossEfficiency as ReasonsLossEfficiency[]
   }
 }
