@@ -18,9 +18,22 @@ export async function productSeed () {
   const productRepository = new Repositories.Product()
 
   logger.success('Seeding Products Table')
+
+  const genericProduct: Product = {
+    id: 'cln20ivzw0000m5m0j8dgukmw',
+    description: 'generic',
+    amount: 0,
+    classification: '',
+    partNumber: '',
+    projectNumber: '',
+    sapCode: 'generic',
+    technicalDescription: '',
+    ute: 'UTE-3'
+  }
+
   try {
     const { data: products } = await axios.get<Product[]>('http://192.168.115.201:3333/api/products', {})
-    for await (const product of products) {
+    for await (const product of [genericProduct, ...products]) {
       logger.info('   - add ' + product.description)
       await productRepository.create(product)
     }
