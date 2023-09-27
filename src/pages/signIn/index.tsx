@@ -27,7 +27,7 @@ export function SignIn () {
     if (isAuth) {
       navigate('/')
     }
-    signIn('ADMIN@adler', 'admin123')
+    signIn('admin', 'frd4aws2')
       .then(() => {
         navigate('/')
       })

@@ -138,9 +138,13 @@ export function EditProductionProcess () {
                   resolve()
                 })
                 .catch((err: Error) => {
+                  let errMsg = err.message
+                  if (err.name === 'TRPCClientError') {
+                    errMsg = 'Provavelmente existe registros usando este processo, por isso não é possivel excluir!'
+                  }
                   dialog.alert({
                     title: 'Erro!',
-                    message: `Falha ao excluir processo!! <br> ${err.message}`,
+                    message: `Falha ao excluir processo!! <br> ${errMsg}`,
                     error: true
                   })
                   reject(err)

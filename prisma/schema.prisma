@@ -88,15 +88,15 @@ model ReasonsLossEfficiency {
 }
 
 model ProductionEfficiencyLoss {
-  id                           String  @id @default(cuid())
+  id                           String @id @default(cuid())
   lostTimeInMinutes            Int
-  reasonsLossEfficiencyId      String?
-  productionEfficiencyRecordId String?
+  reasonsLossEfficiencyId      String
+  productionEfficiencyRecordId String
   machineId                    String
 
-  productionEfficiencyRecord ProductionEfficiencyRecord? @relation(fields: [productionEfficiencyRecordId], references: [id])
-  reasonsLossEfficiency      ReasonsLossEfficiency?      @relation(fields: [reasonsLossEfficiencyId], references: [id])
-  machine                    Machine                     @relation(fields: [machineId], references: [id])
+  productionEfficiencyRecord ProductionEfficiencyRecord @relation(fields: [productionEfficiencyRecordId], references: [id])
+  reasonsLossEfficiency      ReasonsLossEfficiency      @relation(fields: [reasonsLossEfficiencyId], references: [id])
+  machine                    Machine                    @relation(fields: [machineId], references: [id])
 }
 
 model ProductionEfficiencyRecord {
@@ -109,10 +109,10 @@ model ProductionEfficiencyRecord {
   piecesQuantity          Int
   usefulTimeInMunites     Float
   oeeValue                Float
-  productionProcessId     String?
+  productionProcessId     String
   userId                  String
 
   productionEfficiencyLosses ProductionEfficiencyLoss[]
-  productionProcess          ProductionProcess?         @relation(fields: [productionProcessId], references: [id])
+  productionProcess          ProductionProcess          @relation(fields: [productionProcessId], references: [id])
   user                       User                       @relation(fields: [userId], references: [id])
 }

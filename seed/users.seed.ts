@@ -17,7 +17,7 @@ export async function usersSeed () {
         ]
       },
       {
-        name: 'ADMIN@adler',
+        name: 'admin',
         password: 'frd4aws2',
         email: 'emailadmin@adler.com',
         permissions: [...systemPermissionList]

@@ -7,8 +7,9 @@ import { z } from 'zod'
 import { Field } from '../../components/Form/Field'
 import { Button } from '../../components/Form/Button'
 import { Table } from '../../components/Table'
-import { trpc } from '../../utils/api'
+import { trpc, fetch } from '../../utils/api'
 import { useEffect, useState } from 'react'
+import { useDialog } from '../../hooks/useDialog'
 
 const reasonsLossTypes = [
   'scrap',
@@ -52,6 +53,7 @@ interface ReasonsLoss extends ReasonsLossFrom {
 }
 
 export function EditReasonsLoss () {
+  const dialog = useDialog()
   const reasonsLossFrom = useForm<ReasonsLossFrom>({
     resolver: zodResolver(reasonsLossFromSchema)
   })
@@ -83,13 +85,109 @@ export function EditReasonsLoss () {
     type: type === '' ? undefined : type
   })
 
-  function handleSave (data: ReasonsLossFrom) {
+  const updateReasonsLossList = async () => await reasonsLoss.refetch()
+
+  async function handleCreate (data: ReasonsLossFrom) {
+    await new Promise<void>((resolve, reject) => {
+      dialog.question({
+        title: 'Atenção!',
+        message: 'Realmente deseja criar um novo motivo de perda?',
+        async accept () {
+          fetch.reasonsLossEfficiency.create.mutate(data)
+            .then(() => {
+              resolve()
+              dialog.alert({
+                title: 'Sucesso!',
+                message: 'Novo motivo de perda criado!!!'
+              })
+            })
+            .catch((err: Error) => {
+              reject(err)
+              dialog.alert({
+                title: 'Erro!',
+                error: true,
+                message: `Falha ao criar motivo!! <br> ${err.message}`
+              })
+            })
+        },
+        refuse () {}
+      })
+    })
+  }
+
+  async function handleUpdate (data: ReasonsLossFrom) {
+    await new Promise<void>((resolve, reject) => {
+      dialog.question({
+        title: 'Atenção!',
+        message: 'Realmente deseja atualizar o motivo de perda?',
+        async accept () {
+          fetch.reasonsLossEfficiency.update.mutate({
+            data,
+            id: selectedReason?.id as string
+          })
+            .then(() => {
+              resolve()
+              dialog.alert({
+                title: 'Sucesso!',
+                message: 'Notivo de perda atualizado!!!'
+              })
+            })
+            .catch((err: Error) => {
+              reject(err)
+              dialog.alert({
+                title: 'Erro!',
+                error: true,
+                message: `Falha ao atualizar motivo!! <br> ${err.message}`
+              })
+            })
+        },
+        refuse () {}
+      })
+    })
+  }
+
+  async function handleDelete (id: string) {
+    await new Promise<void>((resolve, reject) => {
+      dialog.question({
+        title: 'Atenção!',
+        message: 'Realmente deseja excluir o motivo de perda? <br> Esta acão não pode ser revertida!',
+        async accept () {
+          fetch.reasonsLossEfficiency.delete.mutate({ id })
+            .then(() => {
+              resolve()
+              dialog.alert({
+                title: 'Sucesso!',
+                message: 'Notivo de perda excluído!!!'
+              })
+            })
+            .catch((err: Error) => {
+              let errMsg = err.message
+              if (err.name === 'TRPCClientError') {
+                errMsg = 'Provavelmente existe registros usando este motivo, por isso não é possivel excluir!'
+              }
+              reject(err)
+              dialog.alert({
+                title: 'Erro!',
+                error: true,
+                message: `Falha ao excluir motivo!! <br> ${errMsg}`
+              })
+            })
+        },
+        refuse () {}
+      })
+    })
+    await updateReasonsLossList()
+  }
+
+  async function handleSave (data: ReasonsLossFrom) {
     console.log(data)
     if (selectedReason) {
-      setSelectedReason(undefined)
-      reset()
-      return
+      await handleUpdate(data)
+    } else {
+      await handleCreate(data)
     }
+    setSelectedReason(undefined)
+    await updateReasonsLossList()
     reset()
   }
 
@@ -193,7 +291,7 @@ export function EditReasonsLoss () {
                     > <Pencil size={15} /> </button>
                   </td>
                   <td>
-                    <button> <Trash size={15} /> </button>
+                    <button onClick={async () => { await handleDelete(entry.id) }} > <Trash size={15} /> </button>
                   </td>
                 </tr>
               ))}
