@@ -6,7 +6,14 @@ export const technologyTypesList = [
   'Hydraulic Press',
   'Hot Pressing',
   'Carpet Monding',
-  'Assemble'
+  'Assemble',
+  'Carpet Welding',
+  'PUR Foam Molding',
+  'LWF Block Foaming',
+  'Lamination',
+  'Water Jet',
+  'Glue application',
+  'Glasutec'
 ] as const
 
 export type TechnologyKeys = typeof technologyTypesList[number]

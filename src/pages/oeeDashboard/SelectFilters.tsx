@@ -9,6 +9,7 @@ import { useEffect, useState } from 'react'
 import { type Filters } from '.'
 import { trpc } from '../../utils/api'
 import { type TechnologyKeys } from '../../../server/entities/ProductionProcess'
+import { technologyTypesList } from '../../utils/technologyTypesList'
 
 const filtersFormSchema = z.object({
   month: z.string(),
@@ -18,13 +19,6 @@ const filtersFormSchema = z.object({
   process: z.string(),
   technology: z.string()
 })
-
-export const technologyTypesList = [
-  'Hydraulic Press',
-  'Hot Pressing',
-  'Carpet Monding',
-  'Assemble'
-]
 
 export type FiltersForm = z.infer<typeof filtersFormSchema>
 

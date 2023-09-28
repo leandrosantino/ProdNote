@@ -8,13 +8,7 @@ import { Save, X } from 'lucide-react'
 import { trpc } from '../../utils/api'
 import { useEffect, useState } from 'react'
 import { type Process } from '.'
-
-export const technologyTypesList = [
-  'Hydraulic Press',
-  'Hot Pressing',
-  'Carpet Monding',
-  'Assemble'
-]
+import { technologyTypesList } from '../../utils/technologyTypesList'
 
 const processFormSchema = z.object({
   description: z.string().nonempty('informe a descrição do processo'),
