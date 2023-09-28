@@ -42,28 +42,12 @@ Com a ideia pronta, um MVP do sistema foi criado e testado. Ele funcionou perfei
   * Atualizar as Informações
   * Excluir Produtos ***(adm)***
 
-- **Perfil de Usuário**
-  * alterar senha ***(adm)***
-  * configurar o tema para o perfil
-
-- **Planejamento de Produção**
-  * {}
-
-- **Dashboards**
-  * Produção do dia
-  * Histórico de produção
-  * Progressão do OEE
-
-- **Temas**
-  * Dark
-  * light
+- **Gestão de Eficiência de Produção**
+  * Formulário de Registro
+  * Dashboard
 
 - **Usuário Administrativo**
   * Acesso a todas as outras funcionalidades
-  * criar usuários
-  * apagar usuários
-  * alterar dados o usuário
-  * alterar permissões do usuário
 
 ## Stack utilizada
 
@@ -86,7 +70,7 @@ Com a ideia pronta, um MVP do sistema foi criado e testado. Ele funcionou perfei
 Para rodar o projeto na sua máquina, você pode clonar o repositprio con o comando:
 
 ```bash
-  git clone https://github.com/leandosantino/prodnote
+  git clone https://github.com/leandosantino/prodnote.git
 ```
 Depois de clonado entre na pasta do projeto.
 
