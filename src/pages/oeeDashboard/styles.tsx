@@ -157,6 +157,21 @@ export const Chart = styled.div<{ loading?: boolean }>`
 
   }
 
+  #machine{
+    position: absolute;
+    top: 30px;
+    left: 15px;
+    width: fit-content;
+    label{
+      font-size: 14px;
+    }
+    select{
+      border: 1px solid #000;
+      margin-left: 5px;
+      border-radius: 4px;
+    }
+  }
+
   *:active, *:focus{
     outline: none;
   }

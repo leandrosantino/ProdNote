@@ -125,6 +125,9 @@ export class ProductionEfficiencyRecordRepository implements IProductionEfficien
       },
       take: 10,
       where: {
+        machine: {
+          slug: where.machineSlug
+        },
         reasonsLossEfficiency: {
           classification: where.classification
         },
@@ -151,7 +154,7 @@ export class ProductionEfficiencyRecordRepository implements IProductionEfficien
       const item = data[i]
       if (item) {
         const reason = await prisma.reasonsLossEfficiency.findUnique({
-          where: { id: item.reasonsLossEfficiencyId as string }
+          where: { id: item.reasonsLossEfficiencyId }
         })
         if (reason) {
           efficiencyLoss.push({

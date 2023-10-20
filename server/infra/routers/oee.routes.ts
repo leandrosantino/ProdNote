@@ -22,6 +22,7 @@ const filtersSchema = z.object({
   process: z.string().optional(),
   ute: z.string().optional(),
   turn: z.string().optional(),
+  machineSlug: z.string().optional(),
   date: z.object({
     day: z.number().optional(),
     mouth: z.number(),

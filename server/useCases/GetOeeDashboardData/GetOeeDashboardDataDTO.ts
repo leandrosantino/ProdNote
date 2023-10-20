@@ -5,6 +5,7 @@ export interface GetOeeDashboardDataRequestDTO {
   turn?: ProductionEfficiencyRecordRepositoryFilters['turn']
   classification?: ProductionEfficiencyRecordRepositoryFilters['classification']
   process?: string
+  machineSlug?: string
   ute?: string
   date: {
     day?: number
