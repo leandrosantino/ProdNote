@@ -41,6 +41,7 @@ export function Sidebar () {
         <PageButton permission='READ_TAGS' value="/registerTag" >Leitor de Etiquetas</PageButton>
         <PageButton permission='OEE_NOTE' value="/registerOEE" >Lançamento de OEE</PageButton>
         <PageButton permission='OEE_NOTE' value="/efficiencyRecords" >Registro de Eficiência</PageButton>
+        <PageButton permission='OEE_NOTE' value="/lossCalculator" >Calculadora de Perdas</PageButton>
         <PageButton permission='OEE_NOTE' value="/oeeDashboard" >Dashboard OEE</PageButton>
         <PageButton permission='OEE_ADMIN' value="/editProductionProcess" >Processos de Produção</PageButton>
         <PageButton permission='OEE_ADMIN' value="/editReasonsLoss" >Motivos de Perda</PageButton>

@@ -12,6 +12,7 @@ import { OeeDashboard } from '../pages/oeeDashboard'
 import { EfficiencyRecords } from '../pages/efficiencyRecords'
 import { EditProductionProcess } from '../pages/editProductionProcess'
 import { EditReasonsLoss } from '../pages/editReasonsLoss'
+import LossCalculator from '../pages/lossCalculator'
 
 export function AppRoutes () {
   return (
@@ -31,6 +32,10 @@ export function AppRoutes () {
 
           <Route element={<RequireAuth permission='OEE_NOTE'/>}>
             <Route path='registerOEE' Component={RegisterOEE} />
+          </Route>
+
+          <Route element={<RequireAuth permission='OEE_NOTE'/>}>
+            <Route path='lossCalculator' Component={LossCalculator} />
           </Route>
 
           <Route element={<RequireAuth permission='OEE_NOTE'/>}>
