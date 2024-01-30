@@ -1,9 +1,22 @@
+Option Explicit
+
+Dim processName, objWMIService, colProcessList, objProcess, scriptDir, WshShell
+
 scriptDir = CreateObject("Scripting.FileSystemObject").GetParentFolderName(WScript.ScriptFullName)
+processName = "prodnote.exe"
 
-if MsgBox("Realmente dejesa iniciar o sistema de apontamento de OEE?",4,"Sistema OEE") = 6 then
-  Set WshShell = CreateObject("WScript.Shell")
-  WshShell.Run chr(34) & scriptDir &"/prodnote.exe" & Chr(34), 0
-  Set WshShell = Nothing
-  MsgBox "Sistema Iniciado com sucesso!!!", 0 ,"Sistema OEE"
-end if
+Set objWMIService = GetObject("winmgmts:\\.\root\cimv2")
+Set colProcessList = objWMIService.ExecQuery("Select * from Win32_Process Where Name = '" & processName & "'")
 
+If colProcessList.Count > 0 Then
+  MsgBox "O sistema já está em execução!", 0 ,"Sistema OEE"
+Else
+    If MsgBox("Realmente dejesa iniciar o sistema de apontamento de OEE?",4,"Sistema OEE") = 6 Then
+
+    Set WshShell = CreateObject("WScript.Shell")
+    WshShell.Run chr(34) & scriptDir &"/" & processName & Chr(34), 0
+    Set WshShell = Nothing
+    MsgBox "Sistema iniciado com sucesso!!!", 0 ,"Sistema OEE"
+
+  End If
+End If
