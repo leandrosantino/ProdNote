@@ -9,6 +9,7 @@ import { classificationTypesList, lossTypesList } from '../../entities/ReasonsLo
 import { technologyTypesList } from '../../entities/ProductionProcess'
 import { getOeeDashboardData } from '../../useCases/GetOeeDashboardData'
 import { listProductionEfficiency } from '../../useCases/ListProductionEfficiency'
+import { calculateLoss } from '../../useCases/CalculateLoss'
 
 const t = initTRPC.context<Context>().create()
 
@@ -22,6 +23,7 @@ const filtersSchema = z.object({
   process: z.string().optional(),
   ute: z.string().optional(),
   turn: z.string().optional(),
+  machineSlug: z.string().optional(),
   date: z.object({
     day: z.number().optional(),
     mouth: z.number(),
@@ -141,6 +143,13 @@ export const oeeRoutes = t.router({
     .input(filtersSchema)
     .query(async ({ input }) => {
       return await getOeeDashboardData.getLossReasonsChart(input)
+    }),
+  calculateLoss: procedure
+    .input(z.object({
+      processId: z.string(),
+      quantityProduced: z.number()
+    }))
+    .query(async ({ input: { processId, quantityProduced } }) => {
+      return await calculateLoss.execute(processId, quantityProduced)
     })
-
 })

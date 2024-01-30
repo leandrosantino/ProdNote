@@ -44,6 +44,10 @@ export function ClassChart ({ filters }: { filters: Filters }) {
 
   const [selectedClassification, setSelectedClassification] = useState<(keyof typeof reducedNames)>()
 
+  const [machine, setMachine] = useState<string>('')
+
+  const machineData = trpc.machine.getAll.useQuery()
+
   const reasonsChartData = trpc.oee.getLossReasonsChartData.useQuery({
     date: {
       day: filters.day,
@@ -53,6 +57,7 @@ export function ClassChart ({ filters }: { filters: Filters }) {
     process: filters.processId,
     turn: filters.turn,
     ute: filters.ute,
+    machineSlug: machine === '' ? undefined : machine,
     technology: filters.technology,
     classification: selectedClassification
   })
@@ -74,7 +79,7 @@ export function ClassChart ({ filters }: { filters: Filters }) {
   return (
     <Chart>
       <div>
-        <h3>{selectedClassification ? `Top 10 perdas em- ${selectedClassification}` : 'Perdas por Classificação'}</h3>
+        <h3>{selectedClassification ? `Top 10 perdas em- ${selectedClassification} ${machine === '' ? '' : `- ${machine}`}` : 'Perdas por Classificação'}</h3>
       </div>
       <div id='chatClass'>
         {
@@ -114,6 +119,18 @@ export function ClassChart ({ filters }: { filters: Filters }) {
                   <Loading show={true} message='Carregndo Gráfico...'/>
                 </div>
               : <>
+                <div id="machine">
+                  <label>Máquina:</label>
+                  <select
+                    value={machine}
+                    onChange={e => { setMachine(e.target.value) }}
+                  >
+                    <option value=""> --- </option>
+                    {machineData.data?.map(entry => (
+                      <option key={entry.id} value={entry.slug}>{entry.slug}</option>
+                    ))}
+                  </select>
+                </div>
                 <button
                   onClick={() => { setSelectedClassification(undefined) }}
                 >

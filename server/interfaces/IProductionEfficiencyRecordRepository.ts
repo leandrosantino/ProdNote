@@ -12,6 +12,7 @@ export interface ProductionEfficiencyRecordRepositoryFilters {
   classification?: ReasonsLossEfficiency['classification']
   ute?: string
   process?: string
+  machineSlug?: string
 }
 
 export interface ProductionEfficiencyRecordIncludedUser extends ProductionEfficiencyRecord {
