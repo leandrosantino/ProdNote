@@ -6,7 +6,7 @@
     "dev": "vite --host",
     "build": "tsc && vite build",
     "preview": "vite preview",
-    "server": "tsx watch ./server/index.ts config=./tsconfig.node.json",
+    "server": "set IS_DEV=true && tsx watch ./server/index.ts config=./tsconfig.node.json",
     "server.build": "set NODE_ENV=production && webpack",
     "server.build-dev": "set NODE_ENV=development && webpack",
     "commit": "git add . && cz && git push",
@@ -14,9 +14,19 @@
     "lint-fix": "npx eslint --fix ./",
     "lint": "npx eslint ./",
     "seed": "tsx --tsconfig ./server.tsconfig.json ./seed/index.ts",
-    "start": "node index",
     "db.studio": "prisma studio",
-    "dist": "npm run build && npm run server.build"
+    "dist": "npm run build && npm run server.build && pkg ."
+  },
+  "bin": "./dist/index.js",
+  "pkg": {
+    "assets": [
+      "./dist/**/*",
+      "node_modules/.prisma/**/*"
+    ],
+    "targets": [
+      "node18-win"
+    ],
+    "outputPath": "./dist/prodnote"
   },
   "prisma": {
     "seed": "npm run seed"
@@ -42,7 +52,9 @@
     "@trpc/react-query": "^10.29.1",
     "@trpc/server": "^10.29.1",
     "axios": "^1.4.0",
+    "better-sqlite3": "^9.3.0",
     "chalk": "^4.1.2",
+    "dotenv": "^16.4.1",
     "fastify": "^4.17.0",
     "file-saver": "^2.0.5",
     "handsontable": "^13.0.0",
@@ -69,6 +81,7 @@
     "@commitlint/cli": "^17.6.5",
     "@commitlint/config-conventional": "^17.6.5",
     "@mermaid-js/mermaid-cli": "^10.2.4",
+    "@types/better-sqlite3": "^7.6.9",
     "@types/file-saver": "^2.0.5",
     "@types/handsontable": "^0.35.0",
     "@types/jest": "^29.5.2",

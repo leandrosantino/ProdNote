@@ -59,6 +59,6 @@ module.exports = {
   },
   output: {
     filename: '[name].js',
-    path: path.resolve(__dirname, './prodnote@app'),
+    path: path.resolve(__dirname, './dist'),
   },
 };
