@@ -7,6 +7,7 @@ import { appRouter, type AppRouter } from './routers'
 import fastifyCors from '@fastify/cors'
 import { createContext } from './context'
 import { logger } from '../utils/logger'
+import { type BackupService } from '../services/BackupService/BackupService'
 
 export class HttpServer {
   private readonly port: number
@@ -15,12 +16,15 @@ export class HttpServer {
   private readonly staticsDirectory: string
   private readonly server: FastifyInstance
 
-  constructor (props: {
-    port: number
-    apiEndpoint: string
-    playgroundEndpoint: string
-    staticsDirectory: string
-  }) {
+  constructor (
+    private readonly backupService: BackupService,
+    props: {
+      port: number
+      apiEndpoint: string
+      playgroundEndpoint: string
+      staticsDirectory: string
+    }
+  ) {
     this.port = props.port
     this.apiEndpoint = props.apiEndpoint
     this.playgroundEndpoint = props.playgroundEndpoint
@@ -86,11 +90,22 @@ export class HttpServer {
     }
   }
 
+  async startBackupService () {
+    try {
+      await this.backupService.init()
+      logger.info('start backup service successfully')
+    } catch (err) {
+      logger.error(String(err))
+      throw new Error('failed start backup service')
+    }
+  }
+
   async listen () {
     try {
       this.startRoutes()
       await this.startApi()
       await this.configurePluguns()
+      await this.startBackupService()
 
       this.server.listen({ port: 3336, host: '0.0.0.0' }, (err) => {
         if (err != null) {

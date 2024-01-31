@@ -6,7 +6,7 @@
     "dev": "vite --host",
     "build": "tsc && vite build",
     "preview": "vite preview",
-    "server": "set IS_DEV=true && tsx watch ./server/index.ts config=./tsconfig.node.json",
+    "server": "set IS_DEV=true && tsx ./server/index.ts config=./tsconfig.node.json",
     "server.build": "set NODE_ENV=production && webpack",
     "server.build-dev": "set NODE_ENV=development && webpack",
     "commit": "git add . && cz && git push",
@@ -15,6 +15,7 @@
     "lint": "npx eslint ./",
     "seed": "tsx --tsconfig ./server.tsconfig.json ./seed/index.ts",
     "db.studio": "prisma studio",
+    "db.create": "prisma db push && npm run seed ",
     "dist": "npm run build && npm run server.build && pkg ."
   },
   "bin": "./dist/index.js",

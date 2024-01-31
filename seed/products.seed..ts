@@ -32,12 +32,12 @@ export async function productSeed () {
   }
 
   try {
-    const { data: products } = await axios.get<Product[]>('http://192.168.115.201:3333/api/products', {})
+    const { data: products } = await axios.get<Product[]>('http://localhost:3336/api/products', {})
     for await (const product of [genericProduct, ...products]) {
       logger.info('   - add ' + product.description)
       await productRepository.create(product)
     }
   } catch (err) {
-    logger.error(err)
+    logger.error((err as Error).message)
   }
 }

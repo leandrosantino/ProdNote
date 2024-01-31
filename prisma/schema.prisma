@@ -116,3 +116,9 @@ model ProductionEfficiencyRecord {
   productionProcess          ProductionProcess          @relation(fields: [productionProcessId], references: [id])
   user                       User                       @relation(fields: [userId], references: [id])
 }
+
+model DatabaseBackupHistory {
+  id  Int  @id @default(autoincrement())
+  date DateTime @default(now())
+  local String
+}

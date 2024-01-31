@@ -6,7 +6,7 @@ import { systemPermisionsSeed } from './systemPermissions.seed'
 import { productionProcessSeed } from './productionProcess.seed'
 import { usersSeed } from './users.seed'
 
-(async () => {
+;(async () => {
   await machinesSeed()
   await productSeed()
   await reasonsLossEfficiencySeed()
