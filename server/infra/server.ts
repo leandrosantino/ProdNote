@@ -1,6 +1,6 @@
 import fastify, { type FastifyInstance } from 'fastify'
 import fastifyStatic from '@fastify/static'
-import path from 'path'
+
 import { type FastifyTRPCPluginOptions, fastifyTRPCPlugin } from '@trpc/server/adapters/fastify'
 import { getFastifyPlugin } from 'trpc-playground/handlers/fastify'
 import { appRouter, type AppRouter } from './routers'
@@ -76,7 +76,7 @@ export class HttpServer {
   async configurePluguns () {
     try {
       await this.server.register(fastifyStatic, {
-        root: path.join(__dirname, './static')
+        root: this.staticsDirectory
       })
 
       await this.server.register(fastifyCors, {
@@ -107,7 +107,7 @@ export class HttpServer {
       await this.configurePluguns()
       await this.startBackupService()
 
-      this.server.listen({ port: 3336, host: '0.0.0.0' }, (err) => {
+      this.server.listen({ port: this.port, host: '0.0.0.0' }, (err) => {
         if (err != null) {
           logger.error(String(err))
           return

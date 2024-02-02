@@ -5,6 +5,7 @@ import path from 'path'
 
 const SECONDS_IN_ONE_HOUR = 3600
 const SECONDS_IN_ONE_MILISECONDS = 1000
+const HOURS_IN_ONE_DAY = 24
 
 export class BackupService {
   constructor (
@@ -15,7 +16,11 @@ export class BackupService {
     private readonly callback: () => void,
     private readonly error: (err: Error) => void
   ) {
-    this.backupIntervalInMiliseconds = SECONDS_IN_ONE_MILISECONDS * SECONDS_IN_ONE_HOUR * backupFrequencyInDays
+    this.backupIntervalInMiliseconds =
+      SECONDS_IN_ONE_MILISECONDS *
+      SECONDS_IN_ONE_HOUR *
+      HOURS_IN_ONE_DAY *
+      backupFrequencyInDays
   }
 
   backupIntervalInMiliseconds: number
