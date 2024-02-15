@@ -14,6 +14,7 @@ export class HttpServer {
   private readonly apiEndpoint: string
   private readonly playgroundEndpoint: string
   private readonly staticsDirectory: string
+  private readonly enableDatabaseBackup: boolean
   private readonly server: FastifyInstance
 
   constructor (
@@ -23,12 +24,14 @@ export class HttpServer {
       apiEndpoint: string
       playgroundEndpoint: string
       staticsDirectory: string
+      enableDatabaseBackup: boolean
     }
   ) {
     this.port = props.port
     this.apiEndpoint = props.apiEndpoint
     this.playgroundEndpoint = props.playgroundEndpoint
     this.staticsDirectory = props.staticsDirectory
+    this.enableDatabaseBackup = props.enableDatabaseBackup
     this.server = fastify()
   }
 
@@ -105,7 +108,9 @@ export class HttpServer {
       this.startRoutes()
       await this.startApi()
       await this.configurePluguns()
-      await this.startBackupService()
+      if (this.enableDatabaseBackup) {
+        await this.startBackupService()
+      }
 
       this.server.listen({ port: this.port, host: '0.0.0.0' }, (err) => {
         if (err != null) {

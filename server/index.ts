@@ -5,6 +5,7 @@ import { backupService } from './services/BackupService'
 dotenv.config()
 
 const port = process.env.PORT as string
+const isDev = process.env.IS_DEV as string
 
 if (!port) {
   throw Error('port is note defined')
@@ -13,6 +14,7 @@ if (!port) {
 const server = new HttpServer(
   backupService,
   {
+    enableDatabaseBackup: isDev === 'false',
     apiEndpoint: '/api',
     playgroundEndpoint: '/playground',
     port: Number(port),

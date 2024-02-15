@@ -61,6 +61,7 @@ const Container = styled.div`
       height: 2rem;
       position: absolute;
       right: .8rem;
+      top: .7rem;
       display: flex;
       justify-content: center;
       align-items: center;

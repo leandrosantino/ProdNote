@@ -193,7 +193,7 @@ export const ModalContent = styled.div`
     justify-content: center;
     align-items: center;
     flex-wrap: wrap;
-    overflow-x: auto;
+    overflow-x: inherit;
 
     &>div:nth-child(1){
       width: 15%;

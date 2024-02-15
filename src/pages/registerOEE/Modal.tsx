@@ -11,15 +11,9 @@ import { trpc } from '../../utils/api'
 import { useEffect, useState } from 'react'
 import { type ReasonsLoss, type EfficiencyRecords, type ModalParams } from '.'
 import { useLocalState } from '../../hooks/useLocalState'
+import { Combobox } from '../../components/Form/Combobox'
 
-const efficiencyLossesSchema = z.object({
-  type: z.string().nonempty('obigatório!'),
-  reason: z.string().nonempty('obigatório!'),
-  machine: z.string().nonempty('obigatório!'),
-  lostTime: z.coerce.number().min(1, 'requer >1')
-})
 const typeReasonsLoss = ['scrap', 'rework', 'stoppages'] as const
-type EfficiencyLosses = z.infer<typeof efficiencyLossesSchema>
 type TypeReasonsLoss = typeof typeReasonsLoss[number]
 
 interface ModalProps extends DialogProps {
@@ -27,6 +21,28 @@ interface ModalProps extends DialogProps {
 }
 
 export function Modal ({ params, accept, finally: end }: ModalProps) {
+  const [selectedType, setSelectedType] = useState<TypeReasonsLoss>('scrap')
+
+  const reasonLosses = trpc.oee.getReasonsLossList.useQuery({ type: selectedType })
+
+  const efficiencyLossesSchema = z.object({
+    type: z.string().nonempty('obigatório!'),
+    reason: z.string()
+      .nonempty('obigatório!')
+      .refine(value => {
+        if (reasonLosses.data) {
+          return reasonLosses.data
+            .filter(entry => entry.description === value)
+            .map(entry => entry.description)
+            .includes(value)
+        }
+        return false
+      }, 'motivo de perca não encontrado'),
+    machine: z.string().nonempty('obigatório!'),
+    lostTime: z.coerce.number().min(1, 'requer >1')
+  })
+  type EfficiencyLosses = z.infer<typeof efficiencyLossesSchema>
+
   const [efficiencyRecords] = useLocalState<EfficiencyRecords[]>(params?.localStateKey as string)
   const [reasonsLossEfficiencyList, setReasonsLossEfficiencyList] = useState<ReasonsLoss[]>([])
   const [totalTime, setTotalTime] = useState(0)
@@ -52,11 +68,14 @@ export function Modal ({ params, accept, finally: end }: ModalProps) {
     watch
   } = efficiencyLossesForm
 
-  const reasonLosses = trpc.oee.getReasonsLossList.useQuery({ type: (watch().type as TypeReasonsLoss) || 'scrap' })
+  useEffect(() => {
+    setSelectedType(watch().type as TypeReasonsLoss)
+    console.log(watch().type)
+  }, [watch().type])
 
   useEffect(() => {
     if (reasonLosses.data) {
-      setValue('reason', reasonLosses.data[0].id)
+      setValue('reason', reasonLosses.data[0].description)
     }
   }, [reasonLosses.data])
 
@@ -73,8 +92,14 @@ export function Modal ({ params, accept, finally: end }: ModalProps) {
         lostTimeInMinutes = data.lostTime * params.cycleTimeInSeconds / 60
       }
 
+      const reasonsLossEfficiencyId = reasonLosses.data.find(entry => entry.description === data.reason)?.id
+
+      if (!reasonsLossEfficiencyId) {
+        console.log('reason not found!')
+        return
+      }
       setReasonsLossEfficiencyList(old => [...old, {
-        reasonsLossEfficiencyId: data.reason,
+        reasonsLossEfficiencyId,
         machineId: data.machine,
         lostTimeInMinutes,
         machineSlug: machine?.slug as string,
@@ -123,12 +148,20 @@ export function Modal ({ params, accept, finally: end }: ModalProps) {
 
           <Field.Root>
             <Field.Label htmlFor='reason'>Motivo:</Field.Label>
-            <Field.Select id='reason' name='reason' >
+            <Combobox
+              autoComplete='off'
+              disabled={false}
+              id='reason'
+              name='reason'
+              options={reasonLosses.data?.map(entry => entry.description) ?? []}
+              placeholder=''
+            />
+            {/* <Field.Select id='reason' name='reason' >
                 <option value=""> - Selecione o motivo -</option>
                 {reasonLosses.data?.map(entry => (
                   <option key={entry.id} value={entry.id}>{entry.description}</option>
                 ))}
-            </Field.Select>
+            </Field.Select> */}
             <Field.ErrorMessage field='reason' />
           </Field.Root>
 

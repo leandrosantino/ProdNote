@@ -1,3 +1,13 @@
 02/02/2024, 08:00:04 - connect ECONNREFUSED ::1:3336;
 2024-2-8 9:21:22 - database backup fail - ENOENT: no such file or directory, copyfile 'D:/dev/prodnote/database/app.db' -> 'D:\dev\prodnote\database\backup\database_backup_2024-2-8 9-21-22.db';
 2024-2-8 9:22:23 - database backup fail - ENOENT: no such file or directory, copyfile 'D:/dev/prodnote/database/app.db' -> 'D:\dev\prodnote\database\backup\database_backup_2024-2-8 9-22-23.db';
+15/02/2024, 11:26:38 - database backup fail - ENOENT: no such file or directory, copyfile 'D:/dev/prodnote/database/app.db' -> 'D:\dev\prodnote\database\backup\database_backup_15-02-2024T11-26-38.db';
+15/02/2024, 11:27:38 - database backup fail - ENOENT: no such file or directory, copyfile 'D:/dev/prodnote/database/app.db' -> 'D:\dev\prodnote\database\backup\database_backup_15-02-2024T11-27-38.db';
+15/02/2024, 11:28:39 - database backup fail - ENOENT: no such file or directory, copyfile 'D:/dev/prodnote/database/app.db' -> 'D:\dev\prodnote\database\backup\database_backup_15-02-2024T11-28-39.db';
+15/02/2024, 11:29:39 - database backup fail - ENOENT: no such file or directory, copyfile 'D:/dev/prodnote/database/app.db' -> 'D:\dev\prodnote\database\backup\database_backup_15-02-2024T11-29-39.db';
+15/02/2024, 11:30:40 - database backup fail - ENOENT: no such file or directory, copyfile 'D:/dev/prodnote/database/app.db' -> 'D:\dev\prodnote\database\backup\database_backup_15-02-2024T11-30-40.db';
+15/02/2024, 11:31:40 - database backup fail - ENOENT: no such file or directory, copyfile 'D:/dev/prodnote/database/app.db' -> 'D:\dev\prodnote\database\backup\database_backup_15-02-2024T11-31-40.db';
+15/02/2024, 11:32:41 - database backup fail - ENOENT: no such file or directory, copyfile 'D:/dev/prodnote/database/app.db' -> 'D:\dev\prodnote\database\backup\database_backup_15-02-2024T11-32-41.db';
+15/02/2024, 11:33:41 - database backup fail - ENOENT: no such file or directory, copyfile 'D:/dev/prodnote/database/app.db' -> 'D:\dev\prodnote\database\backup\database_backup_15-02-2024T11-33-41.db';
+15/02/2024, 11:34:42 - database backup fail - ENOENT: no such file or directory, copyfile 'D:/dev/prodnote/database/app.db' -> 'D:\dev\prodnote\database\backup\database_backup_15-02-2024T11-34-42.db';
+15/02/2024, 11:35:42 - database backup fail - ENOENT: no such file or directory, copyfile 'D:/dev/prodnote/database/app.db' -> 'D:\dev\prodnote\database\backup\database_backup_15-02-2024T11-35-42.db';
