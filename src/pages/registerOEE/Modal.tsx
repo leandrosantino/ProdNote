@@ -65,25 +65,27 @@ export function Modal ({ params, accept, finally: end }: ModalProps) {
   const {
     handleSubmit,
     setValue,
-    watch
+    watch,
+    reset
   } = efficiencyLossesForm
 
   useEffect(() => {
     setSelectedType(watch().type as TypeReasonsLoss)
-    console.log(watch().type)
+    if (reasonLosses.data) {
+      setValue('reason', '')
+    }
   }, [watch().type])
 
   useEffect(() => {
-    if (reasonLosses.data) {
-      setValue('reason', reasonLosses.data[0].description)
-    }
+    // if (reasonLosses.data) {
+    //   setValue('reason', reasonLosses.data[0].description)
+    // }
   }, [reasonLosses.data])
 
   const machines = trpc.oee.getProductionProcessMachines.useQuery({ id: params?.processId as string })
 
   function handleSave (data: EfficiencyLosses) {
     if (machines.data && reasonLosses.data) {
-      const reason = reasonLosses.data?.find(entry => entry.id === data.reason)
       const machine = machines.data?.find(entry => entry.id === data.machine)
       let lostTimeInMinutes = data.lostTime
 
@@ -92,20 +94,21 @@ export function Modal ({ params, accept, finally: end }: ModalProps) {
         lostTimeInMinutes = data.lostTime * params.cycleTimeInSeconds / 60
       }
 
-      const reasonsLossEfficiencyId = reasonLosses.data.find(entry => entry.description === data.reason)?.id
+      const reasonsLossEfficiency = reasonLosses.data.find(entry => entry.description === data.reason)
 
-      if (!reasonsLossEfficiencyId) {
+      if (reasonsLossEfficiency === undefined) {
         console.log('reason not found!')
         return
       }
       setReasonsLossEfficiencyList(old => [...old, {
-        reasonsLossEfficiencyId,
+        reasonsLossEfficiencyId: reasonsLossEfficiency.id,
         machineId: data.machine,
         lostTimeInMinutes,
         machineSlug: machine?.slug as string,
-        reasonsLossDescription: reason?.description as string,
+        reasonsLossDescription: reasonsLossEfficiency.description,
         type: data.type
       }])
+      reset()
     }
   }
 
@@ -156,12 +159,6 @@ export function Modal ({ params, accept, finally: end }: ModalProps) {
               options={reasonLosses.data?.map(entry => entry.description) ?? []}
               placeholder=''
             />
-            {/* <Field.Select id='reason' name='reason' >
-                <option value=""> - Selecione o motivo -</option>
-                {reasonLosses.data?.map(entry => (
-                  <option key={entry.id} value={entry.id}>{entry.description}</option>
-                ))}
-            </Field.Select> */}
             <Field.ErrorMessage field='reason' />
           </Field.Root>
 

@@ -2,7 +2,7 @@ import { Field } from '../Field'
 import { BackContainer, Content, Menu } from './styles'
 import { type HTMLProps, useEffect, useState } from 'react'
 import { useFormContext } from 'react-hook-form'
-import { MagnifyingGlassIcon, Cross2Icon } from '@radix-ui/react-icons'
+import { Cross2Icon, ChevronUpIcon, ChevronDownIcon } from '@radix-ui/react-icons'
 
 interface ComboboxRootProps extends HTMLProps<HTMLInputElement> {
   name: string
@@ -18,11 +18,15 @@ export function Combobox ({ options, onSelectOption, isValid = true, message, ..
   const [optionsFiltered, setOptionsFiltered] = useState<string[]>(options)
   const [inEdition, setInEdition] = useState(false)
 
-  useEffect(() => {
+  function updateOptions () {
     setOptionsFiltered(options?.filter(option =>
       option?.toLocaleUpperCase()
         .search(value?.toLocaleUpperCase()) >= 0
     ))
+  }
+
+  useEffect(() => {
+    updateOptions()
   }, [value])
 
   useEffect(() => {
@@ -57,6 +61,7 @@ export function Combobox ({ options, onSelectOption, isValid = true, message, ..
         icon={<>
           {inEdition
             ? <button
+              className='close'
               onClick={() => {
                 setFormValue(rest.name, '')
                 setInEdition(false)
@@ -64,9 +69,17 @@ export function Combobox ({ options, onSelectOption, isValid = true, message, ..
             >
               <Cross2Icon/>
             </button>
-            : <MagnifyingGlassIcon/>
+            : <button
+                onClick={() => {
+                  updateOptions()
+                  setShowMenu(state => !state)
+                }}
+              >
+                {showMenu ? <ChevronUpIcon/> : <ChevronDownIcon/>}
+              </button>
           }
         </>}
+
         type="text"
         {...rest}
       />

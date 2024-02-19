@@ -55,8 +55,10 @@ const Container = styled.div`
       bottom: 0;
       margin: auto;
     }
-
     button{
+
+    }
+    button.close{
       width: 2rem;
       height: 2rem;
       position: absolute;
