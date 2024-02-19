@@ -13,6 +13,7 @@ import { EfficiencyRecords } from '../pages/efficiencyRecords'
 import { EditProductionProcess } from '../pages/editProductionProcess'
 import { EditReasonsLoss } from '../pages/editReasonsLoss'
 import LossCalculator from '../pages/lossCalculator'
+import { UserManagement } from '../pages/userManagment'
 
 export function AppRoutes () {
   return (
@@ -48,6 +49,10 @@ export function AppRoutes () {
 
           <Route element={<RequireAuth permission='OEE_ADMIN'/>}>
             <Route path='editProductionProcess' Component={EditProductionProcess} />
+          </Route>
+
+          <Route element={<RequireAuth permission='OEE_ADMIN'/>}>
+            <Route path='userManagement' Component={UserManagement} />
           </Route>
 
           <Route element={<RequireAuth permission='OEE_ADMIN'/>}>
