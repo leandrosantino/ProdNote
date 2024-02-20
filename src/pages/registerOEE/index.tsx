@@ -431,7 +431,7 @@ export function RegisterOEE () {
               <td>{record.description}</td>
               <td>
                 <OeeCell
-                  data-error={(record.oeeValue > 1.01 || record.oeeValue < -0.01) ? 'on' : 'off'}
+                  data-error={(record.oeeValue > 1.03 || record.oeeValue < -0.03) ? 'on' : 'off'}
                 >
                   {(record.oeeValue * 100).toFixed(1)}%
                 </OeeCell>

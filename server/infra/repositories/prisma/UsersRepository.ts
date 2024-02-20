@@ -29,6 +29,15 @@ export class UsersRepository implements IUsersRepository {
     return user as User
   }
 
+  async getAll () {
+    const user = await prisma.user.findMany({
+      include: {
+        permissions: true
+      }
+    })
+    return user as User[]
+  }
+
   async findById (userId: string) {
     const user = await prisma.user.findUnique({
       where: { id: userId },
@@ -39,6 +48,19 @@ export class UsersRepository implements IUsersRepository {
     if (!user) {
       return null
     }
+    return user as User
+  }
+
+  async update (id: string, data: Omit<User, 'permissions'>, permissions: Array<SystemPermission['id']>) {
+    const user = await prisma.user.update({
+      where: { id },
+      data: {
+        ...data,
+        permissions: {
+          connect: permissions.map(id => ({ id }))
+        }
+      }
+    })
     return user as User
   }
 }

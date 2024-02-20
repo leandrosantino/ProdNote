@@ -6,7 +6,7 @@
     "dev": "vite --host",
     "build": "tsc && vite build",
     "preview": "vite preview",
-    "server": "set IS_DEV=true && tsx ./server/index.ts config=./tsconfig.node.json",
+    "server": "set IS_DEV=true && tsx watch ./server/index.ts config=./tsconfig.node.json",
     "server.build": "set NODE_ENV=production && webpack",
     "server.build-dev": "set NODE_ENV=development && webpack",
     "commit": "git add . && cz && git push",

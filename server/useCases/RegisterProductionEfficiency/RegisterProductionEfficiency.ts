@@ -65,7 +65,7 @@ export class RegisterProductionEfficiency {
     lostTimeInMinutes: number
     cavitiesNumber: number
   }) {
-    const CUTOFF = 0.01
+    const CUTOFF = 0.03
     const piecesQuantityInMinutes = (props.piecesQuantity * (props.cycleTimeInSeconds / props.cavitiesNumber)) / 60
     const productionTimePointer = piecesQuantityInMinutes + props.lostTimeInMinutes
     const diff = props.productionTimeInMinutes - productionTimePointer

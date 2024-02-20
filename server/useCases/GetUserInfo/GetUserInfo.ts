@@ -17,6 +17,7 @@ export class GetUserInfo {
       id: user.id,
       name: user.name,
       email: user.email,
+      password: user.password,
       permissions: user.permissions.map(permission => permission.description)
     } as GetUserInfoResponseDTO
   }
