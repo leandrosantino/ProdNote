@@ -10,6 +10,7 @@ import { productRoutes } from './product.routes'
 import { oeeRoutes } from './oee.routes'
 import { ProductionProcessRoutes } from './productionProcess.routes'
 import { ReasonsLossEfficiencyRoutes } from './reasonsLossEfficiency.routes'
+import { BackupHistoryRoutes } from './backupHistory.routes'
 
 const trpc = initTRPC.context<Context>().create()
 
@@ -22,7 +23,8 @@ export const appRouter = trpc.router({
   product: productRoutes,
   oee: oeeRoutes,
   productionProcess: ProductionProcessRoutes,
-  reasonsLossEfficiency: ReasonsLossEfficiencyRoutes
+  reasonsLossEfficiency: ReasonsLossEfficiencyRoutes,
+  backupHistory: BackupHistoryRoutes
 })
 
 export type AppRouter = typeof appRouter

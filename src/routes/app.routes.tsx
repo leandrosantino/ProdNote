@@ -14,6 +14,7 @@ import { EditProductionProcess } from '../pages/editProductionProcess'
 import { EditReasonsLoss } from '../pages/editReasonsLoss'
 import LossCalculator from '../pages/lossCalculator'
 import { UserManagement } from '../pages/userManagment'
+import { DatabaseHistory } from '../pages/databaseHistory'
 
 export function AppRoutes () {
   return (
@@ -49,6 +50,10 @@ export function AppRoutes () {
 
           <Route element={<RequireAuth permission='OEE_ADMIN'/>}>
             <Route path='editProductionProcess' Component={EditProductionProcess} />
+          </Route>
+
+          <Route element={<RequireAuth permission='OEE_ADMIN'/>}>
+            <Route path='databaseHistory' Component={DatabaseHistory} />
           </Route>
 
           <Route element={<RequireAuth permission='OEE_ADMIN'/>}>

@@ -1,5 +1,5 @@
 import { blueDark, grayDark } from '@radix-ui/colors'
-import { Tooltip, XAxis, YAxis, Line, LineChart } from 'recharts'
+import { Tooltip, XAxis, YAxis, Line, LineChart, ReferenceLine, Label } from 'recharts'
 import { Chart } from './styles'
 import { trpc } from '../../utils/api'
 import { type Filters } from '.'
@@ -30,7 +30,9 @@ export function DailyChart ({ filters: { mouth, year, ...filters } }: { filters:
     </div>
     <div id='chartDaily' >
         <LineChart
-          data={data}
+          data={data?.map(({ day, value }) => {
+            return { day, value, target: 80 }
+          })}
           margin={{
             top: 18
           }}
@@ -43,6 +45,10 @@ export function DailyChart ({ filters: { mouth, year, ...filters } }: { filters:
             formatter={(value) => [Number(value).toFixed(1) + '%', 'OEE']}
           />
           <Line type="bump" dataKey="value" fill={blueDark.blue7}/>
+          <ReferenceLine y={85} stroke="red">
+            <Label position="top" />
+          </ReferenceLine>
+          {/* <Line dataKey="target" fill={blueDark.blue7}/> */}
         </LineChart>
     </div>
   </Chart>
