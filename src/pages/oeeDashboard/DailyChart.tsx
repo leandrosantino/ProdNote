@@ -30,16 +30,18 @@ export function DailyChart ({ filters: { mouth, year, ...filters } }: { filters:
     </div>
     <div id='chartDaily' >
         <LineChart
-          data={data?.map(({ day, value }) => {
-            return { day, value, target: 80 }
-          })}
+          data={data}
           margin={{
             top: 18
           }}
           width={950} height={186}
         >
           <XAxis dataKey="day" fontSize={12} fontWeight={500} color={grayDark.gray5}/>
-          <YAxis fontSize={10} width={30} type='number' tickFormatter={(value: number) => `${value}%`}/>
+          <YAxis
+            fontSize={10} width={30}
+            type='number' tickFormatter={(value: number) => `${value}%`}
+            ticks={[0, 12, 24, 36, 48, 60, 72, 85, 96, 108]}
+          />
           <Tooltip
             labelFormatter={(name: string) => `Dia: ${name}`}
             formatter={(value) => [Number(value).toFixed(1) + '%', 'OEE']}
