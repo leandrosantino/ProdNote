@@ -89,6 +89,11 @@ export const oeeRoutes = t.router({
       return registerProductionEfficiency.verifyCoerency(input)
     }),
 
+  getCutOff: procedure
+    .query(() => {
+      return registerProductionEfficiency.getCutOff()
+    }),
+
   getProcessesList: procedure
     .input(z.object({
       ute: z.string().optional(),

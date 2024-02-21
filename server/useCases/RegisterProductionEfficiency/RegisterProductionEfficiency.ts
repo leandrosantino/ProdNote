@@ -5,7 +5,8 @@ import { type RegisterProductionEfficiencyRequestDTO } from './RegisterProductio
 export class RegisterProductionEfficiency {
   constructor (
     private readonly productionEfficiencyRecordRepository: IProductionEfficiencyRecordRepository,
-    private readonly productionProcessRepository: IProductionProcessRepository
+    private readonly productionProcessRepository: IProductionProcessRepository,
+    private readonly CUTOFF: number
   ) {}
 
   async execute ({ data, productionEfficiencyLosses }: RegisterProductionEfficiencyRequestDTO) {
@@ -65,13 +66,12 @@ export class RegisterProductionEfficiency {
     lostTimeInMinutes: number
     cavitiesNumber: number
   }) {
-    const CUTOFF = 0.03
     const piecesQuantityInMinutes = (props.piecesQuantity * (props.cycleTimeInSeconds / props.cavitiesNumber)) / 60
     const productionTimePointer = piecesQuantityInMinutes + props.lostTimeInMinutes
     const diff = props.productionTimeInMinutes - productionTimePointer
     const diffInPercent = diff / props.productionTimeInMinutes
 
-    if (Math.abs(diffInPercent) > CUTOFF) {
+    if (Math.abs(diffInPercent) > this.CUTOFF) {
       if (diffInPercent >= 0) {
         return 'missing'
       }
@@ -81,5 +81,9 @@ export class RegisterProductionEfficiency {
     }
 
     return 'ok'
+  }
+
+  getCutOff () {
+    return this.CUTOFF
   }
 }

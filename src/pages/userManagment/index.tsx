@@ -11,16 +11,17 @@ import { useEffect, useState } from 'react'
 import { useDialog } from '../../hooks/useDialog'
 
 const permissions = [
-  '',
   'ADMIN',
   'PROD'
 ] as const
 
 const userFormSchema = z.object({
-  name: z.string().nonempty(),
+  name: z.string().nonempty('campo obrigatório'),
   password: z.string(),
-  email: z.string().email(),
-  permission: z.enum(permissions)
+  email: z.string().email('email inválido'),
+  permission: z.enum(permissions, {
+    errorMap: () => ({ message: 'Informe a permissão do usuário' })
+  })
 })
 
 type UserFormType = z.infer<typeof userFormSchema>
@@ -62,7 +63,7 @@ export function UserManagement () {
     setValue('email', '')
     setValue('name', '')
     setValue('password', '')
-    setValue('permission', '')
+    setValue('permission', '' as typeof permissions[number])
   }, [selectedUser])
 
   function handleSave (data: UserFormType) {
@@ -78,7 +79,14 @@ export function UserManagement () {
   }
 
   async function handleCreate (user: UserFormType) {
-    console.log('Created ', user)
+    if (user.password === '') {
+      dialog.alert({
+        title: 'Atenção!!',
+        message: 'Informe a senha para continuar',
+        error: true
+      })
+      return
+    }
     await fetch.user.create.mutate({
       email: user.email,
       name: user.name,
@@ -91,7 +99,6 @@ export function UserManagement () {
     })
   }
   async function handleEdit (user: UserFormType) {
-    console.log('Updated ', user)
     await fetch.user.update.mutate({
       id: selectedUser?.id as string,
       data: {
@@ -142,7 +149,6 @@ export function UserManagement () {
                   autoComplete='off'
                   name='email'
                   id='email'
-                  type='email'
                 />
                 <Field.ErrorMessage field='email' />
               </Field.Root>

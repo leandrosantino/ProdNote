@@ -6,5 +6,5 @@ export interface IUsersRepository {
   findById: (userId: string) => Promise<User | null>
   getAll: () => Promise<User[]>
   create: (data: Omit<User, 'permissions'>, permissions: Array<SystemPermission['id']>) => Promise<User>
-  update: (id: string, data: Omit<User, 'permissions'>, permissions: Array<SystemPermission['id']>) => Promise<User>
+  update: (id: string, data: Omit<User, 'permissions' | 'password'> & { password?: string }, permissions: Array<SystemPermission['id']>) => Promise<User>
 }

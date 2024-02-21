@@ -4,7 +4,7 @@ export interface UpdateUserRequestDTO {
   data: {
     name: string
     email: string
-    password: string
+    password?: string
     permissions: SystemPermissionKeys[]
   }
   id: string

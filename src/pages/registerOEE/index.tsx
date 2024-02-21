@@ -76,6 +76,8 @@ export function RegisterOEE () {
   const [efficiencyRecords, setEfficiencyRecords] = useLocalState<EfficiencyRecords[]>(localStateKey)
   const [loading, setLoading] = useState(false)
 
+  const { data: cutOff } = trpc.oee.getCutOff.useQuery()
+
   // useEffect(() => {
   //   setValue('date', '2023-01-20')
   //   setValue('turn', '1')
@@ -338,6 +340,15 @@ export function RegisterOEE () {
     }
   }
 
+  function verifyToleranceCoerency (oeeValue: number) {
+    if (!cutOff) {
+      return 'off'
+    }
+    const max = 1 + cutOff
+    const min = -cutOff
+    return (oeeValue > max || oeeValue < min) ? 'on' : 'off'
+  }
+
   return (
     <Container>
       <div>
@@ -431,7 +442,7 @@ export function RegisterOEE () {
               <td>{record.description}</td>
               <td>
                 <OeeCell
-                  data-error={(record.oeeValue > 1.03 || record.oeeValue < -0.03) ? 'on' : 'off'}
+                  data-error={verifyToleranceCoerency(record.oeeValue)}
                 >
                   {(record.oeeValue * 100).toFixed(1)}%
                 </OeeCell>

@@ -16,11 +16,13 @@ export class UpdateUser {
     if (permissions.length < 1) {
       throw new Error('No permissions were granted, the system does not allow users without permissions')
     }
-
     const userPermissions = await this.systemPermissionsRepository
       .findManyByDescriptionList(permissions)
 
-    const encryptedPassword = this.passProvider.generate(password)
+    let encryptedPassword: string | undefined
+    if (password) {
+      encryptedPassword = this.passProvider.generate(password)
+    }
 
     await this.usersRepository.update(id, {
       name, email, password: encryptedPassword

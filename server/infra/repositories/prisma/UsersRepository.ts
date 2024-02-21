@@ -51,7 +51,7 @@ export class UsersRepository implements IUsersRepository {
     return user as User
   }
 
-  async update (id: string, data: Omit<User, 'permissions'>, permissions: Array<SystemPermission['id']>) {
+  async update (id: string, data: Omit<User, 'permissions' | 'password'> & { password?: string }, permissions: Array<SystemPermission['id']>) {
     const user = await prisma.user.update({
       where: { id },
       data: {

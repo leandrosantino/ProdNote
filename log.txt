@@ -12,3 +12,6 @@
 15/02/2024, 11:34:42 - database backup fail - ENOENT: no such file or directory, copyfile 'D:/dev/prodnote/database/app.db' -> 'D:\dev\prodnote\database\backup\database_backup_15-02-2024T11-34-42.db';
 15/02/2024, 11:35:42 - database backup fail - ENOENT: no such file or directory, copyfile 'D:/dev/prodnote/database/app.db' -> 'D:\dev\prodnote\database\backup\database_backup_15-02-2024T11-35-42.db';
 19/02/2024, 10:47:58 - UNAUTHORIZED_401 Invalid Password!;
+20/02/2024, 14:06:03 - UNAUTHORIZED_401 Unregistered User;
+20/02/2024, 14:06:16 - UNAUTHORIZED_401 Invalid Password!;
+20/02/2024, 14:06:40 - UNAUTHORIZED_401 Invalid Password!;
