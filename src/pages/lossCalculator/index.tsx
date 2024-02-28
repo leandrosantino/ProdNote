@@ -10,6 +10,7 @@ import { trpc, fetch } from '../../utils/api'
 const calculatorFormSchema = z.object({
   process: z.string().nonempty('selecione o processo'),
   quantityProduced: z.coerce.number().min(1, 'o campo deve ser > 0'),
+  productionTime: z.coerce.number().min(1, 'o campo deve ser > 0'),
   ute: z.string().nonempty('selecione a UTE')
 })
 
@@ -28,9 +29,9 @@ export default function LossCalculator () {
   const [quantityLost, setQuantityLost] = useState('')
   const [target, setTarget] = useState('')
 
-  const handleCalcualte = useCallback(async ({ process, quantityProduced }: CalulatorForm) => {
+  const handleCalcualte = useCallback(async ({ process, quantityProduced, productionTime }: CalulatorForm) => {
     const { loss, targetPerHour } = await fetch.oee.calculateLoss.query({
-      processId: process, quantityProduced
+      processId: process, quantityProduced, produtionTime: productionTime
     })
     setQuantityLost(loss.toString())
     setTarget(targetPerHour.toString())
@@ -69,6 +70,12 @@ export default function LossCalculator () {
                 ))}
               </Field.Select>
               <Field.ErrorMessage field='process' />
+            </Field.Root>
+
+            <Field.Root>
+              <Field.Label>Tempo de Produção (min):</Field.Label>
+              <Field.Input name='productionTime' type='number' min={1}/>
+              <Field.ErrorMessage field='productionTime' />
             </Field.Root>
 
             <Field.Root>

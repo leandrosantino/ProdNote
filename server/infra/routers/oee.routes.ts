@@ -152,9 +152,10 @@ export const oeeRoutes = t.router({
   calculateLoss: procedure
     .input(z.object({
       processId: z.string(),
-      quantityProduced: z.number()
+      quantityProduced: z.number(),
+      produtionTime: z.number()
     }))
-    .query(async ({ input: { processId, quantityProduced } }) => {
-      return await calculateLoss.execute(processId, quantityProduced)
+    .query(async ({ input: { processId, quantityProduced, produtionTime } }) => {
+      return await calculateLoss.execute(processId, quantityProduced, produtionTime)
     })
 })
