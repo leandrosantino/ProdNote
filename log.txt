@@ -17,3 +17,38 @@
 20/02/2024, 14:06:40 - UNAUTHORIZED_401 Invalid Password!;
 21/02/2024, 11:53:36 - UNAUTHORIZED_401 Unregistered User;
 21/02/2024, 11:53:39 - UNAUTHORIZED_401 Unregistered User;
+05/06/2024, 07:20:50 - UNAUTHORIZED_401 
+Invalid `prisma.user.findUnique()` invocation in
+D:\dev\prodnote\server\infra\repositories\prisma\UsersRepository.ts:20:36
+
+  17 }
+  18 
+  19 async findByName (userName: string) {
+→ 20   const user = await prisma.user.findUnique(
+The table `main.User` does not exist in the current database.;
+05/06/2024, 07:20:51 - UNAUTHORIZED_401 
+Invalid `prisma.user.findUnique()` invocation in
+D:\dev\prodnote\server\infra\repositories\prisma\UsersRepository.ts:20:36
+
+  17 }
+  18 
+  19 async findByName (userName: string) {
+→ 20   const user = await prisma.user.findUnique(
+The table `main.User` does not exist in the current database.;
+05/06/2024, 07:23:14 - UNAUTHORIZED_401 
+Invalid `prisma.user.findUnique()` invocation in
+D:\dev\prodnote\server\infra\repositories\prisma\UsersRepository.ts:20:36
+
+  17 }
+  18 
+  19 async findByName (userName: string) {
+→ 20   const user = await prisma.user.findUnique(
+The table `main.User` does not exist in the current database.;
+2024-9-12 7:30:23 - database backup fail - ENOENT: no such file or directory, copyfile 'D:/dev/prodnote/database/app.db' -> 'D:\dev\prodnote\database\backup\database_backup_2024-9-12 7-30-23.db';
+2024-9-12 7:32:18 - UNAUTHORIZED_401 Invalid Password!;
+2024-9-12 7:32:46 - UNAUTHORIZED_401 Invalid Password!;
+2024-9-12 7:32:53 - UNAUTHORIZED_401 Invalid Password!;
+2024-9-12 7:32:57 - UNAUTHORIZED_401 Invalid Password!;
+2024-9-12 7:34:13 - UNAUTHORIZED_401 Invalid Password!;
+2024-9-16 6:56:04 - UNAUTHORIZED_401 Invalid Password!;
+2024-9-16 6:56:20 - UNAUTHORIZED_401 Invalid Password!;

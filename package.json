@@ -62,6 +62,7 @@
     "js-file-download": "^0.4.12",
     "jsonwebtoken": "^9.0.0",
     "lucide-react": "^0.268.0",
+    "pkg": "^5.8.1",
     "prima": "^0.0.1",
     "puppeteer": "^20.7.4",
     "qrcode.react": "^3.1.0",
