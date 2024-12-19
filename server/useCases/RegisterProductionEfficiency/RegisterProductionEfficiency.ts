@@ -1,23 +1,29 @@
+import { ProductionEfficiencyLoss } from '../../entities/ProductionEfficiencyLoss'
 import { type IProductionEfficiencyRecordRepository } from '../../interfaces/IProductionEfficiencyRecordRepository'
 import { type IProductionProcessRepository } from '../../interfaces/IProductionProcessRepository'
 import { type RegisterProductionEfficiencyRequestDTO } from './RegisterProductionEfficiencyDTO'
 
 export class RegisterProductionEfficiency {
-  constructor (
+  constructor(
     private readonly productionEfficiencyRecordRepository: IProductionEfficiencyRecordRepository,
     private readonly productionProcessRepository: IProductionProcessRepository,
     private readonly CUTOFF: number
-  ) {}
+  ) { }
 
-  async execute ({ data, productionEfficiencyLosses }: RegisterProductionEfficiencyRequestDTO) {
+  private productionEfficiencyLosses: Omit<ProductionEfficiencyLoss, "id" | "reasonsLossEfficiency" | "machine">[] = []
+  private otherProductionEfficiencyLossesId = 'cm4vc7tdv0000ltz0rav97mfo'
+  private otherMachineId = 'cm4vccwsp0000lt3wjlssor7e'
+
+  async execute({ data, productionEfficiencyLosses }: RegisterProductionEfficiencyRequestDTO) {
     const productionProcess = await this.productionProcessRepository
       .findById(data.productionProcessId)
+    this.productionEfficiencyLosses = productionEfficiencyLosses
 
     if (!productionProcess) throw new Error('production process not found')
 
     let lostTimeInMinutes = 0
 
-    productionEfficiencyLosses.forEach(entry => { lostTimeInMinutes += entry.lostTimeInMinutes })
+    this.productionEfficiencyLosses.forEach(entry => { lostTimeInMinutes += entry.lostTimeInMinutes })
 
     const coerency = this.verifyCoerency({
       piecesQuantity: data.piecesQuantity,
@@ -49,7 +55,7 @@ export class RegisterProductionEfficiency {
     return register
   }
 
-  calculateOEE ({ cycleTimeInSeconds, piecesQuantity, productionTimeInMinutes, cavitiesNumber }: {
+  calculateOEE({ cycleTimeInSeconds, piecesQuantity, productionTimeInMinutes, cavitiesNumber }: {
     piecesQuantity: number
     cycleTimeInSeconds: number
     productionTimeInMinutes: number
@@ -59,7 +65,7 @@ export class RegisterProductionEfficiency {
     return (piecesQuantity * (cycleTimeInMinutes / cavitiesNumber)) / productionTimeInMinutes
   }
 
-  verifyCoerency (props: {
+  verifyCoerency(props: {
     piecesQuantity: number
     cycleTimeInSeconds: number
     productionTimeInMinutes: number
@@ -69,21 +75,26 @@ export class RegisterProductionEfficiency {
     const piecesQuantityInMinutes = (props.piecesQuantity * (props.cycleTimeInSeconds / props.cavitiesNumber)) / 60
     const productionTimePointer = piecesQuantityInMinutes + props.lostTimeInMinutes
     const diff = props.productionTimeInMinutes - productionTimePointer
-    const diffInPercent = diff / props.productionTimeInMinutes
+    // const diffInPercent = diff / props.productionTimeInMinutes
 
-    if (Math.abs(diffInPercent) > this.CUTOFF) {
-      if (diffInPercent >= 0) {
-        return 'missing'
-      }
-      if (diffInPercent < 0) {
-        return 'exdent'
-      }
+    // if (Math.abs(diffInPercent) > this.CUTOFF) {    }
+    if (diff >= 0) {
+      this.productionEfficiencyLosses.push({
+        lostTimeInMinutes: diff,
+        machineId: this.otherMachineId,
+        reasonsLossEfficiencyId: this.otherProductionEfficiencyLossesId
+      })
+      return 'ok'
     }
+    if (diff < 0) {
+      return 'exdent'
+    }
+
 
     return 'ok'
   }
 
-  getCutOff () {
+  getCutOff() {
     return this.CUTOFF
   }
 }

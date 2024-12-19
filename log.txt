@@ -52,3 +52,7 @@ The table `main.User` does not exist in the current database.;
 2024-9-12 7:34:13 - UNAUTHORIZED_401 Invalid Password!;
 2024-9-16 6:56:04 - UNAUTHORIZED_401 Invalid Password!;
 2024-9-16 6:56:20 - UNAUTHORIZED_401 Invalid Password!;
+2024-12-19 11:35:45 - Error: listen EADDRINUSE: address already in use 0.0.0.0:3336;
+2024-12-19 11:36:30 - Error: listen EADDRINUSE: address already in use 0.0.0.0:3336;
+2024-12-19 11:36:46 - Error: listen EADDRINUSE: address already in use 0.0.0.0:3336;
+2024-12-19 11:48:15 - UNAUTHORIZED_401 Invalid Password!;

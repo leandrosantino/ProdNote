@@ -76,7 +76,7 @@ export function RegisterOEE () {
   const [efficiencyRecords, setEfficiencyRecords] = useLocalState<EfficiencyRecords[]>(localStateKey)
   const [loading, setLoading] = useState(false)
 
-  const { data: cutOff } = trpc.oee.getCutOff.useQuery()
+  // const { data: cutOff } = trpc.oee.getCutOff.useQuery()
 
   // useEffect(() => {
   //   setValue('date', '2023-01-20')
@@ -104,6 +104,14 @@ export function RegisterOEE () {
         productionTimeInMinutes: data.time,
         cavitiesNumber: process?.cavitiesNumber as number
       })
+
+      if(oeeValue > 1){
+        dialog.alert({
+          title: 'Atenção!',
+          message: 'OEE excedente, maior que 100%',
+          error: true
+        })
+      }
 
       if (isEditing && efficiencyRecords !== null) {
         if (!efficiencyRecords[editingIndex]) {
@@ -341,12 +349,12 @@ export function RegisterOEE () {
   }
 
   function verifyToleranceCoerency (oeeValue: number) {
-    if (!cutOff) {
-      return 'off'
-    }
-    const max = 1 + cutOff
-    const min = -cutOff
-    return (oeeValue > max || oeeValue < min) ? 'on' : 'off'
+    // if (!cutOff) {
+    //   return 'off'
+    // }
+    // const max = 1 + cutOff
+    // const min = -cutOff
+    return oeeValue > 1 ? 'on' : 'off'
   }
 
   return (
